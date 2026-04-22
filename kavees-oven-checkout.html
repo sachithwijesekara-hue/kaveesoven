@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Checkout – Kavee's Oven</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Font Awesome 6 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Lato:wght@300;400;700;900&family=Great+Vibes&display=swap" rel="stylesheet"/>
+
+  <style>
+  /* ═══════════════════════════════════
+     TOKENS
+  ═══════════════════════════════════ */
+  :root{
+    --gd:#0f3d1c; --gr:#1a5c2e; --gm:#2a7a42; --gl:#4caf6e;
+    --gp:#b8dfc4; --gg:#e8f5ec;
+    --cr:#fdf8f0; --cr2:#f4e8d0; --cr3:#e8d5b0;
+    --br:#2c1a0e; --br2:#5c3320; --br3:#8b5e3c;
+    --gold:#c8960e; --glt:#f5e098;
+    --pk:#f0b8b8; --pk2:#d45050;
+    --blue:#1a56c4; --blue-lt:#dbeafe;
+    --sh1:0 2px 12px rgba(15,61,28,.08);
+    --sh2:0 6px 30px rgba(15,61,28,.12);
+    --sh3:0 16px 60px rgba(15,61,28,.18);
+    --r:16px; --rl:22px; --rp:100px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Lato','Calibri',sans-serif;background:var(--cr);color:var(--br);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Merriweather',Georgia,serif;}
+
+  /* ═══════════════════════════════════
+     NAVBAR
+  ═══════════════════════════════════ */
+  .main-nav{
+    position:sticky;top:0;z-index:200;
+    background:rgba(253,248,240,.97);
+    backdrop-filter:blur(16px);
+    border-bottom:1.5px solid var(--cr2);
+    box-shadow:var(--sh1);
+  }
+  .nav-shell{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;}
+  .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .nav-logo{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gm),var(--gd));display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(42,122,66,.38);}
+  .nav-logo i{font-size:19px;color:#fff;}
+  .nav-brand-name{font-family:'Great Vibes',cursive;font-size:22px;color:var(--gd);display:block;line-height:1.1;}
+  .nav-brand-sub{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--br3);display:block;}
+  .nav-secure{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--gm);}
+  .nav-secure i{font-size:14px;}
+
+  /* ═══════════════════════════════════
+     STEP PROGRESS BAR
+  ═══════════════════════════════════ */
+  .step-bar{
+    background:#fff;
+    border-bottom:1.5px solid var(--cr2);
+    padding:16px 0;
+    position:sticky;top:66px;z-index:100;
+    box-shadow:var(--sh1);
+  }
+  .steps{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    max-width:600px;
+    margin:0 auto;
+    padding:0 16px;
+  }
+  .step{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:5px;
+    flex:1;
+    position:relative;
+  }
+  .step::before{
+    content:'';
+    position:absolute;
+    top:17px;left:calc(50% + 20px);
+    right:calc(-50% + 20px);
+    height:2px;
+    background:var(--cr2);
+    z-index:0;
+  }
+  .step:last-child::before{display:none;}
+  .step-circle{
+    width:34px;height:34px;border-radius:50%;
+    border:2px solid var(--cr2);
+    background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;
+    color:var(--br3);
+    position:relative;z-index:1;
+    transition:all .3s;
+    flex-shrink:0;
+  }
+  .step-label{
+    font-size:10px;font-weight:700;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--br3);
+    text-align:center;white-space:nowrap;
+    transition:color .3s;
+  }
+  /* Active step */
+  .step.active .step-circle{
+    background:linear-gradient(135deg,var(--gm),var(--gd));
+    border-color:var(--gm);color:#fff;
+    box-shadow:0 4px 14px rgba(42,122,66,.4);
+  }
+  .step.active .step-label{color:var(--gd);}
+  /* Completed step */
+  .step.done .step-circle{
+    background:var(--gg);border-color:var(--gp);color:var(--gm);
+  }
+  .step.done::before{background:var(--gp);}
+  .step.done .step-label{color:var(--gm);}
+
+  /* ═══════════════════════════════════
+     MAIN LAYOUT
+  ═══════════════════════════════════ */
+  .checkout-wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:28px 16px 80px;
+  }
+  /* Two-col on desktop: form left, summary right */
+  .checkout-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:24px;
+    align-items:start;
+  }
+  @media(min-width:900px){
+    .checkout-grid{grid-template-columns:1fr 380px;}
+  }
+
+  /* ═══════════════════════════════════
+     STEP PANELS
+  ═══════════════════════════════════ */
+  .step-panel{display:none;}
+  .step-panel.active{display:block;}
+
+  /* Card container */
+  .card-box{
+    background:#fff;
+    border:1.5px solid var(--cr2);
+    border-radius:var(--rl);
+    padding:24px 20px;
+    margin-bottom:16px;
+    box-shadow:var(--sh1);
+  }
+  @media(min-width:576px){.card-box{padding:28px 28px;}}
+
+  .card-box-title{
+    font-family:'Merriweather',serif;
+    font-size:17px;font-weight:700;
+    color:var(--gd);
+    margin-bottom:20px;
+    display:flex;align-items:center;gap:10px;
+    padding-bottom:14px;
+    border-bottom:1.5px solid var(--cr2);
+  }
+  .card-box-title i{font-size:16px;color:var(--gm);}
+
+  /* ═══════════════════════════════════
+     FORM ELEMENTS
+  ═══════════════════════════════════ */
+  .form-label{
+    font-size:12px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.05em;
+    color:var(--br2);margin-bottom:6px;display:block;
+  }
+  .form-label span{color:var(--pk2);margin-left:2px;}
+  .form-ctrl{
+    width:100%;
+    border:1.5px solid var(--cr2);border-radius:12px;
+    font-family:'Lato',sans-serif;font-size:14px;color:var(--br);
+    padding:13px 16px;outline:none;background:#fff;
+    transition:border-color .2s,box-shadow .2s;
+    min-height:50px;
+  }
+  .form-ctrl:focus{border-color:var(--gm);box-shadow:0 0 0 3px rgba(42,122,66,.1);}
+  .form-ctrl.error{border-color:var(--pk2);box-shadow:0 0 0 3px rgba(212,80,80,.1);}
+  .form-ctrl::placeholder{color:var(--br3);}
+  select.form-ctrl{cursor:pointer;}
+  textarea.form-ctrl{min-height:90px;resize:vertical;}
+  .field-err{font-size:11px;color:var(--pk2);font-weight:700;margin-top:4px;display:none;}
+  .field-err.show{display:block;}
+
+  /* ═══════════════════════════════════
+     DELIVERY TOGGLE
+  ═══════════════════════════════════ */
+  .delivery-toggle{display:flex;gap:10px;margin-bottom:20px;}
+  .dtog{
+    flex:1;border:2px solid var(--cr2);border-radius:var(--r);
+    padding:14px 12px;cursor:pointer;text-align:center;
+    transition:all .2s;background:#fff;
+  }
+  .dtog.sel{border-color:var(--gm);background:var(--gg);}
+  .dtog i{font-size:22px;color:var(--br3);display:block;margin-bottom:6px;transition:color .2s;}
+  .dtog.sel i{color:var(--gm);}
+  .dtog-label{font-size:13px;font-weight:700;color:var(--br2);}
+  .dtog.sel .dtog-label{color:var(--gd);}
+  .dtog-sub{font-size:11px;color:var(--br3);margin-top:2px;}
+
+  /* Date/time grid */
+  .date-time-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+  /* Time slots */
+  .time-slots{display:flex;flex-wrap:wrap;gap:8px;}
+  .tslot{
+    padding:8px 14px;border-radius:var(--rp);
+    border:1.5px solid var(--cr2);background:#fff;
+    font-family:'Lato',sans-serif;font-size:13px;font-weight:700;
+    color:var(--br2);cursor:pointer;transition:all .2s;
+  }
+  .tslot.sel{background:linear-gradient(135deg,var(--gm),var(--gd));border-color:var(--gm);color:#fff;}
+  .tslot.unavail{background:var(--cr);color:var(--cr3);cursor:not-allowed;text-decoration:line-through;}
+
+  /* ═══════════════════════════════════
+     PAYMENT OPTIONS
+  ═══════════════════════════════════ */
+  .pay-option{
+    border:2px solid var(--cr2);border-radius:var(--r);
+    padding:16px 18px;margin-bottom:10px;cursor:pointer;
+    transition:all .2s;background:#fff;
+    display:flex;align-items:center;gap:14px;
+  }
+  .pay-option.sel{border-color:var(--gm);background:var(--gg);}
+  .pay-radio{
+    width:20px;height:20px;border-radius:50%;
+    border:2px solid var(--cr2);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s;
+  }
+  .pay-option.sel .pay-radio{border-color:var(--gm);background:var(--gm);}
+  .pay-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff;opacity:0;transition:opacity .2s;}
+  .pay-option.sel .pay-radio::after{opacity:1;}
+  .pay-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .pay-icon i{font-size:20px;}
+  .pi-card{background:#e8f0fe;}.pi-card i{color:var(--blue);}
+  .pi-bank{background:#fef6e0;}.pi-bank i{color:var(--gold);}
+  .pi-cash{background:var(--gg);}.pi-cash i{color:var(--gm);}
+  .pi-wa{background:#dcf8c6;}.pi-wa i{color:#128c1e;}
+  .pay-name{font-size:14px;font-weight:700;color:var(--br);}
+  .pay-desc{font-size:12px;color:var(--br3);margin-top:2px;}
+  .pay-badge{margin-left:auto;font-size:10px;font-weight:700;padding:3px 9px;border-radius:var(--rp);background:var(--gp);color:var(--gd);flex-shrink:0;}
+
+  /* Card form fields */
+  .card-fields{
+    background:var(--cr);border-radius:var(--r);
+    padding:16px;margin-top:12px;
+    border:1.5px dashed var(--cr2);
+    display:none;
+  }
+  .card-fields.show{display:block;}
+  .card-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+  /* Bank slip upload */
+  .slip-upload{
+    border:2px dashed var(--gp);border-radius:var(--r);
+    padding:24px;text-align:center;
+    background:var(--gg);cursor:pointer;
+    margin-top:12px;display:none;
+    transition:all .2s;
+  }
+  .slip-upload.show{display:block;}
+  .slip-upload:hover{border-color:var(--gm);}
+  .slip-upload i{font-size:32px;color:var(--gm);margin-bottom:8px;display:block;}
+  .slip-upload p{font-size:13px;color:var(--br3);}
+  .slip-upload strong{color:var(--gd);}
+
+  /* ═══════════════════════════════════
+     ORDER SUMMARY SIDEBAR
+  ═══════════════════════════════════ */
+  .summary-box{
+    background:#fff;border:1.5px solid var(--cr2);
+    border-radius:var(--rl);overflow:hidden;
+    box-shadow:var(--sh2);
+    position:sticky;top:150px;
+  }
+  .summary-head{
+    background:linear-gradient(135deg,var(--gd),#071a0a);
+    padding:18px 20px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .summary-head-title{font-family:'Merriweather',serif;font-size:16px;font-weight:700;color:#fff;}
+  .summary-head i{font-size:16px;color:var(--gl);}
+  .summary-body{padding:16px 20px;}
+
+  /* cart items in summary */
+  .sum-item{
+    display:flex;gap:12px;align-items:flex-start;
+    padding:12px 0;border-bottom:1.5px solid var(--cr2);
+  }
+  .sum-item:last-child{border-bottom:none;}
+  .sum-img{
+    width:48px;height:48px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .sum-img i{font-size:22px;}
+  .c-bday{background:linear-gradient(135deg,#cce8d6,#a8d8b8);}
+  .c-wedd{background:linear-gradient(135deg,#f8d7e3,#f0b8cc);}
+  .c-cupc{background:linear-gradient(135deg,#fde9c8,#f8d898);}
+  .c-cust{background:linear-gradient(135deg,#e4daf7,#cbb8f0);}
+  .c-brow{background:linear-gradient(135deg,#e8e0d4,#d8ccbc);}
+  .c-egg {background:linear-gradient(135deg,#d4edda,#b0d8bc);}
+  .c-bday i{color:var(--gm);} .c-wedd i{color:#b0306a;} .c-cupc i{color:#c8780a;}
+  .c-cust i{color:#6a3aab;} .c-brow i{color:#7a5230;} .c-egg i{color:var(--gr);}
+
+  .sum-name{font-size:13px;font-weight:700;color:var(--br);margin-bottom:2px;}
+  .sum-detail{font-size:11px;color:var(--br3);}
+  .sum-qty{font-size:11px;font-weight:700;background:var(--gg);color:var(--gd);padding:2px 8px;border-radius:var(--rp);display:inline-block;margin-top:3px;}
+  .sum-price{font-family:'Merriweather',serif;font-size:14px;font-weight:700;color:var(--gd);margin-left:auto;flex-shrink:0;}
+
+  /* totals */
+  .summary-totals{padding:14px 20px;border-top:1.5px solid var(--cr2);background:var(--cr);}
+  .tot-row{display:flex;justify-content:space-between;font-size:13px;color:var(--br3);margin-bottom:7px;}
+  .tot-row .val{font-weight:700;color:var(--br);}
+  .tot-row.free .val{color:var(--gm);}
+  .tot-divider{border:none;border-top:1.5px dashed var(--cr2);margin:10px 0;}
+  .tot-grand{display:flex;justify-content:space-between;align-items:center;}
+  .tot-grand-label{font-size:14px;font-weight:700;color:var(--br);}
+  .tot-grand-val{font-family:'Merriweather',serif;font-size:22px;font-weight:700;color:var(--gd);}
+
+  /* promo */
+  .promo-wrap{padding:14px 20px;border-top:1.5px solid var(--cr2);}
+  .promo-input-row{display:flex;gap:8px;}
+  .promo-input{
+    flex:1;border:1.5px solid var(--cr2);border-radius:var(--rp);
+    font-family:'Lato',sans-serif;font-size:13px;color:var(--br);
+    padding:11px 16px;outline:none;transition:border-color .2s;
+  }
+  .promo-input:focus{border-color:var(--gm);}
+  .promo-btn{
+    background:var(--gg);border:1.5px solid var(--gp);
+    color:var(--gd);font-family:'Lato',sans-serif;
+    font-size:13px;font-weight:700;
+    padding:11px 18px;border-radius:var(--rp);cursor:pointer;
+    white-space:nowrap;transition:all .2s;
+  }
+  .promo-btn:hover{background:var(--gp);}
+  .promo-msg{font-size:11px;margin-top:6px;font-weight:700;display:none;}
+  .promo-msg.ok{color:var(--gm);display:block;}
+  .promo-msg.err{color:var(--pk2);display:block;}
+
+  /* ═══════════════════════════════════
+     STEP NAV BUTTONS
+  ═══════════════════════════════════ */
+  .step-nav{
+    display:flex;gap:12px;flex-wrap:wrap;
+    margin-top:20px;
+  }
+  .btn-back{
+    display:flex;align-items:center;gap:8px;
+    background:#fff;color:var(--br2);
+    font-family:'Lato',sans-serif;font-size:14px;font-weight:700;
+    padding:14px 22px;border-radius:var(--rp);border:2px solid var(--cr2);
+    cursor:pointer;transition:all .2s;min-height:50px;
+  }
+  .btn-back:hover{background:var(--cr);border-color:var(--cr3);}
+  .btn-next{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:10px;
+    background:linear-gradient(135deg,var(--gm),var(--gd));color:#fff;
+    font-family:'Lato',sans-serif;font-size:15px;font-weight:700;
+    padding:15px 24px;border-radius:var(--rp);border:none;cursor:pointer;
+    box-shadow:0 5px 20px rgba(42,122,66,.4);
+    transition:transform .2s,box-shadow .2s;
+    min-height:50px;
+  }
+  .btn-next:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(42,122,66,.5);}
+  .btn-next:active{transform:scale(.98);}
+
+  /* ═══════════════════════════════════
+     CART ITEM EDITOR (Step 1)
+  ═══════════════════════════════════ */
+  .cart-item-row{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:16px 0;border-bottom:1.5px solid var(--cr2);
+  }
+  .cart-item-row:last-child{border-bottom:none;}
+  .ci-thumb{
+    width:60px;height:60px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .ci-thumb i{font-size:28px;}
+  .ci-info{flex:1;min-width:0;}
+  .ci-name{font-family:'Merriweather',serif;font-size:14px;font-weight:700;color:var(--br);margin-bottom:2px;}
+  .ci-meta{font-size:12px;color:var(--br3);margin-bottom:8px;}
+  .ci-msg{font-size:11px;color:var(--gm);font-style:italic;margin-bottom:8px;}
+  .qty-row{display:flex;align-items:center;gap:10px;}
+  .qty-btn{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--cr2);background:#fff;cursor:pointer;font-size:13px;font-weight:700;color:var(--gm);display:flex;align-items:center;justify-content:center;transition:all .2s;}
+  .qty-btn:hover{background:var(--gg);border-color:var(--gp);}
+  .qty-num{font-size:15px;font-weight:700;color:var(--br);width:24px;text-align:center;}
+  .ci-price-col{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;}
+  .ci-price{font-family:'Merriweather',serif;font-size:16px;font-weight:700;color:var(--gd);}
+  .btn-remove{background:none;border:none;cursor:pointer;color:var(--br3);font-size:14px;transition:color .2s;}
+  .btn-remove:hover{color:var(--pk2);}
+
+  /* Empty cart */
+  .empty-cart{text-align:center;padding:50px 20px;}
+  .empty-cart i{font-size:52px;color:var(--cr3);margin-bottom:16px;display:block;}
+  .empty-cart h3{font-family:'Merriweather',serif;font-size:20px;color:var(--br2);margin-bottom:8px;}
+
+  /* ═══════════════════════════════════
+     CONFIRMATION PAGE (Step 4)
+  ═══════════════════════════════════ */
+  .confirm-box{
+    text-align:center;
+    background:#fff;border:1.5px solid var(--cr2);
+    border-radius:var(--rl);padding:48px 24px;
+    box-shadow:var(--sh3);
+    position:relative;overflow:hidden;
+  }
+  .confirm-box::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,var(--gg),transparent);}
+  .confirm-box::after{content:'';position:absolute;bottom:-40px;left:-40px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,#fce4ec,transparent);}
+  .confirm-box>*{position:relative;z-index:1;}
+  .confirm-icon{
+    width:90px;height:90px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gl),var(--gm));
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 22px;
+    box-shadow:0 8px 30px rgba(42,122,66,.35);
+    animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .confirm-icon i{font-size:40px;color:#fff;}
+  @keyframes scaleIn{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .confirm-id{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--gg);border:1.5px solid var(--gp);
+    color:var(--gd);font-size:14px;font-weight:700;
+    padding:8px 20px;border-radius:var(--rp);margin:16px 0 20px;
+  }
+  .confirm-h{font-family:'Merriweather',serif;font-size:clamp(22px,5vw,34px);font-weight:700;color:var(--gd);margin-bottom:8px;}
+  .confirm-h em{font-style:italic;color:var(--br2);font-weight:300;}
+  .confirm-p{font-size:14px;color:var(--br3);line-height:1.75;max-width:440px;margin:0 auto 28px;}
+
+  /* Confirm detail cards */
+  .confirm-details{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;
+    text-align:left;margin-bottom:28px;
+  }
+  @media(min-width:480px){.confirm-details{grid-template-columns:1fr 1fr 1fr 1fr;}}
+  .cd-card{background:var(--cr);border:1.5px solid var(--cr2);border-radius:var(--r);padding:14px;}
+  .cd-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--br3);margin-bottom:4px;}
+  .cd-val{font-size:13px;font-weight:700;color:var(--br);}
+  .cd-val i{color:var(--gm);margin-right:4px;}
+
+  /* Confirm action buttons */
+  .confirm-actions{display:flex;flex-direction:column;gap:12px;max-width:360px;margin:0 auto;}
+  @media(min-width:480px){.confirm-actions{flex-direction:row;justify-content:center;}}
+  .btn-wa-confirm{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    background:#25d366;color:#fff;
+    font-family:'Lato',sans-serif;font-size:14px;font-weight:700;
+    padding:15px 24px;border-radius:var(--rp);text-decoration:none;
+    box-shadow:0 4px 16px rgba(37,211,102,.4);min-height:50px;
+  }
+  .btn-home{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    background:#fff;color:var(--gd);
+    font-family:'Lato',sans-serif;font-size:14px;font-weight:700;
+    padding:14px 24px;border-radius:var(--rp);text-decoration:none;
+    border:2px solid var(--gp);min-height:50px;
+    transition:all .2s;
+  }
+  .btn-home:hover{background:var(--gg);color:var(--gd);}
+
+  /* ═══════════════════════════════════
+     TRUST BADGES
+  ═══════════════════════════════════ */
+  .trust-strip{
+    display:flex;flex-wrap:wrap;gap:12px;
+    padding:16px 20px;
+    border-top:1.5px solid var(--cr2);
+    background:var(--cr);
+  }
+  .trust-item{
+    display:flex;align-items:center;gap:7px;
+    font-size:11px;font-weight:700;color:var(--br3);
+  }
+  .trust-item i{font-size:13px;color:var(--gm);}
+
+  /* ═══════════════════════════════════
+     ALERT / INFO
+  ═══════════════════════════════════ */
+  .info-alert{
+    display:flex;align-items:flex-start;gap:12px;
+    background:var(--gg);border:1.5px solid var(--gp);
+    border-radius:var(--r);padding:14px 16px;
+    font-size:13px;color:var(--br2);line-height:1.6;
+    margin-bottom:16px;
+  }
+  .info-alert i{font-size:16px;color:var(--gm);flex-shrink:0;margin-top:1px;}
+  .warn-alert{
+    display:flex;align-items:flex-start;gap:12px;
+    background:#fef6e0;border:1.5px solid var(--glt);
+    border-radius:var(--r);padding:14px 16px;
+    font-size:13px;color:var(--br2);line-height:1.6;
+    margin-bottom:16px;
+  }
+  .warn-alert i{font-size:16px;color:var(--gold);flex-shrink:0;margin-top:1px;}
+
+  /* ═══════════════════════════════════
+     TOAST
+  ═══════════════════════════════════ */
+  .toast-ko{
+    position:fixed;bottom:24px;left:50%;
+    transform:translateX(-50%) translateY(120px);
+    background:var(--gd);color:#fff;
+    font-family:'Lato',sans-serif;font-size:14px;font-weight:700;
+    padding:13px 22px;border-radius:var(--rp);box-shadow:var(--sh3);
+    z-index:9999;transition:transform .4s cubic-bezier(.22,.68,0,1.2);
+    pointer-events:none;display:flex;align-items:center;gap:9px;
+    white-space:nowrap;max-width:calc(100vw - 32px);
+  }
+  .toast-ko i{font-size:15px;color:var(--gl);}
+  .toast-ko.show{transform:translateX(-50%) translateY(0);}
+
+  /* ═══════════════════════════════════
+     LOADING SPINNER (payment processing)
+  ═══════════════════════════════════ */
+  .processing-overlay{
+    position:fixed;inset:0;background:rgba(15,61,28,.6);
+    z-index:999;display:none;align-items:center;justify-content:center;
+    flex-direction:column;gap:20px;
+  }
+  .processing-overlay.show{display:flex;}
+  .spinner{
+    width:56px;height:56px;border-radius:50%;
+    border:4px solid rgba(255,255,255,.2);
+    border-top-color:#fff;
+    animation:spin .8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .processing-txt{font-family:'Merriweather',serif;font-size:18px;color:#fff;font-weight:700;}
+  .processing-sub{font-size:13px;color:rgba(255,255,255,.6);}
+
+  /* Mobile bottom: summary toggle */
+  .mob-summary-toggle{
+    display:flex;align-items:center;justify-content:space-between;
+    background:#fff;border:1.5px solid var(--cr2);
+    border-radius:var(--r);padding:14px 18px;
+    cursor:pointer;margin-bottom:16px;
+    box-shadow:var(--sh1);
+  }
+  @media(min-width:900px){.mob-summary-toggle{display:none;}}
+  .mob-summary-toggle .left{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;color:var(--br);}
+  .mob-summary-toggle .left i{color:var(--gm);}
+  .mob-summary-toggle .right{font-family:'Merriweather',serif;font-size:16px;font-weight:700;color:var(--gd);display:flex;align-items:center;gap:8px;}
+  .mob-summary-body{display:none;}
+  .mob-summary-body.open{display:block;}
+  @media(min-width:900px){.mob-summary-body{display:none!important;}}
+  </style>
+</head>
+<body>
+
+<!-- ══════════ NAVBAR ══════════ -->
+<nav class="main-nav">
+  <div class="nav-shell">
+    <a href="kavees-oven-landing.html" class="nav-brand">
+      <div class="nav-logo"><i class="fa-solid fa-cake-candles"></i></div>
+      <div>
+        <span class="nav-brand-name">Kavee's Oven</span>
+        <span class="nav-brand-sub">Baked With Love</span>
+      </div>
+    </a>
+    <div class="nav-secure">
+      <i class="fa-solid fa-lock"></i> Secure Checkout
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════ STEP PROGRESS BAR ══════════ -->
+<div class="step-bar">
+  <div class="steps">
+    <div class="step active" id="stepDot1">
+      <div class="step-circle" id="stepCircle1"><i class="fa-solid fa-bag-shopping"></i></div>
+      <div class="step-label">Cart</div>
+    </div>
+    <div class="step" id="stepDot2">
+      <div class="step-circle" id="stepCircle2"><i class="fa-solid fa-truck"></i></div>
+      <div class="step-label">Delivery</div>
+    </div>
+    <div class="step" id="stepDot3">
+      <div class="step-circle" id="stepCircle3"><i class="fa-solid fa-credit-card"></i></div>
+      <div class="step-label">Payment</div>
+    </div>
+    <div class="step" id="stepDot4">
+      <div class="step-circle" id="stepCircle4"><i class="fa-solid fa-circle-check"></i></div>
+      <div class="step-label">Confirmed</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CHECKOUT WRAP ══════════ -->
+<div class="checkout-wrap">
+  <div class="checkout-grid">
+
+    <!-- LEFT: Step Panels -->
+    <div>
+
+      <!-- ── STEP 1: CART REVIEW ── -->
+      <div class="step-panel active" id="panel1">
+        <div class="card-box">
+          <div class="card-box-title">
+            <i class="fa-solid fa-bag-shopping"></i> Review Your Order
+          </div>
+
+          <!-- Cart items rendered by JS -->
+          <div id="cartItemsContainer"></div>
+
+          <!-- Add more link -->
+          <div style="text-align:center;margin-top:16px;">
+            <a href="kavees-oven-menu.html" style="font-size:13px;font-weight:700;color:var(--gm);text-decoration:none;">
+              <i class="fa-solid fa-plus me-1"></i> Add More Items
+            </a>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="info-alert">
+          <i class="fa-solid fa-circle-info"></i>
+          <span>Custom orders require at least <strong>48 hours notice</strong>. For same-day orders, please call us directly on 076-XXX-XXXX.</span>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-next" onclick="goStep(2)">
+            Continue to Delivery <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 2: DELIVERY DETAILS ── -->
+      <div class="step-panel" id="panel2">
+        <div class="card-box">
+          <div class="card-box-title">
+            <i class="fa-solid fa-user"></i> Your Details
+          </div>
+          <div class="row g-3">
+            <div class="col-12 col-sm-6">
+              <label class="form-label">Full Name <span>*</span></label>
+              <input class="form-ctrl" id="fName" type="text" placeholder="e.g. Priya Perera"/>
+              <div class="field-err" id="errName">Please enter your name</div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <label class="form-label">Phone / WhatsApp <span>*</span></label>
+              <input class="form-ctrl" id="fPhone" type="tel" placeholder="07X-XXX-XXXX"/>
+              <div class="field-err" id="errPhone">Please enter a valid phone number</div>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Email Address</label>
+              <input class="form-ctrl" id="fEmail" type="email" placeholder="you@example.com (for confirmation)"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-box">
+          <div class="card-box-title">
+            <i class="fa-solid fa-truck"></i> Delivery Method
+          </div>
+          <div class="delivery-toggle">
+            <div class="dtog sel" id="togDelivery" onclick="setDelivery('delivery')">
+              <i class="fa-solid fa-truck"></i>
+              <div class="dtog-label">Home Delivery</div>
+              <div class="dtog-sub">We bring it to you</div>
+            </div>
+            <div class="dtog" id="togPickup" onclick="setDelivery('pickup')">
+              <i class="fa-solid fa-store"></i>
+              <div class="dtog-label">Self Pickup</div>
+              <div class="dtog-sub">Collect from us</div>
+            </div>
+          </div>
+
+          <!-- Delivery address fields -->
+          <div id="deliveryFields">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label">Street Address <span>*</span></label>
+                <input class="form-ctrl" id="fAddress" type="text" placeholder="House No., Street Name"/>
+                <div class="field-err" id="errAddress">Please enter your address</div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label class="form-label">City <span>*</span></label>
+                <select class="form-ctrl" id="fCity">
+                  <option value="">Select city…</option>
+                  <option>Colombo</option><option>Gampaha</option><option>Kandy</option>
+                  <option>Negombo</option><option>Moratuwa</option><option>Dehiwala</option>
+                  <option>Kotte</option><option>Nugegoda</option><option>Maharagama</option>
+                  <option>Other (call us)</option>
+                </select>
+                <div class="field-err" id="errCity">Please select your city</div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label class="form-label">Delivery Fee</label>
+                <input class="form-ctrl" id="fDeliveryFee" readonly value="FREE (above LKR 5,000)" style="background:var(--gg);color:var(--gm);font-weight:700;"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pickup info -->
+          <div id="pickupFields" style="display:none;">
+            <div class="info-alert">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Pick up from <strong>Kavee's Oven, Colombo</strong>. Exact address will be sent to your WhatsApp after order confirmation.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-box">
+          <div class="card-box-title">
+            <i class="fa-solid fa-calendar"></i> Delivery Date &amp; Time
+          </div>
+          <div class="warn-alert">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Custom and decorated cakes require <strong>minimum 48 hours</strong> advance notice. Same-day available for selected items only.</span>
+          </div>
+          <div class="date-time-grid mb-4">
+            <div>
+              <label class="form-label">Preferred Date <span>*</span></label>
+              <input class="form-ctrl" id="fDate" type="date"/>
+              <div class="field-err" id="errDate">Please select a delivery date</div>
+            </div>
+            <div>
+              <label class="form-label">Occasion <span>*</span></label>
+              <select class="form-ctrl" id="fOccasion">
+                <option value="">Select…</option>
+                <option>Birthday Party</option><option>Wedding</option>
+                <option>Anniversary</option><option>Graduation</option>
+                <option>Corporate Event</option><option>Baby Shower</option>
+                <option>Just Because</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <label class="form-label mb-3">Preferred Time Slot <span>*</span></label>
+          <div class="time-slots" id="timeSlots">
+            <div class="tslot" data-t="9:00 AM – 11:00 AM" onclick="selSlot(this)">9:00 – 11:00 AM</div>
+            <div class="tslot" data-t="11:00 AM – 1:00 PM" onclick="selSlot(this)">11:00 AM – 1:00 PM</div>
+            <div class="tslot sel" data-t="2:00 PM – 4:00 PM" onclick="selSlot(this)">2:00 – 4:00 PM</div>
+            <div class="tslot" data-t="4:00 PM – 6:00 PM" onclick="selSlot(this)">4:00 – 6:00 PM</div>
+            <div class="tslot unavail" data-t="">6:00 – 8:00 PM (Full)</div>
+          </div>
+          <div class="field-err" id="errSlot" style="margin-top:8px;">Please select a time slot</div>
+
+          <div class="mt-3">
+            <label class="form-label">Special Instructions</label>
+            <textarea class="form-ctrl" id="fInstructions" placeholder="Any special delivery or access instructions…"></textarea>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-back" onclick="goStep(1)">
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </button>
+          <button class="btn-next" onclick="validateDelivery()">
+            Continue to Payment <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 3: PAYMENT ── -->
+      <div class="step-panel" id="panel3">
+        <div class="card-box">
+          <div class="card-box-title">
+            <i class="fa-solid fa-credit-card"></i> Select Payment Method
+          </div>
+
+          <div class="pay-option sel" id="pay-card" onclick="selPay('card')">
+            <div class="pay-radio"></div>
+            <div class="pay-icon pi-card"><i class="fa-solid fa-credit-card"></i></div>
+            <div>
+              <div class="pay-name">Credit / Debit Card</div>
+              <div class="pay-desc">Visa, Mastercard, Amex — via PayHere</div>
+            </div>
+            <div class="pay-badge"><i class="fa-solid fa-shield-halved me-1"></i>Secure</div>
+          </div>
+
+          <!-- Card fields -->
+          <div class="card-fields show" id="cardFields">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label">Card Number <span>*</span></label>
+                <div style="position:relative;">
+                  <input class="form-ctrl" id="fCardNum" type="text" placeholder="1234  5678  9012  3456" maxlength="19" oninput="formatCard(this)"/>
+                  <i class="fa-brands fa-cc-visa" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:22px;color:#1a1f71;"></i>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label class="form-label">Expiry Date <span>*</span></label>
+                <input class="form-ctrl" id="fCardExp" type="text" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)"/>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label class="form-label">CVV <span>*</span></label>
+                <input class="form-ctrl" id="fCardCVV" type="text" placeholder="123" maxlength="4"/>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Name on Card <span>*</span></label>
+                <input class="form-ctrl" id="fCardName" type="text" placeholder="As printed on card"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="pay-option" id="pay-bank" onclick="selPay('bank')">
+            <div class="pay-radio"></div>
+            <div class="pay-icon pi-bank"><i class="fa-solid fa-building-columns"></i></div>
+            <div>
+              <div class="pay-name">Bank Transfer</div>
+              <div class="pay-desc">Transfer &amp; upload payment slip</div>
+            </div>
+          </div>
+
+          <!-- Bank slip upload -->
+          <div class="slip-upload" id="slipUpload" onclick="document.getElementById('slipFile').click()">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p><strong>Tap to upload</strong> your bank transfer slip<br/><span style="font-size:11px;">JPG, PNG or PDF · Max 5MB</span></p>
+            <input type="file" id="slipFile" accept="image/*,.pdf" style="display:none;" onchange="handleSlip(this)"/>
+          </div>
+          <div id="slipPreview" style="display:none;margin-top:10px;font-size:13px;font-weight:700;color:var(--gm);"><i class="fa-solid fa-circle-check me-2"></i><span id="slipName"></span></div>
+
+          <div class="info-alert mt-2" id="bankInfo" style="display:none;">
+            <i class="fa-solid fa-circle-info"></i>
+            <div>
+              <strong>Bank Details:</strong><br/>
+              Bank: Commercial Bank of Ceylon<br/>
+              Account: Kavee's Oven &amp; Bakery<br/>
+              Acc No: 8001234567890<br/>
+              Branch: Colombo 03
+            </div>
+          </div>
+
+          <div class="pay-option" id="pay-cash" onclick="selPay('cash')">
+            <div class="pay-radio"></div>
+            <div class="pay-icon pi-cash"><i class="fa-solid fa-money-bill-wave"></i></div>
+            <div>
+              <div class="pay-name">Cash on Delivery</div>
+              <div class="pay-desc">Pay when your cake arrives</div>
+            </div>
+            <div class="pay-badge" style="background:#fde8d0;color:#8b3a00;">+LKR 150</div>
+          </div>
+
+          <div class="pay-option" id="pay-wa" onclick="selPay('wa')">
+            <div class="pay-radio"></div>
+            <div class="pay-icon pi-wa"><i class="fa-brands fa-whatsapp"></i></div>
+            <div>
+              <div class="pay-name">Order via WhatsApp</div>
+              <div class="pay-desc">We'll confirm &amp; arrange payment directly</div>
+            </div>
+            <div class="pay-badge" style="background:#dcf8c6;color:#128c1e;">Fastest</div>
+          </div>
+        </div>
+
+        <!-- Security strip -->
+        <div class="card-box" style="padding:16px 20px;">
+          <div class="trust-strip" style="padding:0;border:none;">
+            <div class="trust-item"><i class="fa-solid fa-lock"></i> SSL Encrypted</div>
+            <div class="trust-item"><i class="fa-solid fa-shield-halved"></i> 100% Secure</div>
+            <div class="trust-item"><i class="fa-solid fa-rotate-left"></i> Easy Refunds</div>
+            <div class="trust-item"><i class="fa-brands fa-cc-visa" style="font-size:18px;color:#1a1f71;"></i></div>
+            <div class="trust-item"><i class="fa-brands fa-cc-mastercard" style="font-size:18px;color:#eb001b;"></i></div>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn-back" onclick="goStep(2)">
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </button>
+          <button class="btn-next" onclick="processPayment()">
+            <i class="fa-solid fa-lock"></i> Place Order
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 4: CONFIRMATION ── -->
+      <div class="step-panel" id="panel4">
+        <div class="confirm-box">
+          <div class="confirm-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <h2 class="confirm-h">Order <em>Confirmed!</em></h2>
+          <div class="confirm-id">
+            <i class="fa-solid fa-hashtag"></i>
+            <span id="orderIdDisplay">KO-2025-0000</span>
+          </div>
+          <p class="confirm-p">
+            Thank you for your order! We've sent a confirmation to your WhatsApp &amp; email.
+            Our team will contact you within <strong>1 hour</strong> to confirm your cake details.
+          </p>
+
+          <!-- Summary cards -->
+          <div class="confirm-details" id="confirmDetails">
+            <!-- filled by JS -->
+          </div>
+
+          <!-- What happens next -->
+          <div style="background:var(--gg);border:1.5px solid var(--gp);border-radius:var(--r);padding:16px 18px;margin-bottom:24px;text-align:left;">
+            <div style="font-family:'Merriweather',serif;font-size:14px;font-weight:700;color:var(--gd);margin-bottom:12px;"><i class="fa-solid fa-list-check me-2"></i>What Happens Next</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--br2);">
+                <div style="width:24px;height:24px;border-radius:50%;background:var(--gm);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">1</div>
+                <span>We review your order and contact you on WhatsApp within <strong>1 hour</strong></span>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--br2);">
+                <div style="width:24px;height:24px;border-radius:50%;background:var(--gm);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">2</div>
+                <span>Payment is confirmed and your cake goes into <strong>production</strong></span>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--br2);">
+                <div style="width:24px;height:24px;border-radius:50%;background:var(--gm);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">3</div>
+                <span>We send you a <strong>status update</strong> when baking starts and when out for delivery</span>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--br2);">
+                <div style="width:24px;height:24px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">4</div>
+                <span>Your cake is <strong>delivered fresh</strong> at your chosen time</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="confirm-actions">
+            <a href="https://wa.me/94XXXXXXXXX" class="btn-wa-confirm" target="_blank">
+              <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+            </a>
+            <a href="kavees-oven-landing.html" class="btn-home">
+              <i class="fa-solid fa-house"></i> Back to Home
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Order Summary -->
+    <div>
+      <!-- Mobile toggle -->
+      <div class="mob-summary-toggle" onclick="toggleMobSummary()">
+        <div class="left"><i class="fa-solid fa-bag-shopping"></i> Order Summary</div>
+        <div class="right" id="mobTotal">LKR 0 <i class="fa-solid fa-chevron-down" id="mobChevron" style="font-size:12px;transition:transform .3s;"></i></div>
+      </div>
+      <div class="mob-summary-body" id="mobSummaryBody">
+        <div class="summary-box" style="position:static;margin-bottom:20px;">
+          <div id="summaryContent"></div>
+        </div>
+      </div>
+
+      <!-- Desktop summary (always visible) -->
+      <div class="summary-box d-none d-lg-block">
+        <div id="summaryContentDesk"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Processing overlay -->
+<div class="processing-overlay" id="processingOverlay">
+  <div class="spinner"></div>
+  <div class="processing-txt">Processing your order…</div>
+  <div class="processing-sub">Please don't close this page</div>
+</div>
+
+<!-- Toast -->
+<div class="toast-ko" id="koToast"><i class="fa-solid fa-circle-check"></i><span id="koMsg"></span></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* ═══════════════════════════════════
+   DEMO CART DATA
+   (In real app this comes from the menu page via localStorage)
+═══════════════════════════════════ */
+var CART = [
+  {key:'1-1kg-Vanilla',   name:'Classic Birthday Cake', size:'1 kg',   flavour:'Vanilla',    price:3500, qty:1, msg:'Happy Birthday Sarah!',  bg:'c-bday', icon:'fa-cake-candles'},
+  {key:'6-12pcs-Assorted',name:'Cupcake Box (12)',       size:'12 pcs', flavour:'Assorted',   price:2200, qty:1, msg:'',                        bg:'c-cupc', icon:'fa-mug-hot'},
+  {key:'10-12pcs-Classic', name:'Chocolate Brownie Box', size:'12 pcs', flavour:'Classic',    price:1500, qty:2, msg:'',                        bg:'c-brow', icon:'fa-box-open'},
+];
+
+/* ═══════════════════════════════════
+   STATE
+═══════════════════════════════════ */
+var currentStep  = 1;
+var deliveryMode = 'delivery';
+var payMode      = 'card';
+var selectedSlot = '2:00 PM – 4:00 PM';
+var promoApplied = false;
+var promoDiscount= 0;
+
+/* ═══════════════════════════════════
+   STEP NAVIGATION
+═══════════════════════════════════ */
+function goStep(n) {
+  // Update panels
+  document.querySelectorAll('.step-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('panel'+n).classList.add('active');
+
+  // Update step dots
+  for (var i=1; i<=4; i++) {
+    var dot = document.getElementById('stepDot'+i);
+    dot.classList.remove('active','done');
+    if (i < n) dot.classList.add('done');
+    else if (i === n) dot.classList.add('active');
+  }
+
+  currentStep = n;
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  if (n === 4) renderConfirmation();
+}
+
+/* ═══════════════════════════════════
+   CART RENDER
+═══════════════════════════════════ */
+function calcSubtotal() {
+  return CART.reduce(function(s,c){ return s + c.price * c.qty; }, 0);
+}
+function calcTotal() {
+  var sub = calcSubtotal();
+  var cod = (payMode === 'cash') ? 150 : 0;
+  return sub + cod - promoDiscount;
+}
+
+function renderCart() {
+  var container = document.getElementById('cartItemsContainer');
+  if (CART.length === 0) {
+    container.innerHTML = '<div class="empty-cart"><i class="fa-solid fa-bag-shopping"></i><h3>Your cart is empty</h3><p><a href="kavees-oven-menu.html" style="color:var(--gm);font-weight:700;">Browse our menu</a> and add some cakes!</p></div>';
+    return;
+  }
+  container.innerHTML = CART.map(function(item) {
+    return '<div class="cart-item-row">'
+    + '<div class="ci-thumb '+item.bg+'"><i class="fa-solid '+item.icon+'"></i></div>'
+    + '<div class="ci-info">'
+    + '  <div class="ci-name">'+item.name+'</div>'
+    + '  <div class="ci-meta">'+item.size+' · '+item.flavour+'</div>'
+    + (item.msg ? '<div class="ci-msg"><i class="fa-solid fa-pen me-1"></i>"'+item.msg+'"</div>' : '')
+    + '  <div class="qty-row">'
+    + '    <button class="qty-btn" onclick="changeQty(\''+item.key+'\',-1)"><i class="fa-solid fa-minus"></i></button>'
+    + '    <span class="qty-num">'+item.qty+'</span>'
+    + '    <button class="qty-btn" onclick="changeQty(\''+item.key+'\',1)"><i class="fa-solid fa-plus"></i></button>'
+    + '  </div>'
+    + '</div>'
+    + '<div class="ci-price-col">'
+    + '  <div class="ci-price">LKR '+(item.price*item.qty).toLocaleString()+'</div>'
+    + '  <button class="btn-remove" onclick="removeItem(\''+item.key+'\')"><i class="fa-solid fa-trash-can"></i></button>'
+    + '</div>'
+    + '</div>';
+  }).join('');
+}
+
+function changeQty(key, d) {
+  var item = CART.find(function(c){ return c.key === key; });
+  if (!item) return;
+  item.qty = Math.max(1, item.qty + d);
+  renderCart(); renderSummary();
+}
+
+function removeItem(key) {
+  CART = CART.filter(function(c){ return c.key !== key; });
+  renderCart(); renderSummary();
+  showToast('Item removed from cart');
+}
+
+/* ═══════════════════════════════════
+   SUMMARY RENDER
+═══════════════════════════════════ */
+function summaryHTML() {
+  var sub   = calcSubtotal();
+  var cod   = (payMode === 'cash') ? 150 : 0;
+  var total = calcTotal();
+  var items = CART.map(function(c){
+    return '<div class="sum-item">'
+    + '<div class="sum-img '+c.bg+'"><i class="fa-solid '+c.icon+'"></i></div>'
+    + '<div style="flex:1;min-width:0;">'
+    + '  <div class="sum-name">'+c.name+'</div>'
+    + '  <div class="sum-detail">'+c.size+' · '+c.flavour+'</div>'
+    + '  <div class="sum-qty">× '+c.qty+'</div>'
+    + '</div>'
+    + '<div class="sum-price">LKR '+(c.price*c.qty).toLocaleString()+'</div>'
+    + '</div>';
+  }).join('');
+
+  return '<div class="summary-head"><i class="fa-solid fa-bag-shopping"></i><span class="summary-head-title">Order Summary</span></div>'
+  + '<div class="summary-body">'+items+'</div>'
+  + '<div class="promo-wrap">'
+  + '<div class="promo-input-row">'
+  + '<input class="promo-input" id="promoCode" placeholder="Promo code" value="'+(promoApplied?'KAVEE10':'')+'" '+(promoApplied?'readonly':'')+'/>'
+  + '<button class="promo-btn" onclick="applyPromo()">'+(promoApplied?'Applied!':'Apply')+'</button>'
+  + '</div>'
+  + '<div class="promo-msg '+(promoApplied?'ok':'err')+'" id="promoMsg">'+(promoApplied?'<i class="fa-solid fa-circle-check me-1"></i> 10% discount applied!':'')+'</div>'
+  + '</div>'
+  + '<div class="summary-totals">'
+  + '<div class="tot-row"><span>Subtotal ('+CART.reduce(function(s,c){return s+c.qty;},0)+' items)</span><span class="val">LKR '+sub.toLocaleString()+'</span></div>'
+  + (promoApplied ? '<div class="tot-row" style="color:var(--gm)"><span><i class="fa-solid fa-tag me-1"></i>KAVEE10 (-10%)</span><span class="val" style="color:var(--gm)">– LKR '+promoDiscount.toLocaleString()+'</span></div>' : '')
+  + '<div class="tot-row free"><span>Delivery</span><span class="val">'+(sub >= 5000 ? '<i class="fa-solid fa-circle-check me-1"></i>FREE' : 'LKR 350')+'</span></div>'
+  + (cod ? '<div class="tot-row"><span>Cash on Delivery Fee</span><span class="val">LKR 150</span></div>' : '')
+  + '<hr class="tot-divider"/>'
+  + '<div class="tot-grand"><span class="tot-grand-label">Total</span><span class="tot-grand-val">LKR '+total.toLocaleString()+'</span></div>'
+  + '</div>'
+  + '<div class="trust-strip">'
+  + '<div class="trust-item"><i class="fa-solid fa-lock"></i>Secure</div>'
+  + '<div class="trust-item"><i class="fa-solid fa-rotate-left"></i>Easy Refunds</div>'
+  + '<div class="trust-item"><i class="fa-solid fa-headset"></i>24/7 Support</div>'
+  + '</div>';
+}
+
+function renderSummary() {
+  var html = summaryHTML();
+  document.getElementById('summaryContent').innerHTML = html;
+  document.getElementById('summaryContentDesk').innerHTML = html;
+  document.getElementById('mobTotal').innerHTML = 'LKR '+calcTotal().toLocaleString()+' <i class="fa-solid fa-chevron-down" id="mobChevron" style="font-size:12px;transition:transform .3s;"></i>';
+}
+
+/* ═══════════════════════════════════
+   PROMO
+═══════════════════════════════════ */
+function applyPromo() {
+  if (promoApplied) return;
+  var code = (document.getElementById('promoCode')||{value:''}).value.trim().toUpperCase();
+  if (code === 'KAVEE10') {
+    promoDiscount = Math.round(calcSubtotal() * 0.1);
+    promoApplied  = true;
+    showToast('Promo code applied — 10% off!');
+  } else {
+    showToast('Invalid promo code. Try KAVEE10');
+  }
+  renderSummary();
+}
+
+/* ═══════════════════════════════════
+   DELIVERY
+═══════════════════════════════════ */
+function setDelivery(mode) {
+  deliveryMode = mode;
+  document.getElementById('togDelivery').classList.toggle('sel', mode==='delivery');
+  document.getElementById('togPickup').classList.toggle('sel',   mode==='pickup');
+  document.getElementById('deliveryFields').style.display = mode==='delivery' ? 'block' : 'none';
+  document.getElementById('pickupFields').style.display   = mode==='pickup'   ? 'block' : 'none';
+}
+
+function selSlot(el) {
+  document.querySelectorAll('.tslot:not(.unavail)').forEach(function(t){ t.classList.remove('sel'); });
+  el.classList.add('sel');
+  selectedSlot = el.dataset.t;
+}
+
+/* ═══════════════════════════════════
+   VALIDATION
+═══════════════════════════════════ */
+function v(id, errId, test) {
+  var el  = document.getElementById(id);
+  var err = document.getElementById(errId);
+  var ok  = test(el.value.trim());
+  el.classList.toggle('error', !ok);
+  err.classList.toggle('show',  !ok);
+  return ok;
+}
+
+function validateDelivery() {
+  var ok = true;
+  ok = v('fName',  'errName',  function(x){ return x.length > 1; })   && ok;
+  ok = v('fPhone', 'errPhone', function(x){ return /^0\d{9}$/.test(x.replace(/[\s-]/g,'')); }) && ok;
+  if (deliveryMode === 'delivery') {
+    ok = v('fAddress','errAddress',function(x){ return x.length > 3; }) && ok;
+    ok = v('fCity',   'errCity',   function(x){ return x !== ''; })     && ok;
+  }
+  ok = v('fDate', 'errDate', function(x){ return x !== ''; }) && ok;
+
+  // slot
+  var slotOk = !!selectedSlot;
+  document.getElementById('errSlot').classList.toggle('show', !slotOk);
+  ok = slotOk && ok;
+
+  if (ok) goStep(3);
+  else showToast('Please fill in all required fields');
+}
+
+/* ═══════════════════════════════════
+   PAYMENT
+═══════════════════════════════════ */
+function selPay(mode) {
+  payMode = mode;
+  ['card','bank','cash','wa'].forEach(function(m){
+    document.getElementById('pay-'+m).classList.toggle('sel', m===mode);
+  });
+  document.getElementById('cardFields').classList.toggle('show', mode==='card');
+  document.getElementById('slipUpload').classList.toggle('show', mode==='bank');
+  document.getElementById('bankInfo').style.display   = mode==='bank' ? 'flex' : 'none';
+  renderSummary();
+}
+
+function handleSlip(input) {
+  if (input.files && input.files[0]) {
+    document.getElementById('slipPreview').style.display='block';
+    document.getElementById('slipName').textContent = input.files[0].name;
+    showToast('Slip uploaded successfully!');
+  }
+}
+
+function formatCard(el) {
+  var v = el.value.replace(/\D/g,'').substring(0,16);
+  el.value = v.replace(/(.{4})/g,'$1  ').trim();
+}
+function formatExpiry(el) {
+  var v = el.value.replace(/\D/g,'').substring(0,4);
+  if (v.length > 2) v = v.substring(0,2)+' / '+v.substring(2);
+  el.value = v;
+}
+
+function processPayment() {
+  if (payMode === 'wa') {
+    window.open('https://wa.me/94XXXXXXXXX?text=Hi!%20I%27d%20like%20to%20order%20from%20Kavee%27s%20Oven.%20My%20order%20is%20ready%20for%20payment.','_blank');
+    goStep(4);
+    return;
+  }
+  var overlay = document.getElementById('processingOverlay');
+  overlay.classList.add('show');
+  setTimeout(function(){
+    overlay.classList.remove('show');
+    goStep(4);
+  }, 2800);
+}
+
+/* ═══════════════════════════════════
+   CONFIRMATION
+═══════════════════════════════════ */
+function renderConfirmation() {
+  var id  = 'KO-2025-' + (Math.floor(Math.random()*9000)+1000);
+  document.getElementById('orderIdDisplay').textContent = id;
+
+  var name  = document.getElementById('fName')||{value:'Customer'};
+  var phone = document.getElementById('fPhone')||{value:''};
+  var date  = document.getElementById('fDate')||{value:''};
+  var occ   = document.getElementById('fOccasion')||{value:'Special Occasion'};
+
+  var payLabels = {card:'Card Payment',bank:'Bank Transfer',cash:'Cash on Delivery',wa:'WhatsApp'};
+  var items = CART.length + ' item'+(CART.length!==1?'s':'');
+
+  document.getElementById('confirmDetails').innerHTML =
+    cd('fa-hashtag',    'Order ID',   id)
+  + cd('fa-user',       'Name',       name.value||'Customer')
+  + cd('fa-truck',      'Method',     deliveryMode==='delivery'?'Home Delivery':'Self Pickup')
+  + cd('fa-calendar',   'Date',       date.value||'TBD')
+  + cd('fa-clock',      'Time',       selectedSlot)
+  + cd('fa-credit-card','Payment',    payLabels[payMode]||'Card')
+  + cd('fa-bag-shopping','Items',     items)
+  + cd('fa-sterling-sign','Total',    'LKR '+calcTotal().toLocaleString());
+}
+
+function cd(icon, label, val) {
+  return '<div class="cd-card"><div class="cd-label">'+label+'</div><div class="cd-val"><i class="fa-solid '+icon+'"></i>'+val+'</div></div>';
+}
+
+/* ═══════════════════════════════════
+   MOBILE SUMMARY TOGGLE
+═══════════════════════════════════ */
+function toggleMobSummary() {
+  var body = document.getElementById('mobSummaryBody');
+  var chev = document.getElementById('mobChevron');
+  body.classList.toggle('open');
+  if(chev) chev.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0)';
+}
+
+/* ═══════════════════════════════════
+   TOAST
+═══════════════════════════════════ */
+function showToast(msg) {
+  document.getElementById('koMsg').textContent = msg;
+  var t = document.getElementById('koToast');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+/* ═══════════════════════════════════
+   SET MIN DATE (today + 2 days)
+═══════════════════════════════════ */
+(function(){
+  var d = new Date();
+  d.setDate(d.getDate()+2);
+  var dateInput = document.getElementById('fDate');
+  if(dateInput) dateInput.min = d.toISOString().split('T')[0];
+})();
+
+/* ═══════════════════════════════════
+   INIT
+═══════════════════════════════════ */
+renderCart();
+renderSummary();
+</script>
+</body>
+</html>

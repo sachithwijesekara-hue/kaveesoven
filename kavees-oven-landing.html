@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Kavee's Oven – Baked With Love Just For You</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Font Awesome 6 Free -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <!-- Google Fonts: Merriweather (classic serif) + Lato (clean Calibri-like) + Great Vibes (script) -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Lato:wght@300;400;700;900&family=Great+Vibes&display=swap" rel="stylesheet"/>
+
+  <style>
+  /* ═══════════════════════════════════════
+     DESIGN TOKENS
+  ═══════════════════════════════════════ */
+  :root {
+    --gd:  #0f3d1c;
+    --gr:  #1a5c2e;
+    --gm:  #2a7a42;
+    --gl:  #4caf6e;
+    --gp:  #b8dfc4;
+    --gg:  #e8f5ec;
+    --cr:  #fdf8f0;
+    --cr2: #f4e8d0;
+    --cr3: #e8d5b0;
+    --br:  #2c1a0e;
+    --br2: #5c3320;
+    --br3: #8b5e3c;
+    --gold:#c8960e;
+    --glt: #f5e098;
+    --pk:  #f0b8b8;
+    --pk2: #d45050;
+    --sh1: 0 2px 12px rgba(15,61,28,.08);
+    --sh2: 0 6px 30px rgba(15,61,28,.12);
+    --sh3: 0 16px 60px rgba(15,61,28,.16);
+    --r:   16px;
+    --rl:  22px;
+    --rp:  100px;
+  }
+
+  /* ═══════════════════════════════════════
+     RESET & BASE
+  ═══════════════════════════════════════ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: 'Lato', 'Calibri', 'Trebuchet MS', sans-serif;
+    background: var(--cr);
+    color: var(--br);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Headings → classic serif */
+  h1, h2, h3, h4 {
+    font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
+  }
+
+  /* Script → Great Vibes */
+  .script { font-family: 'Great Vibes', cursive; }
+
+  /* ═══════════════════════════════════════
+     PROMO BAR
+  ═══════════════════════════════════════ */
+  .promo-bar {
+    background: var(--gd);
+    padding: 9px 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 300;
+  }
+  .marquee-wrap {
+    display: flex;
+    gap: 56px;
+    animation: marquee 28s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  .m-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: rgba(255,255,255,.75);
+  }
+  .m-item strong { color: var(--glt); }
+  .m-item .fa-icon { color: var(--gl); font-size: 11px; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ═══════════════════════════════════════
+     NAVBAR — MOBILE FIRST
+  ═══════════════════════════════════════ */
+  .main-nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: rgba(253,248,240,.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1.5px solid var(--cr2);
+    box-shadow: var(--sh1);
+  }
+  .nav-shell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+  }
+  /* Brand */
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gm), var(--gd));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 3px 12px rgba(42,122,66,.38);
+    flex-shrink: 0;
+  }
+  .nav-logo i { font-size: 19px; color: #fff; }
+  .nav-brand-text { line-height: 1.1; }
+  .nav-brand-name {
+    font-family: 'Great Vibes', cursive;
+    font-size: 22px;
+    color: var(--gd);
+    display: block;
+  }
+  .nav-brand-sub {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--br3);
+    display: block;
+  }
+  /* Hamburger */
+  .nav-toggle {
+    background: none;
+    border: none;
+    width: 42px; height: 42px;
+    border-radius: var(--r);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .nav-toggle:focus { outline: none; box-shadow: none; }
+  .nav-toggle:active { background: var(--gg); }
+  .nav-toggle i { font-size: 22px; color: var(--gd); }
+
+  /* Order btn in nav (mobile) */
+  .nav-order-mini {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, var(--gm), var(--gd));
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 18px;
+    border-radius: var(--rp);
+    text-decoration: none;
+    box-shadow: 0 3px 14px rgba(42,122,66,.38);
+  }
+
+  /* Mobile drawer */
+  .mobile-drawer {
+    background: var(--cr);
+    border-top: 1.5px solid var(--cr2);
+    padding: 8px 0 16px;
+  }
+  .drawer-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--br2);
+    text-decoration: none;
+    border-radius: 0;
+    transition: background .15s;
+  }
+  .drawer-link:active, .drawer-link:hover {
+    background: var(--gg);
+    color: var(--gd);
+  }
+  .drawer-link .di {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--gg);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .drawer-link .di i { font-size: 15px; color: var(--gm); }
+  .drawer-btn {
+    margin: 12px 16px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--gm), var(--gd));
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 15px;
+    border-radius: var(--rp);
+    text-decoration: none;
+    box-shadow: 0 5px 20px rgba(42,122,66,.38);
+  }
+
+  /* Desktop nav links */
+  .desk-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .desk-links a {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--br2);
+    padding: 8px 14px;
+    border-radius: var(--rp);
+    text-decoration: none;
+    transition: background .2s, color .2s;
+  }
+  .desk-links a:hover { background: var(--gg); color: var(--gd); }
+  .desk-order {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--gm), var(--gd));
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: var(--rp);
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(42,122,66,.38);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .desk-order:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(42,122,66,.48); color: #fff; }
+
+  /* ═══════════════════════════════════════
+     HERO — MOBILE FIRST
+  ═══════════════════════════════════════ */
+  #hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, #ddf0e4 0%, var(--cr) 55%, #f9edd8 100%);
+    padding: 52px 0 60px;
+  }
+  /* blobs */
+  .blob { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; }
+  .ba { width: 380px; height: 380px; background: radial-gradient(circle, rgba(76,175,110,.24), transparent 70%); top: -100px; right: -80px; animation: bF 9s ease-in-out infinite; }
+  .bb { width: 280px; height: 280px; background: radial-gradient(circle, rgba(240,184,184,.28), transparent 70%); bottom: -60px; left: -40px; animation: bF 12s ease-in-out infinite reverse; }
+  @keyframes bF { 0%,100%{transform:translate(0,0);} 50%{transform:translate(16px,-20px);} }
+
+  /* eyebrow pill */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--gg);
+    border: 1.5px solid var(--gp);
+    color: var(--gd);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: var(--rp);
+    margin-bottom: 18px;
+  }
+  .eyebrow i { font-size: 11px; color: var(--gl); }
+
+  .hero-h1 {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: clamp(30px, 8vw, 60px);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--gd);
+    margin-bottom: 10px;
+  }
+  .hero-h1 em { font-style: italic; color: var(--br2); font-weight: 300; }
+
+  .hero-tagline {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(24px, 6vw, 38px);
+    color: var(--br3);
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--br3);
+    margin-bottom: 28px;
+    max-width: 520px;
+  }
+
+  /* CTA buttons — full width on mobile */
+  .hero-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  @media(min-width: 480px) {
+    .hero-btns { flex-direction: row; flex-wrap: wrap; }
+  }
+
+  .btn-primary-ko {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--gm), var(--gd));
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 15px 28px;
+    border-radius: var(--rp);
+    text-decoration: none;
+    border: none;
+    box-shadow: 0 6px 24px rgba(42,122,66,.4);
+    transition: transform .25s, box-shadow .25s;
+    min-height: 52px;
+  }
+  .btn-primary-ko:hover, .btn-primary-ko:active { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(42,122,66,.5); color: #fff; }
+
+  .btn-secondary-ko {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #fff;
+    color: var(--gd);
+    font-family: 'Lato', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: var(--rp);
+    text-decoration: none;
+    border: 2px solid var(--gp);
+    transition: all .25s;
+    min-height: 52px;
+  }
+  .btn-secondary-ko:hover, .btn-secondary-ko:active { background: var(--gg); border-color: var(--gm); color: var(--gd); }
+
+  /* Stats strip */
+  .hero-stats {
+    display: flex;
+    gap: 0;
+    background: #fff;
+    border-radius: var(--rl);
+    border: 1.5px solid var(--cr2);
+    box-shadow: var(--sh1);
+    overflow: hidden;
+  }
+  .hstat {
+    flex: 1;
+    text-align: center;
+    padding: 16px 8px;
+    border-right: 1.5px solid var(--cr2);
+  }
+  .hstat:last-child { border-right: none; }
+  .hstat-n {
+    font-family: 'Merriweather', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gd);
+    line-height: 1;
+  }
+  .hstat-l {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--br3);
+    margin-top: 4px;
+  }
+
+  /* Hero visual card (desktop only) */
+  .hero-visual {
+    position: relative;
+    z-index: 5;
+  }
+  .hcard {
+    background: #fff;
+    border-radius: 28px;
+    border: 1.5px solid var(--cr2);
+    box-shadow: var(--sh3);
+    padding: 36px 28px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hcard::before {
+    content: '';
+    position: absolute; top: -30px; right: -30px;
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--gg), transparent);
+  }
+  .hc-badge {
+    position: absolute; top: 16px; right: 16px;
+    background: var(--glt);
+    color: var(--br);
+    font-size: 11px; font-weight: 700;
+    padding: 4px 12px; border-radius: var(--rp);
+    display: flex; align-items: center; gap: 5px;
+  }
+  .hc-badge i { color: var(--gold); }
+  .hc-icon {
+    width: 100px; height: 100px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--gg), var(--gp));
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    animation: float 4s ease-in-out infinite;
+  }
+  .hc-icon i { font-size: 48px; color: var(--gm); }
+  @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+  .hc-title {
+    font-family: 'Merriweather', serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--gd); margin-bottom: 4px;
+  }
+  .hc-sub { font-size: 12px; color: var(--br3); margin-bottom: 18px; }
+  .hc-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: linear-gradient(135deg, var(--gm), var(--gd));
+    color: #fff; font-size: 13px; font-weight: 700;
+    padding: 9px 22px; border-radius: var(--rp);
+  }
+  /* float badges */
+  .fb {
+    position: absolute;
+    background: #fff; border: 1.5px solid var(--cr2);
+    border-radius: 14px; padding: 9px 14px;
+    box-shadow: var(--sh2);
+    display: flex; align-items: center; gap: 9px;
+    animation: float 5s ease-in-out infinite;
+  }
+  .fb-l { left: -80px; top: 60px; animation-delay: 1s; }
+  .fb-r { right: -70px; bottom: 80px; animation-delay: 2.5s; }
+  .fb-ico { width: 34px; height: 34px; border-radius: 9px; background: var(--gg); display: flex; align-items: center; justify-content: center; }
+  .fb-ico i { font-size: 16px; color: var(--gm); }
+  .fb-t { font-size: 11px; font-weight: 700; color: var(--gd); }
+  .fb-s { font-size: 10px; color: var(--br3); }
+
+  /* ═══════════════════════════════════════
+     SECTION COMMONS
+  ═══════════════════════════════════════ */
+  .section { padding: 64px 0; }
+  .section-alt { background: #fff; }
+  .section-green { background: linear-gradient(160deg, #e4f5e9 0%, var(--cr) 100%); }
+  .section-dark { background: linear-gradient(140deg, var(--gd), #071a0d); }
+
+  .sec-ey {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--gg);
+    border: 1.5px solid var(--gp);
+    color: var(--gd);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: var(--rp);
+    margin-bottom: 12px;
+  }
+  .sec-ey i { font-size: 11px; color: var(--gl); }
+
+  .sec-title {
+    font-family: 'Merriweather', serif;
+    font-size: clamp(26px, 5vw, 44px);
+    font-weight: 700;
+    color: var(--gd);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .sec-title em { font-style: italic; color: var(--br2); font-weight: 300; }
+  .sec-sub { font-size: 15px; color: var(--br3); line-height: 1.75; }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.vis { opacity: 1; transform: translateY(0); }
+
+  /* ═══════════════════════════════════════
+     PRODUCT CARDS — MOBILE FIRST
+  ═══════════════════════════════════════ */
+  .pcard {
+    background: var(--cr);
+    border-radius: var(--rl);
+    border: 1.5px solid var(--cr2);
+    overflow: hidden;
+    height: 100%;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .pcard:hover { transform: translateY(-6px); box-shadow: var(--sh3); }
+
+  .pimg {
+    height: 175px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .pb1 { background: linear-gradient(135deg, #cce8d6, #b8dfc4); }
+  .pb2 { background: linear-gradient(135deg, #f8d7e3, #f3b8cc); }
+  .pb3 { background: linear-gradient(135deg, #fde9c8, #f8d8a8); }
+  .pb4 { background: linear-gradient(135deg, #e4daf7, #cfc0f0); }
+  .pb5 { background: linear-gradient(135deg, #e8e0d8, #d8ccc0); }
+  .pb6 { background: linear-gradient(135deg, #d4edda, #b8dfc4); }
+
+  .p-icon {
+    width: 76px; height: 76px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.65);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,.1);
+  }
+  .p-icon i { font-size: 36px; }
+  .pb1 .p-icon i { color: var(--gm); }
+  .pb2 .p-icon i { color: var(--pk2); }
+  .pb3 .p-icon i { color: #c8780a; }
+  .pb4 .p-icon i { color: #6a3aab; }
+  .pb5 .p-icon i { color: #7a5c44; }
+  .pb6 .p-icon i { color: var(--gr); }
+
+  .p-badge {
+    position: absolute; top: 12px; left: 12px;
+    font-size: 10px; font-weight: 700;
+    padding: 4px 11px; border-radius: var(--rp);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .bg-gold  { background: var(--glt); color: #5c3a00; }
+  .bg-pink  { background: var(--pk);  color: #8b0000; }
+  .bg-green { background: var(--gp);  color: var(--gd); }
+
+  .pbody { padding: 18px 18px 16px; }
+  .pname {
+    font-family: 'Merriweather', serif;
+    font-size: 17px; font-weight: 700;
+    color: var(--br); margin-bottom: 5px;
+  }
+  .pdesc { font-size: 13px; color: var(--br3); line-height: 1.6; margin-bottom: 14px; }
+  .pfoot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .pprice {
+    font-family: 'Merriweather', serif;
+    font-size: 19px; font-weight: 700; color: var(--gd);
+  }
+  .pprice small { font-family: 'Lato', sans-serif; font-size: 11px; color: var(--br3); font-weight: 400; }
+  .btn-cart {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, var(--gm), var(--gd));
+    color: #fff; font-family: 'Lato', sans-serif;
+    font-size: 13px; font-weight: 700;
+    padding: 10px 18px; border-radius: var(--rp);
+    border: none; cursor: pointer;
+    transition: transform .2s;
+    min-height: 42px;
+    white-space: nowrap;
+  }
+  .btn-cart:active { transform: scale(.96); }
+
+  /* ═══════════════════════════════════════
+     WHY CARDS
+  ═══════════════════════════════════════ */
+  .wcard {
+    background: #fff;
+    border-radius: var(--rl);
+    border: 1.5px solid var(--cr2);
+    padding: 30px 22px;
+    text-align: center;
+    box-shadow: var(--sh1);
+    height: 100%;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .wcard:hover { transform: translateY(-5px); box-shadow: var(--sh2); }
+  .wico {
+    width: 68px; height: 68px;
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 18px;
+  }
+  .wico i { font-size: 30px; }
+  .wg { background: #e4f5e9; } .wg i { color: var(--gm); }
+  .wy { background: #fef6e0; } .wy i { color: var(--gold); }
+  .wp { background: #fde8e8; } .wp i { color: var(--pk2); }
+  .wb { background: #e0eeff; } .wb i { color: #1a56c4; }
+  .wtitle { font-family: 'Merriweather', serif; font-size: 18px; font-weight: 700; color: var(--gd); margin-bottom: 10px; }
+  .wdesc { font-size: 13.5px; color: var(--br3); line-height: 1.7; }
+
+  /* ═══════════════════════════════════════
+     REVIEWS
+  ═══════════════════════════════════════ */
+  .rcard {
+    background: var(--cr);
+    border-radius: var(--rl);
+    border: 1.5px solid var(--cr2);
+    padding: 28px 24px;
+    height: 100%;
+    transition: transform .3s;
+  }
+  .rcard:hover { transform: translateY(-4px); }
+  .rq { font-family: 'Merriweather', serif; font-size: 56px; color: var(--gl); line-height: .7; margin-bottom: 10px; }
+  .rstars { display: flex; gap: 3px; margin-bottom: 12px; }
+  .rstars i { font-size: 14px; color: var(--gold); }
+  .rtxt { font-family: 'Merriweather', serif; font-size: 15px; font-style: italic; color: var(--br); line-height: 1.8; margin-bottom: 20px; font-weight: 300; }
+  .rauth { display: flex; align-items: center; gap: 12px; }
+  .ravt { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--gm), var(--gd)); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Merriweather', serif; font-size: 18px; font-weight: 700; flex-shrink: 0; }
+  .rname { font-size: 14px; font-weight: 700; color: var(--gd); }
+  .rloc { font-size: 12px; color: var(--br3); display: flex; align-items: center; gap: 4px; }
+  .rloc i { font-size: 11px; color: var(--gl); }
+
+  /* ═══════════════════════════════════════
+     ABOUT (DARK)
+  ═══════════════════════════════════════ */
+  .abt-ey {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+    color: var(--gl); font-size: 10px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: var(--rp); margin-bottom: 16px;
+  }
+  .abt-title { font-family: 'Merriweather', serif; font-size: clamp(26px,5vw,44px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 18px; }
+  .abt-title em { color: var(--gl); font-style: italic; font-weight: 300; }
+  .abt-txt { font-size: 14px; color: rgba(255,255,255,.68); line-height: 1.85; margin-bottom: 12px; }
+
+  .abt-stats {
+    display: flex;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--rl);
+    overflow: hidden;
+    margin: 28px 0;
+  }
+  .astat {
+    flex: 1; text-align: center; padding: 18px 8px;
+    border-right: 1px solid rgba(255,255,255,.1);
+  }
+  .astat:last-child { border-right: none; }
+  .astat-n { font-family: 'Merriweather', serif; font-size: 26px; font-weight: 700; color: var(--gl); }
+  .astat-l { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-top: 4px; }
+
+  .abt-box {
+    background: rgba(255,255,255,.07);
+    border: 1.5px solid rgba(255,255,255,.12);
+    border-radius: 24px;
+    padding: 40px 28px;
+    text-align: center;
+  }
+  .abt-chef {
+    width: 110px; height: 110px;
+    border-radius: 28px;
+    background: rgba(255,255,255,.1);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    animation: float 5s ease-in-out infinite;
+  }
+  .abt-chef i { font-size: 52px; color: var(--gl); }
+  .abt-script { font-family: 'Great Vibes', cursive; font-size: 28px; color: var(--gl); }
+  .abt-quote { font-size: 12px; color: rgba(255,255,255,.4); margin: 8px 0 22px; font-style: italic; }
+  .abt-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
+    color: rgba(255,255,255,.8); font-size: 12px; font-weight: 700;
+    padding: 6px 14px; border-radius: var(--rp);
+  }
+  .abt-pill i { font-size: 11px; color: var(--gl); }
+
+  /* ═══════════════════════════════════════
+     GALLERY — MOBILE GRID
+  ═══════════════════════════════════════ */
+  .gal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media(min-width: 576px) {
+    .gal-grid { grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 180px 180px; }
+    .gspan { grid-column: 1; grid-row: 1 / 3; }
+    .gspan .gbox i { font-size: 52px; }
+    .gspan .gbox { width: 100px; height: 100px; }
+  }
+  .gitem {
+    border-radius: var(--r);
+    min-height: 140px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; overflow: hidden; position: relative;
+    transition: transform .3s;
+  }
+  .gitem:active { transform: scale(.97); }
+  .g1 { background: linear-gradient(135deg,#cce8d6,#b8dfc4); }
+  .g2 { background: linear-gradient(135deg,#f8d7e3,#f3b8cc); }
+  .g3 { background: linear-gradient(135deg,#fde9c8,#f8d8a8); }
+  .g4 { background: linear-gradient(135deg,#e4daf7,#cfc0f0); }
+  .g5 { background: linear-gradient(135deg,#d4edda,#b8dfc4); }
+  .gbox { width: 76px; height: 76px; border-radius: 18px; background: rgba(255,255,255,.55); display: flex; align-items: center; justify-content: center; }
+  .gbox i { font-size: 36px; }
+  .g1 i{color:var(--gm);} .g2 i{color:var(--pk2);} .g3 i{color:#c8780a;} .g4 i{color:#6a3aab;} .g5 i{color:var(--gr);}
+  .gov { position:absolute;inset:0;background:rgba(15,61,28,0);display:flex;align-items:center;justify-content:center;transition:background .3s; }
+  .gitem:hover .gov { background: rgba(15,61,28,.2); }
+  .gov i { font-size:24px;color:#fff;opacity:0;transition:opacity .3s; }
+  .gitem:hover .gov i { opacity:1; }
+
+  /* ═══════════════════════════════════════
+     ORDER CTA
+  ═══════════════════════════════════════ */
+  .obox {
+    background: #fff;
+    border-radius: 28px;
+    padding: 48px 24px;
+    box-shadow: var(--sh3);
+    border: 1.5px solid var(--cr2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  @media(min-width:576px) { .obox { padding: 56px 52px; } }
+  .obox::before { content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,var(--gg),transparent); }
+  .obox::after  { content:'';position:absolute;bottom:-50px;left:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,#fde8e8,transparent); }
+  .obox > * { position: relative; z-index: 2; }
+  .oico { width: 80px;height:80px;border-radius:22px;background:linear-gradient(135deg,var(--gg),var(--gp));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:var(--sh2); }
+  .oico i { font-size: 40px; color: var(--gm); }
+  .otitle { font-family:'Merriweather',serif;font-size:clamp(24px,5vw,40px);font-weight:700;color:var(--gd);margin-bottom:12px; }
+  .otitle em { font-style:italic;color:var(--br2);font-weight:300; }
+  .osub { font-size:14px;color:var(--br3);line-height:1.75;max-width:500px;margin:0 auto 32px; }
+  .octa { display:flex;flex-direction:column;gap:12px; }
+  @media(min-width:480px) { .octa { flex-direction:row;justify-content:center; } }
+  .btn-wa {
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    background:#25d366;color:#fff;font-family:'Lato',sans-serif;font-size:15px;font-weight:700;
+    padding:16px 28px;border-radius:var(--rp);text-decoration:none;
+    box-shadow:0 5px 20px rgba(37,211,102,.4);transition:transform .2s;
+    min-height: 52px;
+  }
+  .btn-wa:hover,.btn-wa:active{transform:translateY(-2px);color:#fff;}
+  .btn-wa i{font-size:18px;}
+  .btn-call {
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    background:var(--cr);color:var(--gd);font-family:'Lato',sans-serif;font-size:15px;font-weight:700;
+    padding:15px 28px;border-radius:var(--rp);text-decoration:none;
+    border:2px solid var(--gp);transition:all .2s;
+    min-height: 52px;
+  }
+  .btn-call:hover,.btn-call:active{background:var(--gg);border-color:var(--gm);color:var(--gd);}
+
+  /* ═══════════════════════════════════════
+     CONTACT
+  ═══════════════════════════════════════ */
+  .cic {
+    display:flex;align-items:center;gap:14px;
+    background:var(--cr);border:1.5px solid var(--cr2);
+    border-radius:var(--r);padding:16px 18px;margin-bottom:12px;
+    transition:transform .2s;
+  }
+  .cic:active { transform:translateX(4px); }
+  .cii { width:46px;height:46px;border-radius:12px;background:var(--gg);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+  .cii i { font-size:20px;color:var(--gm); }
+  .cil { font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--br3); }
+  .civ { font-size:14px;font-weight:700;color:var(--br);margin-top:1px; }
+  .fwrap { background:var(--cr);border:1.5px solid var(--cr2);border-radius:var(--rl);padding:28px 20px;box-shadow:var(--sh1); }
+  @media(min-width:576px){ .fwrap{padding:36px 32px;} }
+  .ftitle { font-family:'Merriweather',serif;font-size:22px;font-weight:700;color:var(--gd);margin-bottom:24px;display:flex;align-items:center;gap:10px; }
+  .ftitle i { font-size:20px;color:var(--gm); }
+  .form-label { font-size:12px;font-weight:700;color:var(--br);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em; }
+  .form-control,.form-select {
+    background:#fff;border:1.5px solid var(--cr2);
+    border-radius:12px;font-family:'Lato',sans-serif;font-size:14px;color:var(--br);
+    padding:13px 16px;transition:border-color .2s,box-shadow .2s;
+    min-height: 48px;
+  }
+  .form-control:focus,.form-select:focus { border-color:var(--gm);box-shadow:0 0 0 3px rgba(42,122,66,.12);background:#fff;outline:none; }
+  textarea.form-control { min-height:110px;resize:vertical; }
+  .btn-sub {
+    width:100%;background:linear-gradient(135deg,var(--gm),var(--gd));
+    color:#fff;font-family:'Lato',sans-serif;font-size:15px;font-weight:700;
+    padding:16px;border-radius:var(--rp);border:none;cursor:pointer;
+    box-shadow:0 5px 20px rgba(42,122,66,.38);transition:transform .2s;
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    min-height: 52px;
+  }
+  .btn-sub:active { transform:scale(.98); }
+
+  /* ═══════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════ */
+  footer { background:var(--gd);color:rgba(255,255,255,.6);padding:56px 0 28px; }
+  .fbrand { font-family:'Great Vibes',cursive;font-size:32px;color:#fff;margin-bottom:8px; }
+  .fdesc { font-size:13px;line-height:1.75;max-width:280px;color:rgba(255,255,255,.5); }
+  .fct { font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin-bottom:16px; }
+  .flinks { list-style:none;padding:0;display:flex;flex-direction:column;gap:9px; }
+  .flinks a { font-size:13.5px;color:rgba(255,255,255,.5);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s; }
+  .flinks a i { font-size:13px;color:var(--gl); }
+  .flinks a:hover { color:var(--gl); }
+  .fhr { border-color:rgba(255,255,255,.1);margin:40px 0 22px; }
+  .fbot { font-size:12px; }
+  .fhrt { color:var(--pk); }
+  .fsoc { display:flex;gap:10px;margin-top:20px; }
+  .fsoc a { width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.65);font-size:15px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .2s; }
+  .fsoc a:hover { background:rgba(255,255,255,.18);color:#fff; }
+
+  /* ═══════════════════════════════════════
+     FLOATING WHATSAPP (mobile friendly)
+  ═══════════════════════════════════════ */
+  .wa-fab {
+    position:fixed;bottom:24px;right:20px;z-index:999;
+    width:56px;height:56px;border-radius:50%;
+    background:#25d366;color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:26px;text-decoration:none;
+    box-shadow:0 4px 20px rgba(37,211,102,.5);
+    animation:waPulse 2.5s ease-in-out infinite;
+  }
+  .wa-fab:hover,.wa-fab:active{color:#fff;}
+  @keyframes waPulse {
+    0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.5),0 0 0 0 rgba(37,211,102,.3);}
+    50%{box-shadow:0 4px 20px rgba(37,211,102,.5),0 0 0 12px rgba(37,211,102,0);}
+  }
+
+  /* ═══════════════════════════════════════
+     TOAST — MOBILE FRIENDLY
+  ═══════════════════════════════════════ */
+  .toast-ko {
+    position:fixed;bottom:24px;left:50%;
+    transform:translateX(-50%) translateY(120px);
+    background:var(--gd);color:#fff;
+    font-family:'Lato',sans-serif;font-size:14px;font-weight:700;
+    padding:14px 24px;border-radius:var(--rp);
+    box-shadow:var(--sh3);z-index:9999;
+    transition:transform .4s cubic-bezier(.22,.68,0,1.2);
+    pointer-events:none;
+    display:flex;align-items:center;gap:9px;
+    white-space:nowrap;
+    max-width: calc(100vw - 32px);
+  }
+  .toast-ko i { font-size:16px;color:var(--gl); }
+  .toast-ko.show { transform:translateX(-50%) translateY(0); }
+
+  /* ═══════════════════════════════════════
+     MOBILE SAFE BOTTOM (avoid FAB overlap)
+  ═══════════════════════════════════════ */
+  body { padding-bottom: env(safe-area-inset-bottom, 0); }
+
+  /* ═══════════════════════════════════════
+     DESKTOP ADJUSTMENTS
+  ═══════════════════════════════════════ */
+  @media(min-width:992px){
+    .section { padding: 96px 0; }
+    #hero { padding: 120px 0 100px; }
+    .hero-btns { flex-direction: row; }
+    .nav-shell { padding: 13px 40px; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ PROMO BAR ══════════ -->
+<div class="promo-bar">
+  <div class="marquee-wrap">
+    <div class="m-item"><i class="fa-solid fa-gift fa-icon"></i> <strong>FREE DELIVERY</strong> on orders above LKR 5,000</div>
+    <div class="m-item"><i class="fa-solid fa-clock fa-icon"></i> Same-day orders <strong>available</strong></div>
+    <div class="m-item"><i class="fa-solid fa-star fa-icon"></i> <strong>5.0 ★</strong> rated home bakery</div>
+    <div class="m-item"><i class="fa-brands fa-whatsapp fa-icon"></i> Order on WhatsApp — <strong>Quick &amp; Easy</strong></div>
+    <div class="m-item"><i class="fa-solid fa-truck fa-icon"></i> Island-wide <strong>delivery</strong></div>
+    <!-- loop copy -->
+    <div class="m-item"><i class="fa-solid fa-gift fa-icon"></i> <strong>FREE DELIVERY</strong> on orders above LKR 5,000</div>
+    <div class="m-item"><i class="fa-solid fa-clock fa-icon"></i> Same-day orders <strong>available</strong></div>
+    <div class="m-item"><i class="fa-solid fa-star fa-icon"></i> <strong>5.0 ★</strong> rated home bakery</div>
+    <div class="m-item"><i class="fa-brands fa-whatsapp fa-icon"></i> Order on WhatsApp — <strong>Quick &amp; Easy</strong></div>
+    <div class="m-item"><i class="fa-solid fa-truck fa-icon"></i> Island-wide <strong>delivery</strong></div>
+  </div>
+</div>
+
+<!-- ══════════ NAVBAR ══════════ -->
+<nav class="main-nav">
+  <div class="nav-shell">
+    <!-- Brand -->
+    <a href="#" class="nav-brand">
+      <div class="nav-logo"><i class="fa-solid fa-cake-candles"></i></div>
+      <div class="nav-brand-text">
+        <span class="nav-brand-name">Kavee's Oven</span>
+        <span class="nav-brand-sub">Baked With Love</span>
+      </div>
+    </a>
+
+    <!-- Desktop links (hidden on mobile) -->
+    <div class="desk-links d-none d-lg-flex">
+      <a href="#menu"><i class="fa-solid fa-utensils me-1"></i>Menu</a>
+      <a href="#why"><i class="fa-solid fa-heart me-1"></i>Why Us</a>
+      <a href="#reviews"><i class="fa-solid fa-star me-1"></i>Reviews</a>
+      <a href="#about"><i class="fa-solid fa-user-heart me-1"></i>Our Story</a>
+      <a href="#gallery"><i class="fa-solid fa-images me-1"></i>Gallery</a>
+      <a href="#contact"><i class="fa-solid fa-envelope me-1"></i>Contact</a>
+    </div>
+
+    <!-- Right side: order btn + hamburger -->
+    <div class="d-flex align-items-center gap-2">
+      <a href="#order" class="nav-order-mini d-lg-none">
+        <i class="fa-solid fa-bag-shopping"></i> Order
+      </a>
+      <a href="#order" class="desk-order d-none d-lg-flex">
+        <i class="fa-solid fa-bag-shopping"></i> Order Now
+      </a>
+      <button class="nav-toggle d-lg-none" type="button"
+              data-bs-toggle="collapse" data-bs-target="#mobileDrawer"
+              aria-label="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div class="collapse mobile-drawer" id="mobileDrawer">
+    <a href="#menu"    class="drawer-link" onclick="closeDrawer()"><div class="di"><i class="fa-solid fa-utensils"></i></div> Menu</a>
+    <a href="#why"     class="drawer-link" onclick="closeDrawer()"><div class="di"><i class="fa-solid fa-heart"></i></div> Why Us</a>
+    <a href="#reviews" class="drawer-link" onclick="closeDrawer()"><div class="di"><i class="fa-solid fa-star"></i></div> Reviews</a>
+    <a href="#about"   class="drawer-link" onclick="closeDrawer()"><div class="di"><i class="fa-solid fa-person-rays"></i></div> Our Story</a>
+    <a href="#gallery" class="drawer-link" onclick="closeDrawer()"><div class="di"><i class="fa-solid fa-images"></i></div> Gallery</a>
+    <a href="#contact" class="drawer-link" onclick="closeDrawer()"><div class="di"><i class="fa-solid fa-envelope"></i></div> Contact</a>
+    <a href="#order" class="drawer-btn" onclick="closeDrawer()">
+      <i class="fa-solid fa-bag-shopping"></i> Order Now
+    </a>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <div class="blob ba"></div>
+  <div class="blob bb"></div>
+
+  <div class="container">
+    <div class="row align-items-center g-4">
+
+      <!-- Left: content -->
+      <div class="col-12 col-lg-6">
+        <div class="eyebrow">
+          <i class="fa-solid fa-certificate"></i> Sri Lanka's Favourite Home Bakery
+        </div>
+        <h1 class="hero-h1">
+          Baked With Love<br/><em>Just For You</em>
+        </h1>
+        <span class="hero-tagline">— Kavee's Oven</span>
+        <p class="hero-desc">
+          Custom cakes, cupcakes &amp; desserts made with the finest ingredients and a whole lot of heart. Every bite is a moment crafted especially for you.
+        </p>
+        <div class="hero-btns">
+          <a href="#order" class="btn-primary-ko">
+            <i class="fa-solid fa-bag-shopping"></i> Order Now
+          </a>
+          <a href="#menu" class="btn-secondary-ko">
+            <i class="fa-solid fa-utensils"></i> View Menu
+          </a>
+        </div>
+        <!-- Stats strip -->
+        <div class="hero-stats">
+          <div class="hstat">
+            <div class="hstat-n">500+</div>
+            <div class="hstat-l">Customers</div>
+          </div>
+          <div class="hstat">
+            <div class="hstat-n">1.2k+</div>
+            <div class="hstat-l">Cakes Baked</div>
+          </div>
+          <div class="hstat">
+            <div class="hstat-n">5 <i class="fa-solid fa-star" style="font-size:16px;color:var(--gold);"></i></div>
+            <div class="hstat-l">Rating</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: visual card (desktop only) -->
+      <div class="col-lg-6 d-none d-lg-flex justify-content-center">
+        <div style="position:relative;width:340px;">
+          <div class="hcard">
+            <div class="hc-badge"><i class="fa-solid fa-star"></i> 5.0 Rating</div>
+            <div class="hc-icon"><i class="fa-solid fa-cake-candles"></i></div>
+            <div class="hc-title">Custom Cakes</div>
+            <div class="hc-sub">Designed just for your moment</div>
+            <div class="hc-pill">
+              <i class="fa-solid fa-tag"></i> From LKR 2,500
+            </div>
+          </div>
+          <div class="fb fb-l">
+            <div class="fb-ico"><i class="fa-solid fa-trophy"></i></div>
+            <div><div class="fb-t">Best Quality</div><div class="fb-s">Fresh Ingredients</div></div>
+          </div>
+          <div class="fb fb-r">
+            <div class="fb-ico"><i class="fa-solid fa-bolt"></i></div>
+            <div><div class="fb-t">Fast Delivery</div><div class="fb-s">Same day available</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TOP SELLERS ══════════ -->
+<section id="menu" class="section section-alt">
+  <div class="container">
+    <div class="text-center mb-4 reveal">
+      <div class="sec-ey"><i class="fa-solid fa-cake-candles"></i> Our Menu</div>
+      <h2 class="sec-title">Top <em>Selling</em> Cakes</h2>
+      <p class="sec-sub">Handcrafted with premium ingredients — each cake a masterpiece for your most precious moments.</p>
+    </div>
+
+    <div class="row g-3">
+
+      <div class="col-6 col-md-4 reveal">
+        <div class="pcard">
+          <div class="pimg pb1">
+            <span class="p-badge bg-gold"><i class="fa-solid fa-fire"></i> Best Seller</span>
+            <div class="p-icon"><i class="fa-solid fa-cake-candles"></i></div>
+          </div>
+          <div class="pbody">
+            <div class="pname">Birthday Cake</div>
+            <div class="pdesc">Vanilla sponge with fresh cream frosting. Custom message included.</div>
+            <div class="pfoot">
+              <div class="pprice">LKR 3,500 <small>/ kg</small></div>
+              <button class="btn-cart" onclick="addCart('Birthday Cake')"><i class="fa-solid fa-cart-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 reveal">
+        <div class="pcard">
+          <div class="pimg pb2">
+            <span class="p-badge bg-pink"><i class="fa-solid fa-gem"></i> Premium</span>
+            <div class="p-icon"><i class="fa-solid fa-medal"></i></div>
+          </div>
+          <div class="pbody">
+            <div class="pname">Wedding Cake</div>
+            <div class="pdesc">Elegant multi-tier cakes with floral decorations &amp; fondant.</div>
+            <div class="pfoot">
+              <div class="pprice">LKR 18k <small>/ tier</small></div>
+              <button class="btn-cart" onclick="addCart('Wedding Cake')"><i class="fa-solid fa-cart-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 reveal">
+        <div class="pcard">
+          <div class="pimg pb3">
+            <span class="p-badge bg-green"><i class="fa-solid fa-star"></i> New</span>
+            <div class="p-icon"><i class="fa-solid fa-mug-hot"></i></div>
+          </div>
+          <div class="pbody">
+            <div class="pname">Cupcake Box</div>
+            <div class="pdesc">12 assorted flavours — chocolate, vanilla, red velvet.</div>
+            <div class="pfoot">
+              <div class="pprice">LKR 2,200 <small>/ box</small></div>
+              <button class="btn-cart" onclick="addCart('Cupcake Box')"><i class="fa-solid fa-cart-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 reveal">
+        <div class="pcard">
+          <div class="pimg pb4">
+            <span class="p-badge bg-gold"><i class="fa-solid fa-palette"></i> Custom</span>
+            <div class="p-icon"><i class="fa-solid fa-palette"></i></div>
+          </div>
+          <div class="pbody">
+            <div class="pname">Theme Cake</div>
+            <div class="pdesc">Character cakes, photo cakes — any theme you dream of.</div>
+            <div class="pfoot">
+              <div class="pprice">LKR 5,500 <small>/ kg</small></div>
+              <button class="btn-cart" onclick="addCart('Theme Cake')"><i class="fa-solid fa-cart-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 reveal">
+        <div class="pcard">
+          <div class="pimg pb5">
+            <span class="p-badge bg-pink"><i class="fa-solid fa-heart"></i> Popular</span>
+            <div class="p-icon"><i class="fa-solid fa-box-open"></i></div>
+          </div>
+          <div class="pbody">
+            <div class="pname">Brownie Box</div>
+            <div class="pdesc">Fudgy rich dark chocolate brownies. Perfect gift.</div>
+            <div class="pfoot">
+              <div class="pprice">LKR 1,500 <small>/ box</small></div>
+              <button class="btn-cart" onclick="addCart('Brownie Box')"><i class="fa-solid fa-cart-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 reveal">
+        <div class="pcard">
+          <div class="pimg pb6">
+            <span class="p-badge bg-green"><i class="fa-solid fa-leaf"></i> Eggless</span>
+            <div class="p-icon"><i class="fa-solid fa-seedling"></i></div>
+          </div>
+          <div class="pbody">
+            <div class="pname">Eggless Cake</div>
+            <div class="pdesc">Same great taste — made for everyone. Baked fresh daily.</div>
+            <div class="pfoot">
+              <div class="pprice">LKR 3,800 <small>/ kg</small></div>
+              <button class="btn-cart" onclick="addCart('Eggless Cake')"><i class="fa-solid fa-cart-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-center mt-4 reveal">
+      <a href="#contact" class="btn-secondary-ko d-inline-flex">
+        <i class="fa-solid fa-utensils"></i> Full Menu &amp; Custom Orders
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WHY CHOOSE US ══════════ -->
+<section id="why" class="section section-green">
+  <div class="container">
+    <div class="text-center mb-4 reveal">
+      <div class="sec-ey"><i class="fa-solid fa-heart"></i> Why Choose Us</div>
+      <h2 class="sec-title">The Kavee's Oven <em>Difference</em></h2>
+      <p class="sec-sub">We don't just bake cakes — we create memories that last a lifetime.</p>
+    </div>
+    <div class="row g-3">
+      <div class="col-6 col-lg-3 reveal">
+        <div class="wcard">
+          <div class="wico wg"><i class="fa-solid fa-seedling"></i></div>
+          <div class="wtitle">Fresh Ingredients</div>
+          <p class="wdesc">Locally sourced, no preservatives — pure natural goodness in every bite.</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3 reveal">
+        <div class="wcard">
+          <div class="wico wy"><i class="fa-solid fa-palette"></i></div>
+          <div class="wtitle">Custom Designs</div>
+          <p class="wdesc">From elegant weddings to character cakes — your vision, our craft.</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3 reveal">
+        <div class="wcard">
+          <div class="wico wp"><i class="fa-solid fa-house-heart"></i></div>
+          <div class="wtitle">Home Quality</div>
+          <p class="wdesc">Baked with the warmth of a home kitchen — every slice tastes like love.</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3 reveal">
+        <div class="wcard">
+          <div class="wico wb"><i class="fa-solid fa-bolt"></i></div>
+          <div class="wtitle">Fast Delivery</div>
+          <p class="wdesc">Same-day delivery available. Fresh, on time, perfectly packaged.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ REVIEWS ══════════ -->
+<section id="reviews" class="section section-alt">
+  <div class="container">
+    <div class="text-center mb-4 reveal">
+      <div class="sec-ey"><i class="fa-solid fa-star"></i> Reviews</div>
+      <h2 class="sec-title">What Our Customers <em>Say</em></h2>
+      <p class="sec-sub">Real stories from real families who trusted us with their most precious moments.</p>
+    </div>
+    <div class="row g-3">
+
+      <div class="col-12 col-md-4 reveal">
+        <div class="rcard">
+          <div class="rq">"</div>
+          <div class="rstars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p class="rtxt">The birthday cake was absolutely stunning! My daughter cried happy tears. The taste was even better — moist, flavourful, and perfectly sweet.</p>
+          <div class="rauth">
+            <div class="ravt">P</div>
+            <div>
+              <div class="rname">Priya Navaratnam</div>
+              <div class="rloc"><i class="fa-solid fa-location-dot"></i> Colombo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4 reveal">
+        <div class="rcard">
+          <div class="rq">"</div>
+          <div class="rstars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p class="rtxt">Our custom wedding cake exceeded all expectations. Everyone at the reception was talking about it. Kavee is so talented and professional!</p>
+          <div class="rauth">
+            <div class="ravt">R</div>
+            <div>
+              <div class="rname">Roshani &amp; Dinesh</div>
+              <div class="rloc"><i class="fa-solid fa-location-dot"></i> Kandy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4 reveal">
+        <div class="rcard">
+          <div class="rq">"</div>
+          <div class="rstars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p class="rtxt">The cupcake box was delivered on time and tasted incredible. My whole office loved them! Will definitely order again for every occasion.</p>
+          <div class="rauth">
+            <div class="ravt">S</div>
+            <div>
+              <div class="rname">Saman Perera</div>
+              <div class="rloc"><i class="fa-solid fa-location-dot"></i> Gampaha</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section id="about" class="section section-dark">
+  <div class="container">
+    <div class="row align-items-center g-4">
+
+      <div class="col-12 col-lg-6 reveal">
+        <div class="abt-ey"><i class="fa-solid fa-heart"></i> Our Story</div>
+        <h2 class="abt-title">Made With <em>Love</em>,<br/>Served With Joy</h2>
+        <p class="abt-txt">Kavee's Oven started from a simple passion — the joy of making people smile through beautifully crafted baked goods. What began as baking for family has grown into a beloved home bakery trusted by hundreds of families across Sri Lanka.</p>
+        <p class="abt-txt">Every cake is a labour of love — from selecting premium ingredients to hand-decorating each detail. Food made with love simply tastes different.</p>
+        <div class="abt-stats">
+          <div class="astat"><div class="astat-n">500+</div><div class="astat-l">Customers</div></div>
+          <div class="astat"><div class="astat-n">1,200+</div><div class="astat-l">Cakes</div></div>
+          <div class="astat"><div class="astat-n">5 <i class="fa-solid fa-star" style="font-size:18px;color:var(--gl);"></i></div><div class="astat-l">Rating</div></div>
+        </div>
+        <a href="#contact" class="btn-primary-ko d-flex mt-2" style="max-width:260px;">
+          <i class="fa-solid fa-bag-shopping"></i> Order Your Cake
+        </a>
+      </div>
+
+      <div class="col-12 col-lg-6 reveal">
+        <div class="abt-box">
+          <div class="abt-chef"><i class="fa-solid fa-person-rays"></i></div>
+          <div class="abt-script">Kavee's Kitchen</div>
+          <p class="abt-quote">"Every cake tells a story of love"</p>
+          <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <span class="abt-pill"><i class="fa-solid fa-seedling"></i> Fresh Daily</span>
+            <span class="abt-pill"><i class="fa-solid fa-house-heart"></i> Home Baked</span>
+            <span class="abt-pill"><i class="fa-solid fa-palette"></i> Custom Designs</span>
+            <span class="abt-pill"><i class="fa-solid fa-heart"></i> Made with Love</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ GALLERY ══════════ -->
+<section id="gallery" class="section">
+  <div class="container">
+    <div class="text-center mb-4 reveal">
+      <div class="sec-ey"><i class="fa-solid fa-images"></i> Gallery</div>
+      <h2 class="sec-title">Our Sweet <em>Creations</em></h2>
+      <p class="sec-sub">A glimpse of the love poured into every cake. Follow us on Instagram for more!</p>
+    </div>
+    <div class="gal-grid reveal">
+      <div class="gitem g1 gspan">
+        <div class="gbox"><i class="fa-solid fa-cake-candles"></i></div>
+        <div class="gov"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="gitem g2">
+        <div class="gbox"><i class="fa-solid fa-mug-hot"></i></div>
+        <div class="gov"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="gitem g3">
+        <div class="gbox"><i class="fa-solid fa-medal"></i></div>
+        <div class="gov"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="gitem g4">
+        <div class="gbox"><i class="fa-solid fa-palette"></i></div>
+        <div class="gov"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="gitem g5">
+        <div class="gbox"><i class="fa-solid fa-box-open"></i></div>
+        <div class="gov"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+    </div>
+    <div class="text-center mt-4 reveal">
+      <a href="#" class="btn-secondary-ko d-inline-flex" onclick="showToast('Opening Instagram...');return false;">
+        <i class="fa-brands fa-instagram"></i> Follow on Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ORDER CTA ══════════ -->
+<section id="order" class="section" style="background:linear-gradient(155deg,#f0e8d4 0%,var(--cr) 100%);">
+  <div class="container reveal">
+    <div class="obox">
+      <div class="oico"><i class="fa-solid fa-bag-shopping"></i></div>
+      <h2 class="otitle">Ready to Order Your<br/><em>Dream Cake?</em></h2>
+      <p class="osub">Place your order via WhatsApp for the fastest response, or call us directly. Custom orders need at least 48 hours notice.</p>
+      <div class="octa">
+        <a href="https://wa.me/94XXXXXXXXX" class="btn-wa" target="_blank">
+          <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+        </a>
+        <a href="tel:+94XXXXXXXXX" class="btn-call">
+          <i class="fa-solid fa-phone"></i> Call Us Now
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact" class="section section-alt">
+  <div class="container">
+    <div class="mb-4 reveal">
+      <div class="sec-ey"><i class="fa-solid fa-envelope-open-text"></i> Get In Touch</div>
+      <h2 class="sec-title">Contact <em>Us</em></h2>
+      <p class="sec-sub">We'd love to hear from you — custom orders, queries, or just to say hello!</p>
+    </div>
+    <div class="row g-4">
+
+      <!-- Contact info -->
+      <div class="col-12 col-lg-5 reveal">
+        <div class="cic">
+          <div class="cii"><i class="fa-solid fa-phone"></i></div>
+          <div><div class="cil">Phone</div><div class="civ">076-XXX-XXXX</div></div>
+        </div>
+        <div class="cic">
+          <div class="cii"><i class="fa-brands fa-whatsapp"></i></div>
+          <div><div class="cil">WhatsApp</div><div class="civ">076-XXX-XXXX</div></div>
+        </div>
+        <div class="cic">
+          <div class="cii"><i class="fa-solid fa-envelope"></i></div>
+          <div><div class="cil">Email</div><div class="civ">hello@kaveesoven.lk</div></div>
+        </div>
+        <div class="cic">
+          <div class="cii"><i class="fa-solid fa-location-dot"></i></div>
+          <div><div class="cil">Location</div><div class="civ">Colombo, Sri Lanka</div></div>
+        </div>
+        <div class="cic">
+          <div class="cii"><i class="fa-solid fa-clock"></i></div>
+          <div><div class="cil">Working Hours</div><div class="civ">Mon – Sat: 8am – 8pm</div></div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="col-12 col-lg-7 reveal">
+        <div class="fwrap">
+          <div class="ftitle"><i class="fa-solid fa-envelope-open-text"></i> Send Us a Message</div>
+          <div class="row g-3">
+            <div class="col-12 col-sm-6">
+              <label class="form-label">Your Name</label>
+              <input type="text" class="form-control" placeholder="e.g. Priya Perera"/>
+            </div>
+            <div class="col-12 col-sm-6">
+              <label class="form-label">Phone / WhatsApp</label>
+              <input type="tel" class="form-control" placeholder="07X-XXX-XXXX"/>
+            </div>
+            <div class="col-12 col-sm-6">
+              <label class="form-label">Type of Cake</label>
+              <select class="form-select">
+                <option value="">Select category...</option>
+                <option>Birthday Cake</option>
+                <option>Wedding Cake</option>
+                <option>Cupcakes</option>
+                <option>Custom Theme Cake</option>
+                <option>Brownies &amp; Desserts</option>
+                <option>Eggless Cake</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-6">
+              <label class="form-label">Delivery Date</label>
+              <input type="date" class="form-control"/>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Order Details / Message</label>
+              <textarea class="form-control" placeholder="Tell us about your cake — size, design, flavour, special requests..."></textarea>
+            </div>
+            <div class="col-12">
+              <button class="btn-sub" onclick="showToast('Message sent! We will respond within 1 hour.')">
+                <i class="fa-solid fa-paper-plane"></i> Send Message
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="fbrand">Kavee's Oven</div>
+        <p class="fdesc">Baking happiness into every cake since day one. Trusted by hundreds of families across Sri Lanka.</p>
+        <div class="fsoc">
+          <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-sm-3 col-lg-2">
+        <div class="fct">Pages</div>
+        <ul class="flinks">
+          <li><a href="#menu"><i class="fa-solid fa-utensils"></i> Menu</a></li>
+          <li><a href="#why"><i class="fa-solid fa-heart"></i> Why Us</a></li>
+          <li><a href="#reviews"><i class="fa-solid fa-star"></i> Reviews</a></li>
+          <li><a href="#about"><i class="fa-solid fa-person-rays"></i> Our Story</a></li>
+          <li><a href="#gallery"><i class="fa-solid fa-images"></i> Gallery</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-sm-3 col-lg-3">
+        <div class="fct">Categories</div>
+        <ul class="flinks">
+          <li><a href="#menu"><i class="fa-solid fa-cake-candles"></i> Birthday Cakes</a></li>
+          <li><a href="#menu"><i class="fa-solid fa-gem"></i> Wedding Cakes</a></li>
+          <li><a href="#menu"><i class="fa-solid fa-mug-hot"></i> Cupcakes</a></li>
+          <li><a href="#menu"><i class="fa-solid fa-palette"></i> Custom Cakes</a></li>
+          <li><a href="#menu"><i class="fa-solid fa-box-open"></i> Brownies</a></li>
+        </ul>
+      </div>
+      <div class="col-12 col-lg-3">
+        <div class="fct">Contact</div>
+        <ul class="flinks">
+          <li><a href="tel:+94XXXXXXXXX"><i class="fa-solid fa-phone"></i> 076-XXX-XXXX</a></li>
+          <li><a href="#"><i class="fa-brands fa-whatsapp"></i> WhatsApp Us</a></li>
+          <li><a href="mailto:hello@kaveesoven.lk"><i class="fa-solid fa-envelope"></i> hello@kaveesoven.lk</a></li>
+          <li><a href="#"><i class="fa-solid fa-location-dot"></i> Colombo, Sri Lanka</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="fhr"/>
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 fbot">
+      <div>&copy; 2025 Kavee's Oven. Made with <i class="fa-solid fa-heart fhrt"></i> in Sri Lanka.</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.28);">All rights reserved</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating WhatsApp FAB -->
+<a href="https://wa.me/94XXXXXXXXX" class="wa-fab" target="_blank" title="Order on WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<!-- Toast -->
+<div class="toast-ko" id="koToast">
+  <i class="fa-solid fa-circle-check"></i>
+  <span id="koMsg"></span>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  /* ── Toast ── */
+  function showToast(msg) {
+    document.getElementById('koMsg').textContent = msg;
+    var t = document.getElementById('koToast');
+    t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 3000);
+  }
+
+  /* ── Cart ── */
+  function addCart(name) { showToast(name + ' added — finish order via WhatsApp!'); }
+
+  /* ── Close mobile drawer ── */
+  function closeDrawer() {
+    var el = document.getElementById('mobileDrawer');
+    var c = bootstrap.Collapse.getInstance(el);
+    if (c) c.hide();
+  }
+
+  /* ── Scroll reveal ── */
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('vis');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach(function(el, i) {
+    el.style.transitionDelay = (i % 4) * 0.08 + 's';
+    observer.observe(el);
+  });
+
+  /* ── Navbar shadow on scroll ── */
+  window.addEventListener('scroll', function() {
+    var nav = document.querySelector('.main-nav');
+    nav.style.boxShadow = window.scrollY > 40
+      ? '0 4px 28px rgba(15,61,28,.14)'
+      : '0 2px 12px rgba(15,61,28,.08)';
+  });
+
+  /* ── Touch-friendly: close drawer on outside tap ── */
+  document.addEventListener('click', function(e) {
+    var drawer = document.getElementById('mobileDrawer');
+    var toggle = document.querySelector('[data-bs-target="#mobileDrawer"]');
+    if (drawer.classList.contains('show') &&
+        !drawer.contains(e.target) &&
+        !toggle.contains(e.target)) {
+      closeDrawer();
+    }
+  });
+</script>
+</body>
+</html>

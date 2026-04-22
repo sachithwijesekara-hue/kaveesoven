@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Kavee's Oven – Full Website</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Lato:wght@300;400;700;900&family=Great+Vibes&display=swap" rel="stylesheet"/>
+
+  <style>
+  :root{
+    --gd:#0f3d1c; --gr:#1a5c2e; --gm:#2a7a42; --gl:#4caf6e;
+    --gp:#b8dfc4; --gg:#e8f5ec;
+    --cr:#fdf8f0; --cr2:#f4e8d0;
+    --br:#2c1a0e; --br2:#5c3320; --br3:#8b5e3c;
+    --gold:#c8960e; --glt:#f5e098;
+    --pk:#f0b8b8;
+    --sh1:0 2px 12px rgba(15,61,28,.08);
+    --sh2:0 8px 36px rgba(15,61,28,.14);
+    --sh3:0 20px 70px rgba(15,61,28,.2);
+    --r:16px; --rl:22px; --rp:100px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Lato','Calibri',sans-serif;background:var(--cr);color:var(--br);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Merriweather',Georgia,serif;}
+
+  /* ── HERO ── */
+  .hub-hero{
+    background:linear-gradient(150deg,var(--gd) 0%,#071a0a 100%);
+    padding:60px 0 70px;text-align:center;
+    position:relative;overflow:hidden;
+    min-height:100vh;display:flex;align-items:center;
+  }
+  .hub-hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(76,175,110,.1),transparent 65%);pointer-events:none;}
+  .hub-hero .container{position:relative;z-index:2;}
+
+  .hub-logo{
+    width:90px;height:90px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gm),var(--gd));
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 24px;
+    box-shadow:0 8px 32px rgba(42,122,66,.45);
+    animation:logoPulse 3s ease-in-out infinite;
+  }
+  .hub-logo i{font-size:42px;color:#fff;}
+  @keyframes logoPulse{0%,100%{box-shadow:0 8px 32px rgba(42,122,66,.45),0 0 0 0 rgba(42,122,66,.3);}50%{box-shadow:0 8px 32px rgba(42,122,66,.45),0 0 0 18px rgba(42,122,66,0);}}
+
+  .hub-script{font-family:'Great Vibes',cursive;font-size:clamp(48px,10vw,88px);color:#fff;display:block;margin-bottom:8px;line-height:1;}
+  .hub-tagline{font-size:clamp(14px,3vw,20px);color:rgba(255,255,255,.55);margin-bottom:40px;font-style:italic;letter-spacing:.02em;}
+
+  /* Status bar */
+  .hub-status{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(76,175,110,.15);border:1px solid rgba(76,175,110,.3);
+    color:var(--gl);font-size:13px;font-weight:700;
+    padding:8px 20px;border-radius:var(--rp);margin-bottom:48px;
+  }
+  .hub-status .dot{width:8px;height:8px;border-radius:50%;background:var(--gl);animation:blink 1.5s ease-in-out infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+  /* Page cards grid */
+  .pages-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+    max-width:900px;margin:0 auto;
+  }
+  @media(min-width:480px){.pages-grid{grid-template-columns:1fr 1fr;}}
+  @media(min-width:768px){.pages-grid{grid-template-columns:repeat(3,1fr);}}
+
+  .page-card{
+    background:rgba(255,255,255,.06);
+    border:1.5px solid rgba(255,255,255,.1);
+    border-radius:var(--rl);
+    padding:24px 20px;
+    text-decoration:none;
+    display:flex;flex-direction:column;align-items:flex-start;gap:12px;
+    transition:all .25s;
+    position:relative;overflow:hidden;
+    text-align:left;
+  }
+  .page-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(76,175,110,.06),transparent);opacity:0;transition:opacity .25s;}
+  .page-card:hover{background:rgba(255,255,255,.1);border-color:rgba(76,175,110,.4);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3);}
+  .page-card:hover::before{opacity:1;}
+  .page-card.featured{grid-column:span 1;}
+  @media(min-width:480px){.page-card.featured{grid-column:span 2;}}
+  @media(min-width:768px){.page-card.featured{grid-column:span 1;}}
+
+  .pc-icon{
+    width:52px;height:52px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .pc-icon i{font-size:22px;color:#fff;}
+  .pc-name{font-family:'Merriweather',serif;font-size:17px;font-weight:700;color:#fff;margin-bottom:4px;}
+  .pc-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5;}
+  .pc-badge{
+    display:inline-flex;align-items:center;gap:5px;
+    font-size:10px;font-weight:700;
+    padding:3px 10px;border-radius:var(--rp);
+    margin-top:auto;
+  }
+  .pc-arrow{
+    position:absolute;top:20px;right:20px;
+    width:32px;height:32px;border-radius:50%;
+    background:rgba(255,255,255,.08);
+    display:flex;align-items:center;justify-content:center;
+    color:rgba(255,255,255,.5);font-size:13px;
+    transition:all .25s;
+  }
+  .page-card:hover .pc-arrow{background:var(--gm);color:#fff;transform:translate(2px,-2px);}
+
+  /* Color accents per page */
+  .pc-landing .pc-icon{background:linear-gradient(135deg,#2a7a42,#0f3d1c);}
+  .pc-landing .pc-badge{background:rgba(76,175,110,.2);color:var(--gl);}
+  .pc-menu    .pc-icon{background:linear-gradient(135deg,#c8780a,#7a4000);}
+  .pc-menu    .pc-badge{background:rgba(200,120,10,.2);color:#fbbf24;}
+  .pc-checkout.pc-icon{background:linear-gradient(135deg,#6a3aab,#3a1070);}
+  .pc-checkout .pc-badge{background:rgba(107,58,171,.2);color:#a78bfa;}
+  .pc-story   .pc-icon{background:linear-gradient(135deg,#b0306a,#6a1040);}
+  .pc-story   .pc-badge{background:rgba(176,48,106,.2);color:#f9a8d4;}
+  .pc-contact .pc-icon{background:linear-gradient(135deg,#1a56c4,#0a2870);}
+  .pc-contact .pc-badge{background:rgba(26,86,196,.2);color:#93c5fd;}
+  .pc-admin   .pc-icon{background:linear-gradient(135deg,#374151,#111827);}
+  .pc-admin   .pc-badge{background:rgba(55,65,81,.4);color:#d1d5db;}
+
+  /* checkout fix for class structure */
+  a.pc-checkout .pc-icon{background:linear-gradient(135deg,#6a3aab,#3a1070);}
+  a.pc-checkout .pc-badge{background:rgba(107,58,171,.2);color:#a78bfa;}
+
+  /* Bottom strip */
+  .hub-bottom{
+    margin-top:52px;
+    display:flex;flex-wrap:wrap;gap:20px;
+    justify-content:center;align-items:center;
+  }
+  .hub-stat{text-align:center;}
+  .hub-stat-n{font-family:'Merriweather',serif;font-size:28px;font-weight:700;color:#fff;}
+  .hub-stat-l{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);}
+  .hub-divider{width:1px;height:40px;background:rgba(255,255,255,.1);}
+
+  /* Tech strip */
+  .tech-strip{
+    background:rgba(255,255,255,.04);
+    border-top:1px solid rgba(255,255,255,.08);
+    padding:16px 0;margin-top:52px;
+  }
+  .tech-items{
+    display:flex;flex-wrap:wrap;gap:20px;
+    justify-content:center;align-items:center;
+  }
+  .tech-item{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:rgba(255,255,255,.35);}
+  .tech-item i{font-size:14px;color:rgba(255,255,255,.25);}
+  </style>
+</head>
+<body>
+
+<div class="hub-hero">
+  <div class="container">
+
+    <!-- Logo -->
+    <div class="hub-logo"><i class="fa-solid fa-cake-candles"></i></div>
+    <span class="hub-script">Kavee's Oven</span>
+    <p class="hub-tagline">"Baked With Love, Just For You" — Colombo, Sri Lanka</p>
+
+    <!-- Status -->
+    <div class="hub-status">
+      <div class="dot"></div>
+      Full Website — 7 Pages Complete
+    </div>
+
+    <!-- Page cards -->
+    <div class="pages-grid">
+
+      <a href="kavees-oven-landing.html" class="page-card pc-landing featured">
+        <div class="pc-icon pc-landing"><i class="fa-solid fa-house"></i></div>
+        <div>
+          <div class="pc-name">Landing Page</div>
+          <div class="pc-desc">The main homepage — hero, top sellers, reviews, about, gallery, order CTA &amp; footer. The selling machine.</div>
+        </div>
+        <div class="pc-badge"><i class="fa-solid fa-fire"></i> Most Important</div>
+        <div class="pc-arrow"><i class="fa-solid fa-arrow-up-right"></i></div>
+      </a>
+
+      <a href="kavees-oven-menu.html" class="page-card pc-menu">
+        <div class="pc-icon pc-menu"><i class="fa-solid fa-utensils"></i></div>
+        <div>
+          <div class="pc-name">Menu / Shop</div>
+          <div class="pc-desc">Full product catalogue with live search, category filters, quick view, cart drawer &amp; 12 real products.</div>
+        </div>
+        <div class="pc-badge"><i class="fa-solid fa-bag-shopping"></i> E-Commerce</div>
+        <div class="pc-arrow"><i class="fa-solid fa-arrow-up-right"></i></div>
+      </a>
+
+      <a href="kavees-oven-checkout.html" class="page-card pc-checkout">
+        <div class="pc-icon" style="background:linear-gradient(135deg,#6a3aab,#3a1070);"><i class="fa-solid fa-credit-card"></i></div>
+        <div>
+          <div class="pc-name">Cart &amp; Checkout</div>
+          <div class="pc-desc">4-step checkout — cart review, delivery details, payment (card/bank/COD/WA), order confirmation.</div>
+        </div>
+        <div class="pc-badge" style="background:rgba(107,58,171,.2);color:#a78bfa;"><i class="fa-solid fa-lock"></i> Secure Flow</div>
+        <div class="pc-arrow"><i class="fa-solid fa-arrow-up-right"></i></div>
+      </a>
+
+      <a href="kavees-oven-story.html" class="page-card pc-story">
+        <div class="pc-icon pc-story"><i class="fa-solid fa-person-rays"></i></div>
+        <div>
+          <div class="pc-name">Kavee's Kitchen</div>
+          <div class="pc-desc">Our story — timeline from 2018, baking process, values, gallery, testimonials &amp; animated stat counters.</div>
+        </div>
+        <div class="pc-badge"><i class="fa-solid fa-heart"></i> Brand Story</div>
+        <div class="pc-arrow"><i class="fa-solid fa-arrow-up-right"></i></div>
+      </a>
+
+      <a href="kavees-oven-contact.html" class="page-card pc-contact">
+        <div class="pc-icon pc-contact"><i class="fa-solid fa-envelope"></i></div>
+        <div>
+          <div class="pc-name">Contact Page</div>
+          <div class="pc-desc">WhatsApp quick order, contact form with subject/rating/file upload, map, hours, FAQ accordion &amp; socials.</div>
+        </div>
+        <div class="pc-badge"><i class="fa-solid fa-headset"></i> Support</div>
+        <div class="pc-arrow"><i class="fa-solid fa-arrow-up-right"></i></div>
+      </a>
+
+      <a href="kavees-oven-admin.html" class="page-card pc-admin">
+        <div class="pc-icon pc-admin"><i class="fa-solid fa-chart-pie"></i></div>
+        <div>
+          <div class="pc-name">Admin Dashboard</div>
+          <div class="pc-desc">Full backend — orders, products, customers, reports, charts, notifications &amp; settings. Dark theme.</div>
+        </div>
+        <div class="pc-badge"><i class="fa-solid fa-lock"></i> Private</div>
+        <div class="pc-arrow"><i class="fa-solid fa-arrow-up-right"></i></div>
+      </a>
+
+    </div>
+
+    <!-- Stats -->
+    <div class="hub-bottom">
+      <div class="hub-stat"><div class="hub-stat-n">7</div><div class="hub-stat-l">Pages Built</div></div>
+      <div class="hub-divider"></div>
+      <div class="hub-stat"><div class="hub-stat-n">30+</div><div class="hub-stat-l">Sections</div></div>
+      <div class="hub-divider"></div>
+      <div class="hub-stat"><div class="hub-stat-n">100%</div><div class="hub-stat-l">Mobile Ready</div></div>
+      <div class="hub-divider"></div>
+      <div class="hub-stat"><div class="hub-stat-n">FA Icons</div><div class="hub-stat-l">Font Awesome 6</div></div>
+      <div class="hub-divider"></div>
+      <div class="hub-stat"><div class="hub-stat-n">Bootstrap 5</div><div class="hub-stat-l">Framework</div></div>
+    </div>
+
+  </div>
+
+  <div class="tech-strip" style="position:absolute;bottom:0;left:0;right:0;">
+    <div class="tech-items">
+      <div class="tech-item"><i class="fa-brands fa-bootstrap"></i> Bootstrap 5.3</div>
+      <div class="tech-item"><i class="fa-brands fa-font-awesome"></i> Font Awesome 6</div>
+      <div class="tech-item"><i class="fa-solid fa-font"></i> Merriweather + Lato</div>
+      <div class="tech-item"><i class="fa-brands fa-whatsapp"></i> WhatsApp Integration</div>
+      <div class="tech-item"><i class="fa-solid fa-mobile-screen"></i> Mobile-First Design</div>
+      <div class="tech-item"><i class="fa-solid fa-lock"></i> Secure Checkout Flow</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Contact – Kavee's Oven</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Font Awesome 6 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Lato:wght@300;400;700;900&family=Great+Vibes&display=swap" rel="stylesheet"/>
+
+  <style>
+  /* ═══════════════════════════════════
+     TOKENS
+  ═══════════════════════════════════ */
+  :root{
+    --gd:#0f3d1c; --gr:#1a5c2e; --gm:#2a7a42; --gl:#4caf6e;
+    --gp:#b8dfc4; --gg:#e8f5ec;
+    --cr:#fdf8f0; --cr2:#f4e8d0; --cr3:#e8d5b0;
+    --br:#2c1a0e; --br2:#5c3320; --br3:#8b5e3c;
+    --gold:#c8960e; --glt:#f5e098;
+    --pk:#f0b8b8; --pk2:#d45050;
+    --sh1:0 2px 12px rgba(15,61,28,.08);
+    --sh2:0 6px 30px rgba(15,61,28,.12);
+    --sh3:0 16px 60px rgba(15,61,28,.18);
+    --r:16px; --rl:22px; --rp:100px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Lato','Calibri',sans-serif;background:var(--cr);color:var(--br);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Merriweather',Georgia,serif;}
+
+  /* ═══════════════════════════════════
+     NAVBAR
+  ═══════════════════════════════════ */
+  .main-nav{
+    position:sticky;top:0;z-index:200;
+    background:rgba(253,248,240,.97);
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border-bottom:1.5px solid var(--cr2);
+    box-shadow:var(--sh1);
+  }
+  .nav-shell{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;}
+  .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .nav-logo{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gm),var(--gd));display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(42,122,66,.38);flex-shrink:0;}
+  .nav-logo i{font-size:19px;color:#fff;}
+  .nav-brand-name{font-family:'Great Vibes',cursive;font-size:22px;color:var(--gd);display:block;line-height:1.1;}
+  .nav-brand-sub{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--br3);display:block;}
+  .desk-links{display:flex;align-items:center;gap:2px;}
+  .desk-links a{font-size:13.5px;font-weight:700;color:var(--br2);padding:8px 14px;border-radius:var(--rp);text-decoration:none;transition:background .2s,color .2s;}
+  .desk-links a:hover,.desk-links a.active{background:var(--gg);color:var(--gd);}
+  .desk-links a.active{font-weight:900;}
+  .btn-nav{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gm),var(--gd));color:#fff;font-family:'Lato',sans-serif;font-size:13.5px;font-weight:700;padding:10px 22px;border-radius:var(--rp);text-decoration:none;box-shadow:0 4px 16px rgba(42,122,66,.38);transition:transform .2s;}
+  .btn-nav:hover{transform:translateY(-2px);color:#fff;}
+  .nav-toggle{background:none;border:none;width:42px;height:42px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .nav-toggle:focus{outline:none;}
+  .nav-toggle i{font-size:22px;color:var(--gd);}
+  .mobile-drawer{background:var(--cr);border-top:1.5px solid var(--cr2);padding:8px 0 16px;}
+  .drawer-link{display:flex;align-items:center;gap:14px;padding:14px 20px;font-size:15px;font-weight:700;color:var(--br2);text-decoration:none;transition:background .15s;}
+  .drawer-link:active,.drawer-link:hover{background:var(--gg);color:var(--gd);}
+  .drawer-link .di{width:36px;height:36px;border-radius:10px;background:var(--gg);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .drawer-link .di i{font-size:15px;color:var(--gm);}
+  .drawer-btn{margin:12px 16px 0;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--gm),var(--gd));color:#fff;font-size:15px;font-weight:700;padding:15px;border-radius:var(--rp);text-decoration:none;box-shadow:0 5px 20px rgba(42,122,66,.38);}
+
+  /* ═══════════════════════════════════
+     PAGE HERO
+  ═══════════════════════════════════ */
+  .page-hero{
+    background:linear-gradient(150deg,#d8f0e0 0%,var(--cr) 55%,#f4ead0 100%);
+    padding:44px 0 40px;
+    position:relative;overflow:hidden;
+  }
+  .page-hero::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(76,175,110,.18),transparent 70%);pointer-events:none;}
+  .page-hero::after{content:'';position:absolute;bottom:-60px;left:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(240,184,184,.18),transparent 70%);pointer-events:none;}
+  .hero-icon-wrap{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--gg),var(--gp));display:flex;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:var(--sh2);}
+  .hero-icon-wrap i{font-size:30px;color:var(--gm);}
+  .page-hero h1{font-size:clamp(28px,7vw,52px);font-weight:900;color:var(--gd);margin-bottom:10px;line-height:1.15;}
+  .page-hero h1 em{font-style:italic;color:var(--br2);font-weight:300;}
+  .page-hero p{font-size:15px;color:var(--br3);line-height:1.75;max-width:500px;}
+
+  /* ═══════════════════════════════════
+     QUICK CONTACT STRIPS
+  ═══════════════════════════════════ */
+  .quick-strip{
+    background:linear-gradient(135deg,var(--gd),#061a0a);
+    padding:20px 0;
+  }
+  .quick-items{
+    display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+  }
+  .quick-items::-webkit-scrollbar{display:none;}
+  .quick-item{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 20px;
+    border-right:1px solid rgba(255,255,255,.1);
+    flex-shrink:0;text-decoration:none;
+    transition:background .2s;
+  }
+  .quick-item:last-child{border-right:none;}
+  .quick-item:active{background:rgba(255,255,255,.08);}
+  .qi-icon{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .qi-icon i{font-size:16px;color:var(--gl);}
+  .qi-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.45);}
+  .qi-val{font-size:13px;font-weight:700;color:#fff;margin-top:1px;}
+
+  /* ═══════════════════════════════════
+     SECTION COMMONS
+  ═══════════════════════════════════ */
+  .sec-ey{display:inline-flex;align-items:center;gap:7px;background:var(--gg);border:1.5px solid var(--gp);color:var(--gd);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:var(--rp);margin-bottom:12px;}
+  .sec-ey i{font-size:11px;color:var(--gl);}
+  .sec-title{font-size:clamp(24px,5vw,40px);font-weight:700;color:var(--gd);line-height:1.2;margin-bottom:10px;}
+  .sec-title em{font-style:italic;color:var(--br2);font-weight:300;}
+  .sec-sub{font-size:15px;color:var(--br3);line-height:1.75;}
+  .section{padding:60px 0;}
+  .section-alt{background:#fff;}
+  .section-green{background:linear-gradient(160deg,#e4f5e9 0%,var(--cr) 100%);}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease;}
+  .reveal.vis{opacity:1;transform:translateY(0);}
+
+  /* ═══════════════════════════════════
+     CONTACT INFO CARDS
+  ═══════════════════════════════════ */
+  .info-card{
+    background:#fff;border:1.5px solid var(--cr2);border-radius:var(--rl);
+    padding:22px 20px;display:flex;align-items:flex-start;gap:16px;
+    box-shadow:var(--sh1);transition:transform .25s,box-shadow .25s;
+    text-decoration:none;color:inherit;
+    margin-bottom:12px;
+  }
+  .info-card:hover,.info-card:active{transform:translateX(5px);box-shadow:var(--sh2);color:inherit;}
+  .ic-icon{
+    width:52px;height:52px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .ic-icon i{font-size:22px;}
+  .ic-g{background:var(--gg);} .ic-g i{color:var(--gm);}
+  .ic-y{background:#fef6e0;} .ic-y i{color:var(--gold);}
+  .ic-b{background:#e0eeff;} .ic-b i{color:#1a56c4;}
+  .ic-p{background:#fde8e8;} .ic-p i{color:var(--pk2);}
+  .ic-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--br3);margin-bottom:3px;}
+  .ic-val{font-size:15px;font-weight:700;color:var(--br);}
+  .ic-sub{font-size:12px;color:var(--br3);margin-top:2px;}
+  .ic-arrow{margin-left:auto;font-size:14px;color:var(--br3);align-self:center;flex-shrink:0;}
+
+  /* Hours table */
+  .hours-table{background:#fff;border:1.5px solid var(--cr2);border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh1);}
+  .hours-head{background:linear-gradient(135deg,var(--gd),#071a0a);padding:16px 20px;display:flex;align-items:center;gap:10px;}
+  .hours-head span{font-family:'Merriweather',serif;font-size:15px;font-weight:700;color:#fff;}
+  .hours-head i{font-size:16px;color:var(--gl);}
+  .hours-row{display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1.5px solid var(--cr2);}
+  .hours-row:last-child{border-bottom:none;}
+  .hours-day{font-size:14px;font-weight:700;color:var(--br);}
+  .hours-time{font-size:13px;font-weight:700;color:var(--gm);}
+  .hours-closed{font-size:13px;font-weight:700;color:var(--pk2);}
+  .hours-today{background:var(--gg);}
+  .today-tag{font-size:9px;font-weight:700;background:var(--gm);color:#fff;padding:2px 7px;border-radius:var(--rp);margin-left:8px;}
+
+  /* ═══════════════════════════════════
+     WHATSAPP QUICK ORDER CARD
+  ═══════════════════════════════════ */
+  .wa-card{
+    background:linear-gradient(135deg,#0a5c22,#064016);
+    border-radius:var(--rl);padding:28px 22px;
+    position:relative;overflow:hidden;
+    margin-bottom:16px;
+  }
+  .wa-card::before{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(37,211,102,.2),transparent);}
+  .wa-card>*{position:relative;z-index:1;}
+  .wa-card-icon{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+  .wa-card-icon i{font-size:26px;color:#25d366;}
+  .wa-card-title{font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;}
+  .wa-card-desc{font-size:13px;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:18px;}
+  .btn-wa-big{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    background:#25d366;color:#fff;
+    font-family:'Lato',sans-serif;font-size:15px;font-weight:700;
+    padding:15px;border-radius:var(--rp);text-decoration:none;
+    box-shadow:0 5px 20px rgba(37,211,102,.4);
+    transition:transform .2s;min-height:50px;
+  }
+  .btn-wa-big:hover,.btn-wa-big:active{transform:scale(.98);color:#fff;}
+  .btn-wa-big i{font-size:20px;}
+
+  /* Social media links */
+  .social-card{background:#fff;border:1.5px solid var(--cr2);border-radius:var(--rl);padding:20px;box-shadow:var(--sh1);}
+  .social-title{font-family:'Merriweather',serif;font-size:15px;font-weight:700;color:var(--gd);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .social-title i{color:var(--gm);}
+  .social-links{display:flex;flex-direction:column;gap:10px;}
+  .social-link{
+    display:flex;align-items:center;gap:14px;
+    padding:12px 14px;border-radius:var(--r);
+    border:1.5px solid var(--cr2);text-decoration:none;
+    transition:all .2s;
+  }
+  .social-link:hover{border-color:var(--gp);background:var(--gg);}
+  .sl-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .sl-ico i{font-size:18px;color:#fff;}
+  .sl-ig{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);}
+  .sl-fb{background:#1877f2;}
+  .sl-tt{background:#000;}
+  .sl-yt{background:#ff0000;}
+  .sl-name{font-size:13px;font-weight:700;color:var(--br);}
+  .sl-handle{font-size:11px;color:var(--br3);}
+  .sl-arr{margin-left:auto;font-size:13px;color:var(--br3);}
+
+  /* ═══════════════════════════════════
+     CONTACT FORM
+  ═══════════════════════════════════ */
+  .form-box{background:#fff;border:1.5px solid var(--cr2);border-radius:var(--rl);padding:28px 22px;box-shadow:var(--sh2);}
+  @media(min-width:576px){.form-box{padding:36px 32px;}}
+  .form-box-title{font-family:'Merriweather',serif;font-size:20px;font-weight:700;color:var(--gd);margin-bottom:22px;display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1.5px solid var(--cr2);}
+  .form-box-title i{font-size:18px;color:var(--gm);}
+  .form-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--br2);margin-bottom:6px;display:block;}
+  .form-label span{color:var(--pk2);margin-left:2px;}
+  .form-ctrl{
+    width:100%;border:1.5px solid var(--cr2);border-radius:12px;
+    font-family:'Lato',sans-serif;font-size:14px;color:var(--br);
+    padding:13px 16px;outline:none;background:#fff;
+    transition:border-color .2s,box-shadow .2s;min-height:50px;
+  }
+  .form-ctrl:focus{border-color:var(--gm);box-shadow:0 0 0 3px rgba(42,122,66,.1);}
+  .form-ctrl.err{border-color:var(--pk2);}
+  .form-ctrl::placeholder{color:var(--br3);}
+  select.form-ctrl{cursor:pointer;}
+  textarea.form-ctrl{min-height:110px;resize:vertical;}
+  .field-err{font-size:11px;color:var(--pk2);font-weight:700;margin-top:4px;display:none;}
+  .field-err.show{display:block;}
+
+  /* Subject pills */
+  .subject-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:0;}
+  .spill{
+    padding:8px 16px;border-radius:var(--rp);
+    border:1.5px solid var(--cr2);background:#fff;
+    font-family:'Lato',sans-serif;font-size:12px;font-weight:700;
+    color:var(--br2);cursor:pointer;transition:all .2s;
+  }
+  .spill.sel{background:linear-gradient(135deg,var(--gm),var(--gd));border-color:var(--gm);color:#fff;}
+  .spill:hover:not(.sel){background:var(--gg);border-color:var(--gp);color:var(--gd);}
+
+  /* File attachment */
+  .attach-zone{
+    border:2px dashed var(--gp);border-radius:var(--r);
+    padding:20px;text-align:center;background:var(--gg);
+    cursor:pointer;transition:all .2s;
+  }
+  .attach-zone:hover{border-color:var(--gm);}
+  .attach-zone i{font-size:28px;color:var(--gm);display:block;margin-bottom:8px;}
+  .attach-zone p{font-size:13px;color:var(--br3);}
+
+  /* Rating stars */
+  .star-row{display:flex;gap:8px;margin-bottom:0;}
+  .star-btn{font-size:26px;color:var(--cr2);cursor:pointer;transition:color .15s,transform .15s;background:none;border:none;padding:0;}
+  .star-btn:hover,.star-btn.active{color:var(--gold);transform:scale(1.15);}
+
+  /* Submit btn */
+  .btn-submit{
+    width:100%;background:linear-gradient(135deg,var(--gm),var(--gd));
+    color:#fff;font-family:'Lato',sans-serif;font-size:15px;font-weight:700;
+    padding:16px;border-radius:var(--rp);border:none;cursor:pointer;
+    box-shadow:0 5px 20px rgba(42,122,66,.38);
+    transition:transform .2s,box-shadow .2s;
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    min-height:52px;
+  }
+  .btn-submit:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(42,122,66,.5);}
+  .btn-submit:active{transform:scale(.98);}
+
+  /* Success state */
+  .form-success{
+    text-align:center;padding:48px 20px;
+    display:none;
+  }
+  .form-success.show{display:block;}
+  .fs-icon{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gl),var(--gm));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 6px 24px rgba(42,122,66,.35);animation:scaleIn .5s cubic-bezier(.34,1.56,.64,1) both;}
+  .fs-icon i{font-size:36px;color:#fff;}
+  @keyframes scaleIn{from{transform:scale(0);}to{transform:scale(1);}}
+  .fs-h{font-family:'Merriweather',serif;font-size:24px;font-weight:700;color:var(--gd);margin-bottom:8px;}
+  .fs-p{font-size:14px;color:var(--br3);line-height:1.7;margin-bottom:24px;}
+
+  /* ═══════════════════════════════════
+     MAP SECTION
+  ═══════════════════════════════════ */
+  .map-wrap{
+    background:#fff;border:1.5px solid var(--cr2);border-radius:var(--rl);
+    overflow:hidden;box-shadow:var(--sh2);
+  }
+  .map-head{
+    background:linear-gradient(135deg,var(--gd),#071a0a);
+    padding:16px 20px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .map-head-left{display:flex;align-items:center;gap:10px;}
+  .map-head-title{font-family:'Merriweather',serif;font-size:15px;font-weight:700;color:#fff;}
+  .map-head i{font-size:16px;color:var(--gl);}
+  .btn-directions{
+    display:inline-flex;align-items:center;gap:7px;
+    background:rgba(255,255,255,.15);color:#fff;
+    font-family:'Lato',sans-serif;font-size:12px;font-weight:700;
+    padding:8px 14px;border-radius:var(--rp);text-decoration:none;
+    border:1px solid rgba(255,255,255,.2);transition:background .2s;
+  }
+  .btn-directions:hover{background:rgba(255,255,255,.25);color:#fff;}
+  /* Placeholder map (real Google Maps embed goes here) */
+  .map-placeholder{
+    height:260px;background:linear-gradient(135deg,#d4edda,#c8e6c9);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+    position:relative;
+  }
+  @media(min-width:768px){.map-placeholder{height:340px;}}
+  .map-pin{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--gm),var(--gd));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(42,122,66,.4);animation:mapBounce 1.5s ease-in-out infinite;}
+  .map-pin i{font-size:26px;color:#fff;}
+  @keyframes mapBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .map-label{font-family:'Merriweather',serif;font-size:16px;font-weight:700;color:var(--gd);}
+  .map-sublabel{font-size:13px;color:var(--br3);}
+  /* Map grid lines to simulate map feel */
+  .map-placeholder::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(76,175,110,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(76,175,110,.08) 1px,transparent 1px);background-size:32px 32px;}
+  .map-footer{padding:16px 20px;display:flex;flex-wrap:wrap;gap:16px;}
+  .map-info-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--br3);}
+  .map-info-item i{font-size:14px;color:var(--gm);}
+  .map-info-item strong{color:var(--br);font-weight:700;}
+
+  /* ═══════════════════════════════════
+     FAQ
+  ═══════════════════════════════════ */
+  .faq-item{
+    background:#fff;border:1.5px solid var(--cr2);border-radius:var(--r);
+    margin-bottom:10px;overflow:hidden;transition:box-shadow .2s;
+  }
+  .faq-item.open{box-shadow:var(--sh2);}
+  .faq-q{
+    display:flex;align-items:center;gap:14px;
+    padding:16px 18px;cursor:pointer;
+    font-size:14px;font-weight:700;color:var(--br);
+    user-select:none;transition:background .2s;
+  }
+  .faq-q:hover{background:var(--cr);}
+  .faq-item.open .faq-q{background:var(--gg);color:var(--gd);}
+  .faq-q-icon{width:32px;height:32px;border-radius:9px;background:var(--gg);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+  .faq-item.open .faq-q-icon{background:var(--gm);}
+  .faq-q-icon i{font-size:13px;color:var(--gm);transition:color .2s;}
+  .faq-item.open .faq-q-icon i{color:#fff;}
+  .faq-chev{margin-left:auto;font-size:13px;color:var(--br3);transition:transform .3s;flex-shrink:0;}
+  .faq-item.open .faq-chev{transform:rotate(180deg);color:var(--gm);}
+  .faq-a{
+    max-height:0;overflow:hidden;
+    transition:max-height .35s ease,padding .35s ease;
+    font-size:14px;color:var(--br3);line-height:1.75;
+    padding:0 18px;
+  }
+  .faq-item.open .faq-a{max-height:400px;padding:0 18px 18px;}
+
+  /* ═══════════════════════════════════
+     CTA BANNER
+  ═══════════════════════════════════ */
+  .cta-banner{
+    background:linear-gradient(135deg,var(--gd),#071a0a);
+    border-radius:var(--rl);padding:36px 24px;
+    text-align:center;position:relative;overflow:hidden;
+  }
+  .cta-banner::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(76,175,110,.15),transparent);}
+  .cta-banner::after{content:'';position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(240,184,184,.1),transparent);}
+  .cta-banner>*{position:relative;z-index:1;}
+  .cta-icon{width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+  .cta-icon i{font-size:30px;color:var(--gl);}
+  .cta-h{font-family:'Merriweather',serif;font-size:clamp(20px,4vw,32px);font-weight:700;color:#fff;margin-bottom:8px;}
+  .cta-h em{font-style:italic;color:var(--gl);font-weight:300;}
+  .cta-p{font-size:14px;color:rgba(255,255,255,.62);line-height:1.7;max-width:460px;margin:0 auto 24px;}
+  .cta-btns{display:flex;flex-direction:column;gap:12px;max-width:360px;margin:0 auto;}
+  @media(min-width:480px){.cta-btns{flex-direction:row;justify-content:center;}}
+  .btn-cta-wa{display:flex;align-items:center;justify-content:center;gap:10px;background:#25d366;color:#fff;font-family:'Lato',sans-serif;font-size:15px;font-weight:700;padding:15px 24px;border-radius:var(--rp);text-decoration:none;box-shadow:0 5px 20px rgba(37,211,102,.4);min-height:50px;}
+  .btn-cta-call{display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(255,255,255,.12);color:#fff;font-family:'Lato',sans-serif;font-size:15px;font-weight:700;padding:14px 24px;border-radius:var(--rp);text-decoration:none;border:1.5px solid rgba(255,255,255,.2);min-height:50px;transition:background .2s;}
+  .btn-cta-call:hover{background:rgba(255,255,255,.2);color:#fff;}
+
+  /* ═══════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════ */
+  footer{background:var(--gd);color:rgba(255,255,255,.6);padding:52px 0 28px;}
+  .fbrand{font-family:'Great Vibes',cursive;font-size:30px;color:#fff;margin-bottom:8px;}
+  .fdesc{font-size:13px;line-height:1.75;max-width:260px;color:rgba(255,255,255,.5);}
+  .fct{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin-bottom:16px;}
+  .flinks{list-style:none;padding:0;display:flex;flex-direction:column;gap:9px;}
+  .flinks a{font-size:13.5px;color:rgba(255,255,255,.5);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s;}
+  .flinks a i{font-size:13px;color:var(--gl);}
+  .flinks a:hover{color:var(--gl);}
+  .fhr{border-color:rgba(255,255,255,.1);margin:40px 0 22px;}
+  .fbot{font-size:12px;}
+  .fhrt{color:var(--pk);}
+  .fsoc{display:flex;gap:10px;margin-top:18px;}
+  .fsoc a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.65);font-size:14px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .2s;}
+  .fsoc a:hover{background:rgba(255,255,255,.18);color:#fff;}
+
+  /* Floating WhatsApp */
+  .wa-fab{position:fixed;bottom:24px;right:20px;z-index:400;width:54px;height:54px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;text-decoration:none;box-shadow:0 4px 20px rgba(37,211,102,.5);animation:waPulse 2.5s ease-in-out infinite;}
+  .wa-fab:hover,.wa-fab:active{color:#fff;animation:none;}
+  @keyframes waPulse{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.5),0 0 0 0 rgba(37,211,102,.3);}50%{box-shadow:0 4px 20px rgba(37,211,102,.5),0 0 0 12px rgba(37,211,102,0);}}
+
+  /* Toast */
+  .toast-ko{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--gd);color:#fff;font-family:'Lato',sans-serif;font-size:14px;font-weight:700;padding:13px 22px;border-radius:var(--rp);box-shadow:var(--sh3);z-index:9999;transition:transform .4s cubic-bezier(.22,.68,0,1.2);pointer-events:none;display:flex;align-items:center;gap:9px;white-space:nowrap;max-width:calc(100vw - 32px);}
+  .toast-ko i{font-size:15px;color:var(--gl);}
+  .toast-ko.show{transform:translateX(-50%) translateY(0);}
+  </style>
+</head>
+<body>
+
+<!-- ══════════ NAVBAR ══════════ -->
+<nav class="main-nav">
+  <div class="nav-shell">
+    <a href="kavees-oven-landing.html" class="nav-brand">
+      <div class="nav-logo"><i class="fa-solid fa-cake-candles"></i></div>
+      <div>
+        <span class="nav-brand-name">Kavee's Oven</span>
+        <span class="nav-brand-sub">Baked With Love</span>
+      </div>
+    </a>
+    <div class="desk-links d-none d-lg-flex">
+      <a href="kavees-oven-landing.html"><i class="fa-solid fa-house me-1"></i>Home</a>
+      <a href="kavees-oven-menu.html"><i class="fa-solid fa-utensils me-1"></i>Menu</a>
+      <a href="kavees-oven-landing.html#why"><i class="fa-solid fa-heart me-1"></i>Why Us</a>
+      <a href="kavees-oven-landing.html#reviews"><i class="fa-solid fa-star me-1"></i>Reviews</a>
+      <a href="kavees-oven-landing.html#about"><i class="fa-solid fa-person-rays me-1"></i>Our Story</a>
+      <a href="#" class="active"><i class="fa-solid fa-envelope me-1"></i>Contact</a>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <a href="kavees-oven-menu.html" class="btn-nav d-none d-md-inline-flex">
+        <i class="fa-solid fa-bag-shopping"></i> Order Now
+      </a>
+      <button class="nav-toggle d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileDrawer">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+  <div class="collapse mobile-drawer" id="mobileDrawer">
+    <a href="kavees-oven-landing.html" class="drawer-link"><div class="di"><i class="fa-solid fa-house"></i></div> Home</a>
+    <a href="kavees-oven-menu.html" class="drawer-link"><div class="di"><i class="fa-solid fa-utensils"></i></div> Menu</a>
+    <a href="kavees-oven-landing.html#why" class="drawer-link"><div class="di"><i class="fa-solid fa-heart"></i></div> Why Us</a>
+    <a href="kavees-oven-landing.html#reviews" class="drawer-link"><div class="di"><i class="fa-solid fa-star"></i></div> Reviews</a>
+    <a href="kavees-oven-landing.html#about" class="drawer-link"><div class="di"><i class="fa-solid fa-person-rays"></i></div> Our Story</a>
+    <a href="#" class="drawer-link"><div class="di"><i class="fa-solid fa-envelope"></i></div> Contact</a>
+    <a href="kavees-oven-menu.html" class="drawer-btn"><i class="fa-solid fa-bag-shopping"></i> Order Now</a>
+  </div>
+</nav>
+
+<!-- ══════════ PAGE HERO ══════════ -->
+<div class="page-hero">
+  <div class="container">
+    <div class="hero-icon-wrap"><i class="fa-solid fa-envelope-open-text"></i></div>
+    <h1>Get In <em>Touch</em></h1>
+    <p>We'd love to hear from you — whether it's a custom cake order, a question, or just to say hello. We respond within 1 hour!</p>
+  </div>
+</div>
+
+<!-- ══════════ QUICK CONTACT STRIP ══════════ -->
+<div class="quick-strip">
+  <div class="container">
+    <div class="quick-items">
+      <a href="tel:+94XXXXXXXXX" class="quick-item">
+        <div class="qi-icon"><i class="fa-solid fa-phone"></i></div>
+        <div><div class="qi-label">Call Us</div><div class="qi-val">076-XXX-XXXX</div></div>
+      </a>
+      <a href="https://wa.me/94XXXXXXXXX" class="quick-item" target="_blank">
+        <div class="qi-icon"><i class="fa-brands fa-whatsapp"></i></div>
+        <div><div class="qi-label">WhatsApp</div><div class="qi-val">076-XXX-XXXX</div></div>
+      </a>
+      <a href="mailto:hello@kaveesoven.lk" class="quick-item">
+        <div class="qi-icon"><i class="fa-solid fa-envelope"></i></div>
+        <div><div class="qi-label">Email</div><div class="qi-val">hello@kaveesoven.lk</div></div>
+      </a>
+      <a href="#" class="quick-item">
+        <div class="qi-icon"><i class="fa-solid fa-location-dot"></i></div>
+        <div><div class="qi-label">Location</div><div class="qi-val">Colombo, Sri Lanka</div></div>
+      </a>
+      <a href="#" class="quick-item">
+        <div class="qi-icon"><i class="fa-solid fa-clock"></i></div>
+        <div><div class="qi-label">Open Today</div><div class="qi-val">8:00 AM – 8:00 PM</div></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MAIN CONTACT SECTION ══════════ -->
+<section class="section">
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- LEFT: Form -->
+      <div class="col-12 col-lg-7 reveal">
+
+        <div class="form-box">
+          <div class="form-box-title">
+            <i class="fa-solid fa-paper-plane"></i> Send Us a Message
+          </div>
+
+          <!-- Form -->
+          <div id="contactForm">
+            <!-- Subject pills -->
+            <div class="mb-3">
+              <label class="form-label">What's this about? <span>*</span></label>
+              <div class="subject-pills" id="subjectPills">
+                <div class="spill sel" onclick="selSubject(this)">Place an Order</div>
+                <div class="spill" onclick="selSubject(this)">Custom Cake Enquiry</div>
+                <div class="spill" onclick="selSubject(this)">Pricing &amp; Sizes</div>
+                <div class="spill" onclick="selSubject(this)">Delivery Query</div>
+                <div class="spill" onclick="selSubject(this)">Feedback</div>
+                <div class="spill" onclick="selSubject(this)">Other</div>
+              </div>
+            </div>
+
+            <div class="row g-3 mt-1">
+              <div class="col-12 col-sm-6">
+                <label class="form-label">Your Name <span>*</span></label>
+                <input class="form-ctrl" id="cName" type="text" placeholder="e.g. Priya Perera"/>
+                <div class="field-err" id="errCName">Please enter your name</div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label class="form-label">Phone / WhatsApp <span>*</span></label>
+                <input class="form-ctrl" id="cPhone" type="tel" placeholder="07X-XXX-XXXX"/>
+                <div class="field-err" id="errCPhone">Please enter a valid number</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Email Address</label>
+                <input class="form-ctrl" id="cEmail" type="email" placeholder="you@example.com"/>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label class="form-label">Occasion / Event Type</label>
+                <select class="form-ctrl" id="cOccasion">
+                  <option value="">Select if applicable…</option>
+                  <option>Birthday Party</option>
+                  <option>Wedding</option>
+                  <option>Anniversary</option>
+                  <option>Graduation</option>
+                  <option>Baby Shower</option>
+                  <option>Corporate Event</option>
+                  <option>Just a treat</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label class="form-label">Preferred Event Date</label>
+                <input class="form-ctrl" id="cDate" type="date"/>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Your Message <span>*</span></label>
+                <textarea class="form-ctrl" id="cMsg" placeholder="Tell us about your cake idea — size, design, flavours, number of guests, any special requirements…"></textarea>
+                <div class="field-err" id="errCMsg">Please enter your message</div>
+              </div>
+
+              <!-- Rating -->
+              <div class="col-12">
+                <label class="form-label">Rate Your Experience (optional)</label>
+                <div class="star-row" id="starRow">
+                  <button class="star-btn" data-v="1" onclick="rateStar(1)"><i class="fa-solid fa-star"></i></button>
+                  <button class="star-btn" data-v="2" onclick="rateStar(2)"><i class="fa-solid fa-star"></i></button>
+                  <button class="star-btn" data-v="3" onclick="rateStar(3)"><i class="fa-solid fa-star"></i></button>
+                  <button class="star-btn" data-v="4" onclick="rateStar(4)"><i class="fa-solid fa-star"></i></button>
+                  <button class="star-btn" data-v="5" onclick="rateStar(5)"><i class="fa-solid fa-star"></i></button>
+                </div>
+              </div>
+
+              <!-- Attachment -->
+              <div class="col-12">
+                <label class="form-label">Attach Inspiration Photo (optional)</label>
+                <div class="attach-zone" onclick="document.getElementById('cAttach').click()">
+                  <i class="fa-solid fa-image"></i>
+                  <p><strong>Tap to upload</strong> a cake inspiration photo<br/><span style="font-size:11px;">JPG, PNG · Max 5MB</span></p>
+                  <input type="file" id="cAttach" accept="image/*" style="display:none;" onchange="handleAttach(this)"/>
+                </div>
+                <div id="attachPreview" style="display:none;margin-top:8px;font-size:13px;font-weight:700;color:var(--gm);"><i class="fa-solid fa-circle-check me-1"></i><span id="attachName"></span></div>
+              </div>
+
+              <div class="col-12">
+                <button class="btn-submit" onclick="submitForm()">
+                  <i class="fa-solid fa-paper-plane"></i> Send Message
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Success state -->
+          <div class="form-success" id="formSuccess">
+            <div class="fs-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="fs-h">Message Sent!</div>
+            <p class="fs-p">Thank you for reaching out. We'll reply to your WhatsApp or email within <strong>1 hour</strong> during working hours.</p>
+            <a href="https://wa.me/94XXXXXXXXX" class="btn-wa-big" target="_blank" style="max-width:280px;margin:0 auto;">
+              <i class="fa-brands fa-whatsapp"></i> Also Message on WhatsApp
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Info + WhatsApp + Hours -->
+      <div class="col-12 col-lg-5">
+
+        <!-- WhatsApp quick order -->
+        <div class="wa-card reveal">
+          <div class="wa-card-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <div class="wa-card-title">Prefer WhatsApp?</div>
+          <div class="wa-card-desc">Most Sri Lankan customers order directly on WhatsApp. It's the fastest way to get a response and confirm your cake details.</div>
+          <a href="https://wa.me/94XXXXXXXXX?text=Hi%20Kavee's%20Oven!%20I%27d%20like%20to%20order%20a%20cake%20%F0%9F%8E%82" class="btn-wa-big" target="_blank">
+            <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp Now
+          </a>
+        </div>
+
+        <!-- Contact info cards -->
+        <a href="tel:+94XXXXXXXXX" class="info-card reveal">
+          <div class="ic-icon ic-g"><i class="fa-solid fa-phone"></i></div>
+          <div>
+            <div class="ic-label">Phone</div>
+            <div class="ic-val">076-XXX-XXXX</div>
+            <div class="ic-sub">Tap to call directly</div>
+          </div>
+          <i class="fa-solid fa-chevron-right ic-arrow"></i>
+        </a>
+
+        <a href="mailto:hello@kaveesoven.lk" class="info-card reveal">
+          <div class="ic-icon ic-b"><i class="fa-solid fa-envelope"></i></div>
+          <div>
+            <div class="ic-label">Email</div>
+            <div class="ic-val">hello@kaveesoven.lk</div>
+            <div class="ic-sub">We reply within 1 hour</div>
+          </div>
+          <i class="fa-solid fa-chevron-right ic-arrow"></i>
+        </a>
+
+        <a href="#map" class="info-card reveal">
+          <div class="ic-icon ic-y"><i class="fa-solid fa-location-dot"></i></div>
+          <div>
+            <div class="ic-label">Location</div>
+            <div class="ic-val">Colombo 05, Sri Lanka</div>
+            <div class="ic-sub">Pickup available by arrangement</div>
+          </div>
+          <i class="fa-solid fa-chevron-right ic-arrow"></i>
+        </a>
+
+        <!-- Working hours -->
+        <div class="hours-table reveal mt-2">
+          <div class="hours-head">
+            <i class="fa-solid fa-clock"></i>
+            <span>Working Hours</span>
+          </div>
+          <div class="hours-row hours-today">
+            <span class="hours-day">Monday <span class="today-tag">Today</span></span>
+            <span class="hours-time">8:00 AM – 8:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Tuesday – Friday</span>
+            <span class="hours-time">8:00 AM – 8:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Saturday</span>
+            <span class="hours-time">8:00 AM – 9:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Sunday</span>
+            <span class="hours-time">9:00 AM – 6:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Public Holidays</span>
+            <span class="hours-closed">Call to Confirm</span>
+          </div>
+        </div>
+
+        <!-- Social links -->
+        <div class="social-card reveal mt-3">
+          <div class="social-title"><i class="fa-solid fa-share-nodes"></i> Follow Us</div>
+          <div class="social-links">
+            <a href="#" class="social-link">
+              <div class="sl-ico sl-ig"><i class="fa-brands fa-instagram"></i></div>
+              <div><div class="sl-name">Instagram</div><div class="sl-handle">@kaveesoven</div></div>
+              <i class="fa-solid fa-arrow-up-right-from-square sl-arr"></i>
+            </a>
+            <a href="#" class="social-link">
+              <div class="sl-ico sl-fb"><i class="fa-brands fa-facebook-f"></i></div>
+              <div><div class="sl-name">Facebook</div><div class="sl-handle">Kavee's Oven</div></div>
+              <i class="fa-solid fa-arrow-up-right-from-square sl-arr"></i>
+            </a>
+            <a href="#" class="social-link">
+              <div class="sl-ico sl-tt"><i class="fa-brands fa-tiktok"></i></div>
+              <div><div class="sl-name">TikTok</div><div class="sl-handle">@kaveesoven.lk</div></div>
+              <i class="fa-solid fa-arrow-up-right-from-square sl-arr"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MAP SECTION ══════════ -->
+<section class="section section-alt" id="map">
+  <div class="container">
+    <div class="text-center mb-4 reveal">
+      <div class="sec-ey"><i class="fa-solid fa-location-dot"></i> Find Us</div>
+      <h2 class="sec-title">Our <em>Location</em></h2>
+      <p class="sec-sub">We're based in Colombo — pickup available by prior arrangement. Delivery island-wide.</p>
+    </div>
+    <div class="map-wrap reveal">
+      <div class="map-head">
+        <div class="map-head-left">
+          <i class="fa-solid fa-location-dot"></i>
+          <span class="map-head-title">Kavee's Oven — Colombo 05</span>
+        </div>
+        <a href="https://maps.google.com" target="_blank" class="btn-directions">
+          <i class="fa-solid fa-diamond-turn-right"></i> Get Directions
+        </a>
+      </div>
+      <!-- Map placeholder — replace with actual Google Maps iframe -->
+      <div class="map-placeholder">
+        <div class="map-pin"><i class="fa-solid fa-location-dot"></i></div>
+        <div class="map-label">Kavee's Oven</div>
+        <div class="map-sublabel">Colombo 05, Sri Lanka</div>
+      </div>
+      <div class="map-footer">
+        <div class="map-info-item"><i class="fa-solid fa-road"></i> <span><strong>Address:</strong> No. XX, Sample Street, Colombo 05</span></div>
+        <div class="map-info-item"><i class="fa-solid fa-bus"></i> <span>Near Narahenpita junction</span></div>
+        <div class="map-info-item"><i class="fa-solid fa-car"></i> <span>Parking available on street</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section class="section section-green">
+  <div class="container">
+    <div class="text-center mb-4 reveal">
+      <div class="sec-ey"><i class="fa-solid fa-circle-question"></i> FAQ</div>
+      <h2 class="sec-title">Frequently Asked <em>Questions</em></h2>
+      <p class="sec-sub">Can't find your answer? Send us a message or WhatsApp us directly.</p>
+    </div>
+
+    <div class="row g-0">
+      <div class="col-12 col-lg-8 mx-auto">
+
+        <div class="faq-item open reveal" onclick="toggleFaq(this)">
+          <div class="faq-q">
+            <div class="faq-q-icon"><i class="fa-solid fa-clock"></i></div>
+            How far in advance do I need to order?
+            <i class="fa-solid fa-chevron-down faq-chev"></i>
+          </div>
+          <div class="faq-a">Custom and decorated cakes require a <strong>minimum of 48 hours</strong> notice. For same-day orders, call us directly on 076-XXX-XXXX and we'll confirm availability. Wedding and large event cakes should be ordered at least <strong>2 weeks</strong> in advance.</div>
+        </div>
+
+        <div class="faq-item reveal" onclick="toggleFaq(this)">
+          <div class="faq-q">
+            <div class="faq-q-icon"><i class="fa-solid fa-truck"></i></div>
+            Do you deliver island-wide?
+            <i class="fa-solid fa-chevron-down faq-chev"></i>
+          </div>
+          <div class="faq-a">Yes! We deliver across <strong>Sri Lanka</strong>. Delivery is <strong>FREE</strong> for orders above LKR 5,000 within Colombo and surrounding areas. For outstation deliveries, a fee applies based on distance — WhatsApp us for a quote.</div>
+        </div>
+
+        <div class="faq-item reveal" onclick="toggleFaq(this)">
+          <div class="faq-q">
+            <div class="faq-q-icon"><i class="fa-solid fa-palette"></i></div>
+            Can I request a fully custom design?
+            <i class="fa-solid fa-chevron-down faq-chev"></i>
+          </div>
+          <div class="faq-a">Absolutely! We specialise in <strong>fully custom cakes</strong>. Share a photo, describe your idea, or let us suggest something. We can do character cakes, photo cakes, floral designs, corporate branding, and more. Send us a message with your inspiration!</div>
+        </div>
+
+        <div class="faq-item reveal" onclick="toggleFaq(this)">
+          <div class="faq-q">
+            <div class="faq-q-icon"><i class="fa-solid fa-credit-card"></i></div>
+            What payment methods do you accept?
+            <i class="fa-solid fa-chevron-down faq-chev"></i>
+          </div>
+          <div class="faq-a">We accept <strong>Credit / Debit Cards</strong> (via PayHere), <strong>Bank Transfer</strong>, and <strong>Cash on Delivery</strong>. For WhatsApp orders we'll share our bank details directly. A 50% deposit may be required for large custom orders.</div>
+        </div>
+
+        <div class="faq-item reveal" onclick="toggleFaq(this)">
+          <div class="faq-q">
+            <div class="faq-q-icon"><i class="fa-solid fa-leaf"></i></div>
+            Do you make eggless cakes?
+            <i class="fa-solid fa-chevron-down faq-chev"></i>
+          </div>
+          <div class="faq-a">Yes! Our <strong>Eggless Delight</strong> range is baked fresh daily and has the same great taste and texture as our regular cakes. Just mention "eggless" when placing your order and we'll make sure it's prepared accordingly.</div>
+        </div>
+
+        <div class="faq-item reveal" onclick="toggleFaq(this)">
+          <div class="faq-q">
+            <div class="faq-q-icon"><i class="fa-solid fa-rotate-left"></i></div>
+            What is your cancellation / refund policy?
+            <i class="fa-solid fa-chevron-down faq-chev"></i>
+          </div>
+          <div class="faq-a">Cancellations made <strong>48+ hours before</strong> the delivery date receive a full refund. Cancellations within 48 hours may be subject to a 50% charge as ingredients will already have been sourced. Please contact us as early as possible if plans change.</div>
+        </div>
+
+        <div class="faq-item reveal" onclick="toggleFaq(this)">
+          <div class="faq-q">
+            <div class="faq-q-icon"><i class="fa-solid fa-box"></i></div>
+            How are cakes packaged?
+            <i class="fa-solid fa-chevron-down faq-chev"></i>
+          </div>
+          <div class="faq-a">All cakes are packaged in <strong>sturdy, branded boxes</strong> designed to keep them safe during transport. Tiered wedding cakes are assembled on-site if required. We also offer gift wrapping for cupcakes and brownie boxes.</div>
+        </div>
+
+        <div class="faq-item reveal" onclick="toggleFaq(this)">
+          <div class="faq-q">
+            <div class="faq-q-icon"><i class="fa-solid fa-star"></i></div>
+            How do I leave a review?
+            <i class="fa-solid fa-chevron-down faq-chev"></i>
+          </div>
+          <div class="faq-a">We'd love to hear from you! You can leave a review through our <strong>contact form</strong> above, on our <strong>Facebook page</strong>, or via <strong>Google Reviews</strong>. Your feedback helps us improve and helps other customers discover us!</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CTA BANNER ══════════ -->
+<section class="section">
+  <div class="container reveal">
+    <div class="cta-banner">
+      <div class="cta-icon"><i class="fa-solid fa-cake-candles"></i></div>
+      <h2 class="cta-h">Ready to Order Your <em>Dream Cake?</em></h2>
+      <p class="cta-p">Don't wait — cakes book up fast especially on weekends and holidays. Place your order now and let us bake something magical for you.</p>
+      <div class="cta-btns">
+        <a href="https://wa.me/94XXXXXXXXX" class="btn-cta-wa" target="_blank">
+          <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+        </a>
+        <a href="tel:+94XXXXXXXXX" class="btn-cta-call">
+          <i class="fa-solid fa-phone"></i> Call 076-XXX-XXXX
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="fbrand">Kavee's Oven</div>
+        <p class="fdesc">Baking happiness into every cake since day one. Trusted by hundreds of families across Sri Lanka.</p>
+        <div class="fsoc">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-sm-3 col-lg-2">
+        <div class="fct">Pages</div>
+        <ul class="flinks">
+          <li><a href="kavees-oven-landing.html"><i class="fa-solid fa-house"></i> Home</a></li>
+          <li><a href="kavees-oven-menu.html"><i class="fa-solid fa-utensils"></i> Menu</a></li>
+          <li><a href="kavees-oven-landing.html#reviews"><i class="fa-solid fa-star"></i> Reviews</a></li>
+          <li><a href="kavees-oven-landing.html#about"><i class="fa-solid fa-person-rays"></i> Our Story</a></li>
+          <li><a href="#"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-sm-3 col-lg-3">
+        <div class="fct">Categories</div>
+        <ul class="flinks">
+          <li><a href="kavees-oven-menu.html"><i class="fa-solid fa-cake-candles"></i> Birthday Cakes</a></li>
+          <li><a href="kavees-oven-menu.html"><i class="fa-solid fa-gem"></i> Wedding Cakes</a></li>
+          <li><a href="kavees-oven-menu.html"><i class="fa-solid fa-mug-hot"></i> Cupcakes</a></li>
+          <li><a href="kavees-oven-menu.html"><i class="fa-solid fa-palette"></i> Custom Cakes</a></li>
+          <li><a href="kavees-oven-menu.html"><i class="fa-solid fa-box-open"></i> Brownies</a></li>
+        </ul>
+      </div>
+      <div class="col-12 col-lg-3">
+        <div class="fct">Contact</div>
+        <ul class="flinks">
+          <li><a href="tel:+94XXXXXXXXX"><i class="fa-solid fa-phone"></i> 076-XXX-XXXX</a></li>
+          <li><a href="https://wa.me/94XXXXXXXXX" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp Us</a></li>
+          <li><a href="mailto:hello@kaveesoven.lk"><i class="fa-solid fa-envelope"></i> hello@kaveesoven.lk</a></li>
+          <li><a href="#map"><i class="fa-solid fa-location-dot"></i> Colombo, Sri Lanka</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="fhr"/>
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 fbot">
+      <div>&copy; 2025 Kavee's Oven. Made with <i class="fa-solid fa-heart fhrt"></i> in Sri Lanka.</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.28);">All rights reserved</div>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp FAB -->
+<a href="https://wa.me/94XXXXXXXXX" class="wa-fab" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+
+<!-- Toast -->
+<div class="toast-ko" id="koToast"><i class="fa-solid fa-circle-check"></i><span id="koMsg"></span></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* ── Subject pills ── */
+function selSubject(el) {
+  document.querySelectorAll('.spill').forEach(function(p){ p.classList.remove('sel'); });
+  el.classList.add('sel');
+}
+
+/* ── Star rating ── */
+var starRating = 0;
+function rateStar(n) {
+  starRating = n;
+  document.querySelectorAll('.star-btn').forEach(function(b, i) {
+    b.classList.toggle('active', i < n);
+  });
+}
+
+/* ── File attachment ── */
+function handleAttach(input) {
+  if (input.files && input.files[0]) {
+    document.getElementById('attachPreview').style.display = 'block';
+    document.getElementById('attachName').textContent = input.files[0].name;
+    showToast('Photo uploaded successfully!');
+  }
+}
+
+/* ── Form validation & submit ── */
+function v(id, errId, test) {
+  var el  = document.getElementById(id);
+  var err = document.getElementById(errId);
+  var ok  = test(el.value.trim());
+  el.classList.toggle('err', !ok);
+  err.classList.toggle('show', !ok);
+  return ok;
+}
+
+function submitForm() {
+  var ok = true;
+  ok = v('cName',  'errCName',  function(x){ return x.length > 1; }) && ok;
+  ok = v('cPhone', 'errCPhone', function(x){ return /^0\d{9}$/.test(x.replace(/[\s-]/g,'')); }) && ok;
+  ok = v('cMsg',   'errCMsg',   function(x){ return x.length > 5; }) && ok;
+
+  if (!ok) { showToast('Please fill in all required fields'); return; }
+
+  // Simulate sending
+  document.getElementById('contactForm').style.display = 'none';
+  document.getElementById('formSuccess').classList.add('show');
+  showToast('Message sent! We\'ll reply within 1 hour.');
+  window.scrollTo({ top: document.querySelector('.form-box').offsetTop - 80, behavior: 'smooth' });
+}
+
+/* ── FAQ accordion ── */
+function toggleFaq(item) {
+  var isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(f){ f.classList.remove('open'); });
+  if (!isOpen) item.classList.add('open');
+}
+
+/* ── Scroll reveal ── */
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('vis'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(function(el, i) {
+  el.style.transitionDelay = (i % 4) * 0.07 + 's';
+  observer.observe(el);
+});
+
+/* ── Highlight today in hours table ── */
+(function(){
+  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var today = days[new Date().getDay()];
+  document.querySelectorAll('.hours-day').forEach(function(el) {
+    if (el.textContent.includes(today) && !el.querySelector('.today-tag')) {
+      el.closest('.hours-row').classList.add('hours-today');
+      el.innerHTML += '<span class="today-tag">Today</span>';
+    }
+  });
+})();
+
+/* ── Toast ── */
+function showToast(msg) {
+  document.getElementById('koMsg').textContent = msg;
+  var t = document.getElementById('koToast');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+/* ── Close drawer on link click ── */
+document.querySelectorAll('#mobileDrawer a').forEach(function(a) {
+  a.addEventListener('click', function() {
+    var c = bootstrap.Collapse.getInstance(document.getElementById('mobileDrawer'));
+    if (c) c.hide();
+  });
+});
+</script>
+</body>
+</html>

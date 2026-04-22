@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Admin – Kavee's Oven</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Font Awesome 6 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Lato:wght@300;400;700;900&family=Great+Vibes&display=swap" rel="stylesheet"/>
+
+  <style>
+  /* ═══════════════════════════════════
+     TOKENS
+  ═══════════════════════════════════ */
+  :root{
+    /* Brand */
+    --gd:#0f3d1c; --gr:#1a5c2e; --gm:#2a7a42; --gl:#4caf6e;
+    --gp:#b8dfc4; --gg:#e8f5ec;
+    /* Admin dark */
+    --sd:#111827; --sd2:#1f2937; --sd3:#374151;
+    --sb:#0d1f11; --sb2:#162a1c;
+    /* Text */
+    --tw:#f9fafb; --tw2:#d1d5db; --tw3:#9ca3af;
+    /* Accent */
+    --acc:#4caf6e; --acc2:#34d369;
+    /* Status */
+    --s-pend:#f59e0b; --s-conf:#3b82f6; --s-bake:#8b5cf6;
+    --s-out:#f97316; --s-done:#10b981; --s-canc:#ef4444;
+    /* Misc */
+    --gold:#c8960e; --glt:#f5e098;
+    --pk:#f0b8b8; --pk2:#ef4444;
+    --cr:#fdf8f0; --cr2:#f4e8d0;
+    --sh1:0 2px 12px rgba(0,0,0,.15);
+    --sh2:0 6px 30px rgba(0,0,0,.2);
+    --r:12px; --rl:18px; --rp:100px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Lato',sans-serif;background:var(--sd);color:var(--tw2);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Merriweather',Georgia,serif;}
+
+  /* ═══════════════════════════════════
+     LAYOUT: SIDEBAR + MAIN
+  ═══════════════════════════════════ */
+  .admin-wrap{display:flex;min-height:100vh;}
+
+  /* ── SIDEBAR ── */
+  .sidebar{
+    width:260px;flex-shrink:0;
+    background:var(--sb);
+    display:flex;flex-direction:column;
+    position:fixed;top:0;left:0;bottom:0;z-index:300;
+    transform:translateX(-100%);
+    transition:transform .3s cubic-bezier(.22,.68,0,1);
+    overflow-y:auto;
+  }
+  .sidebar.open{transform:translateX(0);}
+  @media(min-width:1024px){
+    .sidebar{position:sticky;transform:translateX(0);}
+    .sidebar-overlay{display:none!important;}
+  }
+  .sidebar-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.55);
+    z-index:299;display:none;
+  }
+  .sidebar-overlay.show{display:block;}
+
+  .sb-header{
+    padding:20px 20px 16px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+    display:flex;align-items:center;gap:12px;
+  }
+  .sb-logo{
+    width:40px;height:40px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gm),var(--gd));
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 3px 12px rgba(76,175,110,.35);flex-shrink:0;
+  }
+  .sb-logo i{font-size:18px;color:#fff;}
+  .sb-brand-name{font-family:'Great Vibes',cursive;font-size:20px;color:#fff;display:block;line-height:1.1;}
+  .sb-brand-sub{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tw3);display:block;}
+
+  .sb-section-label{
+    font-size:9px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--tw3);
+    padding:20px 20px 8px;
+  }
+
+  .sb-link{
+    display:flex;align-items:center;gap:12px;
+    padding:11px 20px;
+    font-size:14px;font-weight:700;color:var(--tw3);
+    text-decoration:none;cursor:pointer;
+    transition:all .2s;border-left:3px solid transparent;
+    margin:1px 0;
+  }
+  .sb-link:hover{background:rgba(255,255,255,.04);color:var(--tw2);}
+  .sb-link.active{
+    background:rgba(76,175,110,.12);
+    color:var(--acc);border-left-color:var(--acc);
+  }
+  .sb-link i{font-size:16px;width:20px;text-align:center;flex-shrink:0;}
+  .sb-badge{
+    margin-left:auto;background:var(--pk2);color:#fff;
+    font-size:10px;font-weight:700;
+    padding:2px 8px;border-radius:var(--rp);
+  }
+  .sb-badge.new{background:var(--acc);}
+
+  .sb-footer{
+    margin-top:auto;padding:16px 20px;
+    border-top:1px solid rgba(255,255,255,.06);
+    display:flex;align-items:center;gap:12px;
+  }
+  .sb-avatar{
+    width:36px;height:36px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gm),var(--gd));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:15px;font-weight:700;flex-shrink:0;
+  }
+  .sb-user-name{font-size:13px;font-weight:700;color:var(--tw);}
+  .sb-user-role{font-size:10px;color:var(--tw3);}
+  .sb-logout{margin-left:auto;color:var(--tw3);font-size:16px;cursor:pointer;transition:color .2s;}
+  .sb-logout:hover{color:var(--pk2);}
+
+  /* ── MAIN CONTENT ── */
+  .main-content{
+    flex:1;min-width:0;
+    display:flex;flex-direction:column;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar{
+    background:var(--sd2);
+    border-bottom:1px solid var(--sd3);
+    padding:13px 20px;
+    display:flex;align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    position:sticky;top:0;z-index:100;
+  }
+  .topbar-left{display:flex;align-items:center;gap:12px;}
+  .sb-toggle{
+    background:none;border:none;cursor:pointer;
+    width:38px;height:38px;border-radius:var(--r);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--tw2);font-size:18px;
+    transition:background .2s;
+  }
+  .sb-toggle:hover{background:var(--sd3);}
+  @media(min-width:1024px){.sb-toggle{display:none;}}
+  .page-title{font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:var(--tw);}
+  .topbar-right{display:flex;align-items:center;gap:10px;}
+  .tb-btn{
+    width:38px;height:38px;border-radius:var(--r);
+    background:var(--sd3);border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--tw2);font-size:15px;transition:background .2s;
+    position:relative;
+  }
+  .tb-btn:hover{background:rgba(255,255,255,.08);}
+  .tb-notif{
+    position:absolute;top:5px;right:5px;
+    width:8px;height:8px;border-radius:50%;
+    background:var(--pk2);border:2px solid var(--sd2);
+  }
+  .topbar-date{font-size:12px;color:var(--tw3);white-space:nowrap;display:none;}
+  @media(min-width:576px){.topbar-date{display:block;}}
+
+  /* ── PAGE CONTENT ── */
+  .page-content{padding:20px;flex:1;}
+  @media(min-width:768px){.page-content{padding:24px 28px;}}
+
+  /* ── SECTION PANELS ── */
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  /* ═══════════════════════════════════
+     STAT CARDS
+  ═══════════════════════════════════ */
+  .stat-card{
+    background:var(--sd2);border:1px solid var(--sd3);
+    border-radius:var(--rl);padding:20px;
+    display:flex;align-items:flex-start;gap:16px;
+    transition:transform .25s,box-shadow .25s;
+  }
+  .stat-card:hover{transform:translateY(-3px);box-shadow:var(--sh2);}
+  .stat-icon{
+    width:52px;height:52px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .stat-icon i{font-size:22px;}
+  .si-g{background:rgba(76,175,110,.15);} .si-g i{color:var(--acc);}
+  .si-b{background:rgba(59,130,246,.15);} .si-b i{color:#60a5fa;}
+  .si-y{background:rgba(245,158,11,.15);} .si-y i{color:#fbbf24;}
+  .si-p{background:rgba(239,68,68,.15);}  .si-p i{color:#f87171;}
+  .stat-info{flex:1;min-width:0;}
+  .stat-label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--tw3);margin-bottom:4px;}
+  .stat-val{font-family:'Merriweather',serif;font-size:26px;font-weight:700;color:var(--tw);line-height:1;}
+  .stat-change{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;margin-top:6px;}
+  .sc-up{color:#34d369;} .sc-down{color:#f87171;} .sc-neu{color:var(--tw3);}
+
+  /* ═══════════════════════════════════
+     CHART AREA (CSS bars)
+  ═══════════════════════════════════ */
+  .chart-box{
+    background:var(--sd2);border:1px solid var(--sd3);
+    border-radius:var(--rl);padding:20px;
+  }
+  .chart-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+  .chart-title{font-family:'Merriweather',serif;font-size:16px;font-weight:700;color:var(--tw);}
+  .chart-tabs{display:flex;gap:4px;background:var(--sd3);border-radius:var(--rp);padding:3px;}
+  .ctab{font-size:12px;font-weight:700;color:var(--tw3);padding:6px 14px;border-radius:var(--rp);cursor:pointer;transition:all .2s;border:none;background:none;}
+  .ctab.active{background:var(--acc);color:#fff;}
+
+  /* Bar chart */
+  .bar-chart{display:flex;align-items:flex-end;gap:8px;height:160px;margin-top:8px;}
+  .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .bar-fill{
+    width:100%;border-radius:6px 6px 0 0;
+    background:linear-gradient(180deg,var(--acc),var(--gm));
+    transition:height .6s cubic-bezier(.22,.68,0,1);
+    min-height:4px;
+  }
+  .bar-fill.dim{background:var(--sd3);}
+  .bar-label{font-size:10px;color:var(--tw3);font-weight:700;white-space:nowrap;}
+  .bar-val{font-size:10px;color:var(--acc);font-weight:700;}
+
+  /* Mini donut (CSS) */
+  .donut-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+  .donut{
+    width:120px;height:120px;border-radius:50%;flex-shrink:0;
+    background:conic-gradient(
+      var(--acc) 0% 38%,
+      #60a5fa 38% 58%,
+      #fbbf24 58% 72%,
+      #f87171 72% 82%,
+      var(--sd3) 82% 100%
+    );
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+  }
+  .donut::after{content:'';position:absolute;width:72px;height:72px;border-radius:50%;background:var(--sd2);}
+  .donut-center{position:absolute;z-index:1;text-align:center;}
+  .donut-pct{font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:var(--tw);}
+  .donut-sub{font-size:9px;color:var(--tw3);font-weight:700;}
+  .donut-legend{display:flex;flex-direction:column;gap:8px;}
+  .dl-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tw2);}
+  .dl-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+
+  /* ═══════════════════════════════════
+     ORDERS TABLE
+  ═══════════════════════════════════ */
+  .table-box{
+    background:var(--sd2);border:1px solid var(--sd3);
+    border-radius:var(--rl);overflow:hidden;
+  }
+  .table-head{
+    padding:16px 20px;
+    display:flex;align-items:center;justify-content:space-between;
+    border-bottom:1px solid var(--sd3);flex-wrap:wrap;gap:10px;
+  }
+  .table-title{font-family:'Merriweather',serif;font-size:15px;font-weight:700;color:var(--tw);}
+  .table-search{
+    display:flex;align-items:center;gap:8px;
+    background:var(--sd3);border-radius:var(--rp);
+    padding:8px 14px;
+  }
+  .table-search i{font-size:13px;color:var(--tw3);}
+  .table-search input{background:none;border:none;outline:none;font-family:'Lato',sans-serif;font-size:13px;color:var(--tw);width:160px;}
+  .table-search input::placeholder{color:var(--tw3);}
+
+  /* Filter tabs */
+  .filter-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:12px 20px;border-bottom:1px solid var(--sd3);}
+  .filter-tabs::-webkit-scrollbar{display:none;}
+  .ftab{
+    display:inline-flex;align-items:center;gap:6px;
+    white-space:nowrap;font-size:12px;font-weight:700;
+    padding:7px 14px;border-radius:var(--rp);cursor:pointer;
+    background:var(--sd3);color:var(--tw3);border:none;
+    transition:all .2s;flex-shrink:0;
+  }
+  .ftab.active{background:var(--acc);color:#fff;}
+  .ftab:hover:not(.active){background:rgba(255,255,255,.06);color:var(--tw2);}
+  .ftab-count{font-size:10px;background:rgba(255,255,255,.12);padding:1px 6px;border-radius:var(--rp);}
+  .ftab.active .ftab-count{background:rgba(255,255,255,.25);}
+
+  /* Order rows */
+  .orders-list{overflow-x:auto;}
+  table.orders-table{width:100%;border-collapse:collapse;min-width:640px;}
+  .orders-table th{
+    font-size:10px;font-weight:700;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--tw3);
+    padding:12px 20px;text-align:left;
+    border-bottom:1px solid var(--sd3);white-space:nowrap;
+  }
+  .orders-table td{
+    padding:14px 20px;font-size:13px;color:var(--tw2);
+    border-bottom:1px solid rgba(255,255,255,.04);
+    vertical-align:middle;
+  }
+  .orders-table tr:last-child td{border-bottom:none;}
+  .orders-table tr:hover td{background:rgba(255,255,255,.025);}
+  .order-id{font-family:'Merriweather',serif;font-size:13px;font-weight:700;color:var(--tw);}
+  .order-customer{font-weight:700;color:var(--tw);}
+  .order-item{font-size:12px;color:var(--tw3);}
+  .order-price{font-family:'Merriweather',serif;font-weight:700;color:var(--acc);}
+
+  /* Status badges */
+  .status{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:var(--rp);}
+  .st-pending {background:rgba(245,158,11,.15);color:#fbbf24;}
+  .st-confirmed{background:rgba(59,130,246,.15);color:#60a5fa;}
+  .st-baking  {background:rgba(139,92,246,.15);color:#a78bfa;}
+  .st-delivery{background:rgba(249,115,22,.15);color:#fb923c;}
+  .st-done    {background:rgba(16,185,129,.15);color:#34d369;}
+  .st-cancelled{background:rgba(239,68,68,.15);color:#f87171;}
+  .status i{font-size:8px;}
+
+  /* Action buttons in table */
+  .tbl-actions{display:flex;gap:6px;}
+  .tbl-btn{
+    width:30px;height:30px;border-radius:8px;border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;font-size:13px;
+    transition:all .2s;
+  }
+  .tbl-btn-v{background:rgba(76,175,110,.12);color:var(--acc);}
+  .tbl-btn-v:hover{background:rgba(76,175,110,.25);}
+  .tbl-btn-e{background:rgba(59,130,246,.12);color:#60a5fa;}
+  .tbl-btn-e:hover{background:rgba(59,130,246,.25);}
+  .tbl-btn-d{background:rgba(239,68,68,.12);color:#f87171;}
+  .tbl-btn-d:hover{background:rgba(239,68,68,.25);}
+
+  /* Status change select */
+  .status-sel{
+    background:var(--sd3);border:1px solid rgba(255,255,255,.1);
+    color:var(--tw2);font-family:'Lato',sans-serif;font-size:12px;font-weight:700;
+    padding:5px 10px;border-radius:8px;cursor:pointer;outline:none;
+  }
+
+  /* ═══════════════════════════════════
+     PRODUCTS GRID
+  ═══════════════════════════════════ */
+  .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+  .prod-admin-card{
+    background:var(--sd2);border:1px solid var(--sd3);
+    border-radius:var(--rl);overflow:hidden;
+    transition:transform .25s,box-shadow .25s;
+  }
+  .prod-admin-card:hover{transform:translateY(-3px);box-shadow:var(--sh2);}
+  .pac-img{
+    height:140px;display:flex;align-items:center;justify-content:center;
+    position:relative;
+  }
+  .pac-icon{width:70px;height:70px;border-radius:18px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;}
+  .pac-icon i{font-size:32px;}
+  .pg-bday{background:linear-gradient(135deg,rgba(46,122,66,.3),rgba(15,61,28,.5));}
+  .pg-bday .pac-icon i{color:var(--acc);}
+  .pg-wedd{background:linear-gradient(135deg,rgba(180,60,120,.3),rgba(80,20,60,.5));}
+  .pg-wedd .pac-icon i{color:#f9a8d4;}
+  .pg-cupc{background:linear-gradient(135deg,rgba(200,120,10,.3),rgba(100,50,0,.5));}
+  .pg-cupc .pac-icon i{color:#fbbf24;}
+  .pg-cust{background:linear-gradient(135deg,rgba(107,70,200,.3),rgba(50,20,100,.5));}
+  .pg-cust .pac-icon i{color:#a78bfa;}
+  .pg-brow{background:linear-gradient(135deg,rgba(122,82,52,.3),rgba(60,30,10,.5));}
+  .pg-brow .pac-icon i{color:#d4a96a;}
+  .pg-egg{background:linear-gradient(135deg,rgba(20,100,50,.3),rgba(10,50,20,.5));}
+  .pg-egg .pac-icon i{color:#6ee7b7;}
+
+  .pac-toggle{
+    position:absolute;top:10px;right:10px;
+    width:36px;height:20px;border-radius:var(--rp);
+    background:var(--acc);cursor:pointer;
+    display:flex;align-items:center;transition:background .2s;border:none;
+  }
+  .pac-toggle.off{background:var(--sd3);}
+  .pac-toggle-knob{width:14px;height:14px;border-radius:50%;background:#fff;margin:3px;transition:margin .2s;}
+  .pac-toggle.off .pac-toggle-knob{margin-left:auto;}
+
+  .pac-body{padding:14px 16px;}
+  .pac-cat{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--tw3);margin-bottom:4px;}
+  .pac-name{font-family:'Merriweather',serif;font-size:15px;font-weight:700;color:var(--tw);margin-bottom:6px;}
+  .pac-price{font-family:'Merriweather',serif;font-size:17px;font-weight:700;color:var(--acc);margin-bottom:10px;}
+  .pac-price small{font-family:'Lato',sans-serif;font-size:11px;color:var(--tw3);font-weight:400;}
+  .pac-stats{display:flex;gap:12px;margin-bottom:12px;}
+  .pac-stat{font-size:11px;color:var(--tw3);display:flex;align-items:center;gap:4px;}
+  .pac-stat i{font-size:11px;color:var(--acc);}
+  .pac-actions{display:flex;gap:8px;}
+  .btn-pac-edit{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(59,130,246,.12);color:#60a5fa;border:none;border-radius:var(--r);font-family:'Lato',sans-serif;font-size:12px;font-weight:700;padding:9px;cursor:pointer;transition:background .2s;}
+  .btn-pac-edit:hover{background:rgba(59,130,246,.22);}
+  .btn-pac-del{width:36px;display:flex;align-items:center;justify-content:center;background:rgba(239,68,68,.12);color:#f87171;border:none;border-radius:var(--r);cursor:pointer;transition:background .2s;}
+  .btn-pac-del:hover{background:rgba(239,68,68,.22);}
+
+  /* Add product btn */
+  .btn-add-prod{
+    display:inline-flex;align-items:center;gap:8px;
+    background:linear-gradient(135deg,var(--gm),var(--gd));
+    color:#fff;font-family:'Lato',sans-serif;font-size:13px;font-weight:700;
+    padding:10px 20px;border-radius:var(--rp);border:none;cursor:pointer;
+    box-shadow:0 4px 16px rgba(42,122,66,.35);transition:transform .2s;
+  }
+  .btn-add-prod:hover{transform:translateY(-2px);}
+
+  /* ═══════════════════════════════════
+     CUSTOMERS
+  ═══════════════════════════════════ */
+  .cust-card{
+    background:var(--sd2);border:1px solid var(--sd3);
+    border-radius:var(--rl);padding:16px 18px;
+    display:flex;align-items:center;gap:14px;
+    margin-bottom:10px;transition:background .2s;
+  }
+  .cust-card:hover{background:var(--sd3);}
+  .cust-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gm),var(--gd));display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Merriweather',serif;font-size:18px;font-weight:700;flex-shrink:0;}
+  .cust-name{font-size:14px;font-weight:700;color:var(--tw);}
+  .cust-phone{font-size:12px;color:var(--tw3);}
+  .cust-stats{display:flex;gap:16px;margin-left:auto;flex-shrink:0;}
+  .cust-stat{text-align:right;}
+  .cust-stat-n{font-family:'Merriweather',serif;font-size:15px;font-weight:700;color:var(--acc);}
+  .cust-stat-l{font-size:10px;color:var(--tw3);font-weight:700;}
+  .cust-actions{display:flex;gap:6px;margin-left:12px;}
+
+  /* ═══════════════════════════════════
+     NOTIFICATION PANEL
+  ═══════════════════════════════════ */
+  .notif-item{
+    display:flex;gap:12px;
+    padding:14px 20px;border-bottom:1px solid var(--sd3);
+    transition:background .2s;cursor:pointer;
+  }
+  .notif-item:hover{background:var(--sd3);}
+  .notif-item:last-child{border-bottom:none;}
+  .notif-item.unread{border-left:3px solid var(--acc);}
+  .notif-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .ni-g{background:rgba(76,175,110,.15);} .ni-g i{color:var(--acc);}
+  .ni-b{background:rgba(59,130,246,.15);} .ni-b i{color:#60a5fa;}
+  .ni-y{background:rgba(245,158,11,.15);} .ni-y i{color:#fbbf24;}
+  .ni-r{background:rgba(239,68,68,.15);}  .ni-r i{color:#f87171;}
+  .notif-ico i{font-size:16px;}
+  .notif-text{flex:1;min-width:0;}
+  .notif-title{font-size:13px;font-weight:700;color:var(--tw);margin-bottom:2px;}
+  .notif-desc{font-size:12px;color:var(--tw3);line-height:1.5;}
+  .notif-time{font-size:11px;color:var(--tw3);white-space:nowrap;margin-left:auto;}
+
+  /* ═══════════════════════════════════
+     QUICK ACTION CARDS
+  ═══════════════════════════════════ */
+  .qa-card{
+    background:var(--sd2);border:1px solid var(--sd3);
+    border-radius:var(--rl);padding:20px;
+    display:flex;flex-direction:column;align-items:flex-start;gap:12px;
+    cursor:pointer;transition:all .25s;text-decoration:none;
+  }
+  .qa-card:hover{background:var(--sd3);transform:translateY(-3px);box-shadow:var(--sh2);}
+  .qa-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;}
+  .qa-icon i{font-size:20px;}
+  .qa-label{font-family:'Merriweather',serif;font-size:14px;font-weight:700;color:var(--tw);}
+  .qa-sub{font-size:12px;color:var(--tw3);}
+
+  /* ═══════════════════════════════════
+     MODAL (order detail / product edit)
+  ═══════════════════════════════════ */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.65);
+    z-index:500;display:none;align-items:flex-end;justify-content:center;
+  }
+  @media(min-width:576px){.modal-overlay{align-items:center;}}
+  .modal-overlay.show{display:flex;}
+  .modal-sheet{
+    background:var(--sd2);border-radius:24px 24px 0 0;
+    width:100%;max-width:560px;max-height:90vh;
+    overflow-y:auto;padding:24px 20px 32px;
+    border:1px solid var(--sd3);
+  }
+  @media(min-width:576px){.modal-sheet{border-radius:20px;}}
+  .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+  .modal-title{font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:var(--tw);}
+  .modal-close{background:var(--sd3);border:none;color:var(--tw2);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+  .modal-close:hover{background:rgba(255,255,255,.1);}
+
+  /* Modal form fields */
+  .m-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tw3);margin-bottom:6px;display:block;}
+  .m-ctrl{width:100%;background:var(--sd3);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-family:'Lato',sans-serif;font-size:14px;color:var(--tw);padding:12px 14px;outline:none;transition:border-color .2s;min-height:46px;}
+  .m-ctrl:focus{border-color:var(--acc);}
+  select.m-ctrl{cursor:pointer;}
+  textarea.m-ctrl{min-height:90px;resize:vertical;}
+
+  /* Modal buttons */
+  .btn-m-save{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gm),var(--gd));color:#fff;font-family:'Lato',sans-serif;font-size:14px;font-weight:700;padding:13px 24px;border-radius:var(--rp);border:none;cursor:pointer;box-shadow:0 4px 16px rgba(42,122,66,.38);transition:transform .2s;}
+  .btn-m-save:hover{transform:translateY(-1px);}
+  .btn-m-cancel{display:flex;align-items:center;gap:8px;background:var(--sd3);color:var(--tw2);font-family:'Lato',sans-serif;font-size:14px;font-weight:700;padding:12px 22px;border-radius:var(--rp);border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:background .2s;}
+  .btn-m-cancel:hover{background:rgba(255,255,255,.06);}
+
+  /* Order detail in modal */
+  .od-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--sd3);}
+  .od-row:last-child{border-bottom:none;}
+  .od-label{font-size:12px;color:var(--tw3);font-weight:700;}
+  .od-val{font-size:13px;color:var(--tw);font-weight:700;text-align:right;}
+
+  /* ═══════════════════════════════════
+     SETTINGS
+  ═══════════════════════════════════ */
+  .settings-card{background:var(--sd2);border:1px solid var(--sd3);border-radius:var(--rl);padding:22px;margin-bottom:16px;}
+  .settings-title{font-family:'Merriweather',serif;font-size:15px;font-weight:700;color:var(--tw);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--sd3);display:flex;align-items:center;gap:10px;}
+  .settings-title i{font-size:15px;color:var(--acc);}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+  .toggle-row:last-child{border-bottom:none;}
+  .toggle-info .t-name{font-size:14px;font-weight:700;color:var(--tw2);}
+  .toggle-info .t-desc{font-size:12px;color:var(--tw3);margin-top:2px;}
+  .tog-switch{width:44px;height:24px;border-radius:var(--rp);background:var(--acc);cursor:pointer;display:flex;align-items:center;padding:3px;transition:background .2s;border:none;flex-shrink:0;}
+  .tog-switch.off{background:var(--sd3);}
+  .tog-knob{width:18px;height:18px;border-radius:50%;background:#fff;transition:margin .2s;}
+  .tog-switch.off .tog-knob{margin-left:auto;}
+
+  /* ═══════════════════════════════════
+     TOAST
+  ═══════════════════════════════════ */
+  .toast-ko{position:fixed;bottom:20px;right:20px;transform:translateY(80px);background:var(--sd2);color:var(--tw);border:1px solid var(--sd3);font-family:'Lato',sans-serif;font-size:13px;font-weight:700;padding:12px 18px;border-radius:var(--r);box-shadow:var(--sh2);z-index:9999;transition:transform .35s cubic-bezier(.22,.68,0,1.2);pointer-events:none;display:flex;align-items:center;gap:9px;white-space:nowrap;}
+  .toast-ko i{font-size:14px;color:var(--acc);}
+  .toast-ko.show{transform:translateY(0);}
+
+  /* Scrollbar */
+  ::-webkit-scrollbar{width:6px;height:6px;}
+  ::-webkit-scrollbar-track{background:var(--sd);}
+  ::-webkit-scrollbar-thumb{background:var(--sd3);border-radius:3px;}
+  </style>
+</head>
+<body>
+
+<!-- Sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+<!-- ══════════ ADMIN WRAP ══════════ -->
+<div class="admin-wrap">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo"><i class="fa-solid fa-cake-candles"></i></div>
+      <div>
+        <span class="sb-brand-name">Kavee's Oven</span>
+        <span class="sb-brand-sub">Admin Panel</span>
+      </div>
+    </div>
+
+    <div class="sb-section-label">Main</div>
+    <a class="sb-link active" onclick="showPanel('dashboard',this)">
+      <i class="fa-solid fa-chart-pie"></i> Dashboard
+    </a>
+    <a class="sb-link" onclick="showPanel('orders',this)">
+      <i class="fa-solid fa-bag-shopping"></i> Orders
+      <span class="sb-badge">5</span>
+    </a>
+    <a class="sb-link" onclick="showPanel('products',this)">
+      <i class="fa-solid fa-cake-candles"></i> Products
+    </a>
+    <a class="sb-link" onclick="showPanel('customers',this)">
+      <i class="fa-solid fa-users"></i> Customers
+    </a>
+
+    <div class="sb-section-label">Analytics</div>
+    <a class="sb-link" onclick="showPanel('reports',this)">
+      <i class="fa-solid fa-chart-line"></i> Reports
+    </a>
+    <a class="sb-link" onclick="showPanel('notifications',this)">
+      <i class="fa-solid fa-bell"></i> Notifications
+      <span class="sb-badge new">3</span>
+    </a>
+
+    <div class="sb-section-label">System</div>
+    <a class="sb-link" onclick="showPanel('settings',this)">
+      <i class="fa-solid fa-gear"></i> Settings
+    </a>
+    <a class="sb-link" href="kavees-oven-landing.html" target="_blank">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i> View Website
+    </a>
+
+    <div class="sb-footer">
+      <div class="sb-avatar">K</div>
+      <div>
+        <div class="sb-user-name">Kavee</div>
+        <div class="sb-user-role">Administrator</div>
+      </div>
+      <i class="fa-solid fa-right-from-bracket sb-logout" onclick="showToast('Logged out successfully')"></i>
+    </div>
+  </aside>
+
+  <!-- ══════════ MAIN ══════════ -->
+  <div class="main-content">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="sb-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+        <div class="page-title" id="pageTitle">Dashboard</div>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-date" id="topDate"></span>
+        <button class="tb-btn" onclick="showPanel('notifications',document.querySelector('.sb-link:nth-child(7)'))">
+          <i class="fa-solid fa-bell"></i>
+          <div class="tb-notif"></div>
+        </button>
+        <button class="tb-btn">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button class="tb-btn">
+          <i class="fa-solid fa-circle-user"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+
+      <!-- ══════ DASHBOARD ══════ -->
+      <div class="panel active" id="panel-dashboard">
+
+        <!-- Stat cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-xl-3">
+            <div class="stat-card">
+              <div class="stat-icon si-g"><i class="fa-solid fa-bag-shopping"></i></div>
+              <div class="stat-info">
+                <div class="stat-label">Today's Orders</div>
+                <div class="stat-val">14</div>
+                <div class="stat-change sc-up"><i class="fa-solid fa-arrow-trend-up"></i> +3 from yesterday</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="stat-card">
+              <div class="stat-icon si-b"><i class="fa-solid fa-sterling-sign"></i></div>
+              <div class="stat-info">
+                <div class="stat-label">Today's Revenue</div>
+                <div class="stat-val" style="font-size:20px;">LKR 58,400</div>
+                <div class="stat-change sc-up"><i class="fa-solid fa-arrow-trend-up"></i> +12% vs last week</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="stat-card">
+              <div class="stat-icon si-y"><i class="fa-solid fa-clock"></i></div>
+              <div class="stat-info">
+                <div class="stat-label">Pending Orders</div>
+                <div class="stat-val">5</div>
+                <div class="stat-change sc-neu"><i class="fa-solid fa-minus"></i> Needs attention</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-3">
+            <div class="stat-card">
+              <div class="stat-icon si-p"><i class="fa-solid fa-users"></i></div>
+              <div class="stat-info">
+                <div class="stat-label">Total Customers</div>
+                <div class="stat-val">543</div>
+                <div class="stat-change sc-up"><i class="fa-solid fa-arrow-trend-up"></i> +8 this week</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <!-- Revenue chart -->
+          <div class="col-12 col-lg-8">
+            <div class="chart-box">
+              <div class="chart-head">
+                <div class="chart-title">Revenue Overview</div>
+                <div class="chart-tabs">
+                  <button class="ctab active" onclick="setChartTab(this,'week')">Week</button>
+                  <button class="ctab" onclick="setChartTab(this,'month')">Month</button>
+                  <button class="ctab" onclick="setChartTab(this,'year')">Year</button>
+                </div>
+              </div>
+              <div class="bar-chart" id="revenueChart"></div>
+            </div>
+          </div>
+          <!-- Category donut -->
+          <div class="col-12 col-lg-4">
+            <div class="chart-box h-100">
+              <div class="chart-title mb-3">Sales by Category</div>
+              <div class="donut-wrap">
+                <div class="donut">
+                  <div class="donut-center">
+                    <div class="donut-pct">38%</div>
+                    <div class="donut-sub">Birthday</div>
+                  </div>
+                </div>
+                <div class="donut-legend">
+                  <div class="dl-item"><div class="dl-dot" style="background:var(--acc)"></div> Birthday (38%)</div>
+                  <div class="dl-item"><div class="dl-dot" style="background:#60a5fa"></div> Custom (20%)</div>
+                  <div class="dl-item"><div class="dl-dot" style="background:#fbbf24"></div> Wedding (14%)</div>
+                  <div class="dl-item"><div class="dl-dot" style="background:#f87171"></div> Cupcakes (10%)</div>
+                  <div class="dl-item"><div class="dl-dot" style="background:var(--sd3)"></div> Other (18%)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick actions -->
+        <div class="row g-3 mb-4">
+          <div class="col-12">
+            <div style="font-family:'Merriweather',serif;font-size:15px;font-weight:700;color:var(--tw);margin-bottom:12px;">Quick Actions</div>
+          </div>
+          <div class="col-6 col-sm-3">
+            <div class="qa-card" onclick="showPanel('orders',null)">
+              <div class="qa-icon si-g"><i class="fa-solid fa-bag-shopping"></i></div>
+              <div class="qa-label">New Order</div>
+              <div class="qa-sub">Add manually</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-3">
+            <div class="qa-card" onclick="openAddProduct()">
+              <div class="qa-icon si-b"><i class="fa-solid fa-plus"></i></div>
+              <div class="qa-label">Add Product</div>
+              <div class="qa-sub">New cake listing</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-3">
+            <div class="qa-card" onclick="showPanel('reports',null)">
+              <div class="qa-icon si-y"><i class="fa-solid fa-file-export"></i></div>
+              <div class="qa-label">Export Report</div>
+              <div class="qa-sub">Download CSV</div>
+            </div>
+          </div>
+          <div class="col-6 col-sm-3">
+            <div class="qa-card" onclick="showPanel('notifications',null)">
+              <div class="qa-icon si-p"><i class="fa-solid fa-bell"></i></div>
+              <div class="qa-label">Notifications</div>
+              <div class="qa-sub">3 unread alerts</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent orders preview -->
+        <div class="table-box">
+          <div class="table-head">
+            <div class="table-title">Recent Orders</div>
+            <button class="btn-add-prod" onclick="showPanel('orders',null)" style="font-size:12px;padding:8px 16px;">
+              View All <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+          <div class="orders-list">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Item</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="recentOrdersBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ══════ ORDERS ══════ -->
+      <div class="panel" id="panel-orders">
+        <div class="table-box">
+          <div class="table-head">
+            <div class="table-title">All Orders</div>
+            <div class="table-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" placeholder="Search orders…" oninput="filterOrders(this.value)"/>
+            </div>
+          </div>
+          <div class="filter-tabs">
+            <button class="ftab active" data-status="all" onclick="filterTab(this)">All <span class="ftab-count">12</span></button>
+            <button class="ftab" data-status="pending" onclick="filterTab(this)">Pending <span class="ftab-count">5</span></button>
+            <button class="ftab" data-status="confirmed" onclick="filterTab(this)">Confirmed <span class="ftab-count">3</span></button>
+            <button class="ftab" data-status="baking" onclick="filterTab(this)">Baking <span class="ftab-count">2</span></button>
+            <button class="ftab" data-status="delivery" onclick="filterTab(this)">Out for Delivery <span class="ftab-count">1</span></button>
+            <button class="ftab" data-status="done" onclick="filterTab(this)">Completed <span class="ftab-count">1</span></button>
+          </div>
+          <div class="orders-list">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Date</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="allOrdersBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ PRODUCTS ══════ -->
+      <div class="panel" id="panel-products">
+        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+          <div style="font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:var(--tw);">Products <span style="font-size:13px;color:var(--tw3);font-weight:400;">(12 total)</span></div>
+          <button class="btn-add-prod" onclick="openAddProduct()">
+            <i class="fa-solid fa-plus"></i> Add New Product
+          </button>
+        </div>
+        <div class="prod-grid" id="productGrid"></div>
+      </div>
+
+      <!-- ══════ CUSTOMERS ══════ -->
+      <div class="panel" id="panel-customers">
+        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+          <div style="font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:var(--tw);">Customers <span style="font-size:13px;color:var(--tw3);font-weight:400;">(543 total)</span></div>
+          <div class="table-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search customers…"/>
+          </div>
+        </div>
+        <div id="customersList"></div>
+      </div>
+
+      <!-- ══════ REPORTS ══════ -->
+      <div class="panel" id="panel-reports">
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-md-3">
+            <div class="stat-card">
+              <div class="stat-icon si-g"><i class="fa-solid fa-sterling-sign"></i></div>
+              <div class="stat-info">
+                <div class="stat-label">This Month</div>
+                <div class="stat-val" style="font-size:18px;">LKR 1.2M</div>
+                <div class="stat-change sc-up"><i class="fa-solid fa-arrow-trend-up"></i> +18%</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stat-card">
+              <div class="stat-icon si-b"><i class="fa-solid fa-bag-shopping"></i></div>
+              <div class="stat-info">
+                <div class="stat-label">Total Orders</div>
+                <div class="stat-val">284</div>
+                <div class="stat-change sc-up"><i class="fa-solid fa-arrow-trend-up"></i> +24</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stat-card">
+              <div class="stat-icon si-y"><i class="fa-solid fa-cake-candles"></i></div>
+              <div class="stat-info">
+                <div class="stat-label">Best Seller</div>
+                <div class="stat-val" style="font-size:14px;margin-top:4px;">Birthday Cake</div>
+                <div class="stat-change sc-neu">38% of sales</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stat-card">
+              <div class="stat-icon si-p"><i class="fa-solid fa-star"></i></div>
+              <div class="stat-info">
+                <div class="stat-label">Avg. Rating</div>
+                <div class="stat-val">4.9 <i class="fa-solid fa-star" style="font-size:16px;color:#fbbf24;"></i></div>
+                <div class="stat-change sc-up">From 128 reviews</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monthly revenue chart -->
+        <div class="chart-box mb-3">
+          <div class="chart-head">
+            <div class="chart-title">Monthly Revenue — 2025</div>
+            <button class="btn-add-prod" style="font-size:12px;padding:8px 16px;" onclick="showToast('Report exported as CSV!')">
+              <i class="fa-solid fa-file-export"></i> Export CSV
+            </button>
+          </div>
+          <div class="bar-chart" id="monthlyChart"></div>
+        </div>
+
+        <!-- Top products -->
+        <div class="table-box">
+          <div class="table-head"><div class="table-title">Top Selling Products</div></div>
+          <div class="orders-list">
+            <table class="orders-table">
+              <thead><tr><th>Product</th><th>Units Sold</th><th>Revenue</th><th>Growth</th></tr></thead>
+              <tbody>
+                <tr><td><div class="order-customer">Classic Birthday Cake</div></td><td>108</td><td class="order-price">LKR 378,000</td><td><span class="stat-change sc-up" style="font-size:12px;"><i class="fa-solid fa-arrow-trend-up"></i> +22%</span></td></tr>
+                <tr><td><div class="order-customer">Wedding Tier Cake</div></td><td>18</td><td class="order-price">LKR 324,000</td><td><span class="stat-change sc-up" style="font-size:12px;"><i class="fa-solid fa-arrow-trend-up"></i> +15%</span></td></tr>
+                <tr><td><div class="order-customer">Custom Theme Cake</div></td><td>57</td><td class="order-price">LKR 313,500</td><td><span class="stat-change sc-up" style="font-size:12px;"><i class="fa-solid fa-arrow-trend-up"></i> +31%</span></td></tr>
+                <tr><td><div class="order-customer">Cupcake Box (12)</div></td><td>82</td><td class="order-price">LKR 180,400</td><td><span class="stat-change sc-down" style="font-size:12px;"><i class="fa-solid fa-arrow-trend-down"></i> -4%</span></td></tr>
+                <tr><td><div class="order-customer">Chocolate Brownie Box</div></td><td>64</td><td class="order-price">LKR 96,000</td><td><span class="stat-change sc-up" style="font-size:12px;"><i class="fa-solid fa-arrow-trend-up"></i> +9%</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ NOTIFICATIONS ══════ -->
+      <div class="panel" id="panel-notifications">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div style="font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:var(--tw);">Notifications</div>
+          <button style="background:none;border:none;color:var(--acc);font-size:13px;font-weight:700;cursor:pointer;" onclick="showToast('All notifications marked as read')">Mark all read</button>
+        </div>
+        <div class="table-box">
+          <div class="notif-item unread" onclick="showToast('Opening order KO-2025-1043...')">
+            <div class="notif-ico ni-g"><i class="fa-solid fa-bag-shopping"></i></div>
+            <div class="notif-text">
+              <div class="notif-title">New Order Received — KO-2025-1043</div>
+              <div class="notif-desc">Priya Navaratnam ordered 1× Birthday Cake (1kg, Vanilla) — LKR 3,500</div>
+            </div>
+            <div class="notif-time">2 min ago</div>
+          </div>
+          <div class="notif-item unread" onclick="showToast('Opening payment...')">
+            <div class="notif-ico ni-b"><i class="fa-solid fa-credit-card"></i></div>
+            <div class="notif-text">
+              <div class="notif-title">Payment Slip Uploaded</div>
+              <div class="notif-desc">Order KO-2025-1041 — bank transfer slip uploaded. Please verify payment.</div>
+            </div>
+            <div class="notif-time">18 min ago</div>
+          </div>
+          <div class="notif-item unread" onclick="showToast('Opening review...')">
+            <div class="notif-ico ni-y"><i class="fa-solid fa-star"></i></div>
+            <div class="notif-text">
+              <div class="notif-title">New 5-Star Review!</div>
+              <div class="notif-desc">Roshani Perera left a review: "Amazing wedding cake, everyone loved it!"</div>
+            </div>
+            <div class="notif-time">1 hr ago</div>
+          </div>
+          <div class="notif-item" onclick="showToast('Opening order...')">
+            <div class="notif-ico ni-r"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="notif-text">
+              <div class="notif-title">Order Cancellation Request</div>
+              <div class="notif-desc">Customer Saman Perera requested cancellation of KO-2025-1038. Confirm?</div>
+            </div>
+            <div class="notif-time">3 hr ago</div>
+          </div>
+          <div class="notif-item" onclick="showToast('Order details opened')">
+            <div class="notif-ico ni-g"><i class="fa-solid fa-truck"></i></div>
+            <div class="notif-text">
+              <div class="notif-title">Delivery Completed — KO-2025-1036</div>
+              <div class="notif-desc">Cupcake box delivered successfully to Colombo 03. Customer notified.</div>
+            </div>
+            <div class="notif-time">Yesterday</div>
+          </div>
+          <div class="notif-item" onclick="showToast('Report opened')">
+            <div class="notif-ico ni-b"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="notif-text">
+              <div class="notif-title">Weekly Report Ready</div>
+              <div class="notif-desc">Your weekly revenue report is ready. Total: LKR 284,500 (+18% vs last week)</div>
+            </div>
+            <div class="notif-time">2 days ago</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ SETTINGS ══════ -->
+      <div class="panel" id="panel-settings">
+        <div class="row g-3">
+          <div class="col-12 col-lg-6">
+
+            <div class="settings-card">
+              <div class="settings-title"><i class="fa-solid fa-store"></i> Store Settings</div>
+              <div class="mb-3">
+                <label class="m-label">Store Name</label>
+                <input class="m-ctrl" value="Kavee's Oven"/>
+              </div>
+              <div class="mb-3">
+                <label class="m-label">Phone / WhatsApp</label>
+                <input class="m-ctrl" value="076-XXX-XXXX"/>
+              </div>
+              <div class="mb-3">
+                <label class="m-label">Email</label>
+                <input class="m-ctrl" value="hello@kaveesoven.lk"/>
+              </div>
+              <div class="mb-3">
+                <label class="m-label">City</label>
+                <select class="m-ctrl">
+                  <option selected>Colombo</option>
+                  <option>Gampaha</option>
+                  <option>Kandy</option>
+                </select>
+              </div>
+              <button class="btn-m-save" onclick="showToast('Store settings saved!')">
+                <i class="fa-solid fa-floppy-disk"></i> Save Changes
+              </button>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-title"><i class="fa-solid fa-truck"></i> Delivery Settings</div>
+              <div class="mb-3">
+                <label class="m-label">Free Delivery Above (LKR)</label>
+                <input class="m-ctrl" type="number" value="5000"/>
+              </div>
+              <div class="mb-3">
+                <label class="m-label">Standard Delivery Fee (LKR)</label>
+                <input class="m-ctrl" type="number" value="350"/>
+              </div>
+              <div class="mb-3">
+                <label class="m-label">COD Extra Fee (LKR)</label>
+                <input class="m-ctrl" type="number" value="150"/>
+              </div>
+              <button class="btn-m-save" onclick="showToast('Delivery settings saved!')">
+                <i class="fa-solid fa-floppy-disk"></i> Save Changes
+              </button>
+            </div>
+
+          </div>
+          <div class="col-12 col-lg-6">
+
+            <div class="settings-card">
+              <div class="settings-title"><i class="fa-solid fa-bell"></i> Notifications</div>
+              <div class="toggle-row">
+                <div class="toggle-info"><div class="t-name">New Order Alerts</div><div class="t-desc">Get notified for every new order</div></div>
+                <button class="tog-switch" onclick="toggleSwitch(this)"><div class="tog-knob"></div></button>
+              </div>
+              <div class="toggle-row">
+                <div class="toggle-info"><div class="t-name">WhatsApp Notifications</div><div class="t-desc">Send order updates via WhatsApp</div></div>
+                <button class="tog-switch" onclick="toggleSwitch(this)"><div class="tog-knob"></div></button>
+              </div>
+              <div class="toggle-row">
+                <div class="toggle-info"><div class="t-name">Email Notifications</div><div class="t-desc">Customer order confirmation emails</div></div>
+                <button class="tog-switch" onclick="toggleSwitch(this)"><div class="tog-knob"></div></button>
+              </div>
+              <div class="toggle-row">
+                <div class="toggle-info"><div class="t-name">Low Stock Alerts</div><div class="t-desc">Alert when items marked unavailable</div></div>
+                <button class="tog-switch off" onclick="toggleSwitch(this)"><div class="tog-knob"></div></button>
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-title"><i class="fa-solid fa-shield-halved"></i> Security</div>
+              <div class="mb-3">
+                <label class="m-label">Current Password</label>
+                <input class="m-ctrl" type="password" placeholder="••••••••"/>
+              </div>
+              <div class="mb-3">
+                <label class="m-label">New Password</label>
+                <input class="m-ctrl" type="password" placeholder="Min 8 characters"/>
+              </div>
+              <div class="mb-3">
+                <label class="m-label">Confirm New Password</label>
+                <input class="m-ctrl" type="password" placeholder="Repeat password"/>
+              </div>
+              <div class="toggle-row mb-3">
+                <div class="toggle-info"><div class="t-name">Two-Factor Authentication</div><div class="t-desc">Extra security via SMS OTP</div></div>
+                <button class="tog-switch off" onclick="toggleSwitch(this)"><div class="tog-knob"></div></button>
+              </div>
+              <button class="btn-m-save" onclick="showToast('Password updated successfully!')">
+                <i class="fa-solid fa-lock"></i> Update Password
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end page-content -->
+  </div><!-- end main-content -->
+</div><!-- end admin-wrap -->
+
+<!-- ══════════ ORDER DETAIL MODAL ══════════ -->
+<div class="modal-overlay" id="orderModal" onclick="closeModal('orderModal')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title" id="orderModalTitle">Order Details</div>
+      <button class="modal-close" onclick="closeModal('orderModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="orderModalBody"></div>
+  </div>
+</div>
+
+<!-- ══════════ PRODUCT EDIT MODAL ══════════ -->
+<div class="modal-overlay" id="productModal" onclick="closeModal('productModal')">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title" id="productModalTitle">Add New Product</div>
+      <button class="modal-close" onclick="closeModal('productModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="row g-3">
+      <div class="col-12">
+        <label class="m-label">Product Name <span style="color:var(--pk2)">*</span></label>
+        <input class="m-ctrl" id="pm-name" placeholder="e.g. Classic Birthday Cake"/>
+      </div>
+      <div class="col-12 col-sm-6">
+        <label class="m-label">Category</label>
+        <select class="m-ctrl" id="pm-cat">
+          <option>Birthday Cakes</option>
+          <option>Wedding Cakes</option>
+          <option>Cupcakes</option>
+          <option>Custom Cakes</option>
+          <option>Brownies & Desserts</option>
+          <option>Eggless Cakes</option>
+        </select>
+      </div>
+      <div class="col-12 col-sm-6">
+        <label class="m-label">Base Price (LKR)</label>
+        <input class="m-ctrl" id="pm-price" type="number" placeholder="e.g. 3500"/>
+      </div>
+      <div class="col-12">
+        <label class="m-label">Description</label>
+        <textarea class="m-ctrl" id="pm-desc" placeholder="Describe the cake…"></textarea>
+      </div>
+      <div class="col-12 col-sm-6">
+        <label class="m-label">Available Sizes</label>
+        <input class="m-ctrl" id="pm-sizes" placeholder="0.5kg, 1kg, 1.5kg, 2kg"/>
+      </div>
+      <div class="col-12 col-sm-6">
+        <label class="m-label">Available Flavours</label>
+        <input class="m-ctrl" id="pm-flavours" placeholder="Vanilla, Chocolate, Strawberry"/>
+      </div>
+      <div class="col-12 col-sm-6">
+        <label class="m-label">Status</label>
+        <select class="m-ctrl" id="pm-status">
+          <option>Available</option>
+          <option>Out of Stock</option>
+          <option>Coming Soon</option>
+        </select>
+      </div>
+      <div class="col-12 col-sm-6">
+        <label class="m-label">Badge Label</label>
+        <input class="m-ctrl" id="pm-badge" placeholder="e.g. Best Seller, New, Popular"/>
+      </div>
+      <div class="col-12 d-flex gap-2 justify-content-end mt-2">
+        <button class="btn-m-cancel" onclick="closeModal('productModal')"><i class="fa-solid fa-xmark"></i> Cancel</button>
+        <button class="btn-m-save" onclick="saveProduct()"><i class="fa-solid fa-floppy-disk"></i> Save Product</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-ko" id="koToast"><i class="fa-solid fa-circle-check"></i><span id="koMsg"></span></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* ═══════════════════════════════════
+   DATA
+═══════════════════════════════════ */
+var ORDERS = [
+  {id:'KO-2025-1043',customer:'Priya Navaratnam',phone:'077-123-4567',items:'Birthday Cake × 1',date:'Today, 10:24 AM',total:3500,status:'pending',method:'Card',delivery:'Home Delivery',address:'45 Sample Road, Colombo 05',slot:'2:00–4:00 PM',msg:'Happy Birthday Sarah!'},
+  {id:'KO-2025-1042',customer:'Roshani Perera',phone:'071-234-5678',items:'Wedding Cake × 1 (2 Tier)',date:'Today, 9:10 AM',total:18000,status:'confirmed',method:'Bank Transfer',delivery:'Home Delivery',address:'12 Temple Road, Kandy',slot:'10:00 AM–12:00 PM',msg:''},
+  {id:'KO-2025-1041',customer:'Saman Fernando',phone:'075-345-6789',items:'Cupcake Box × 2',date:'Today, 8:45 AM',total:4400,status:'baking',method:'Card',delivery:'Self Pickup',address:'',slot:'3:00–5:00 PM',msg:'Office party'},
+  {id:'KO-2025-1040',customer:'Nimal Jayawardena',phone:'076-456-7890',items:'Theme Cake × 1',date:'Yesterday',total:5500,status:'delivery',method:'Cash on Delivery',delivery:'Home Delivery',address:'22 Main St, Gampaha',slot:'4:00–6:00 PM',msg:'Superman theme'},
+  {id:'KO-2025-1039',customer:'Kumari Silva',phone:'078-567-8901',items:'Brownie Box × 3',date:'Yesterday',total:4500,status:'done',method:'Bank Transfer',delivery:'Home Delivery',address:'8 Palm Ave, Negombo',slot:'11:00 AM–1:00 PM',msg:''},
+  {id:'KO-2025-1038',customer:'Kasun Bandara',phone:'070-678-9012',items:'Eggless Cake × 1',date:'2 days ago',total:3800,status:'pending',method:'WhatsApp',delivery:'Self Pickup',address:'',slot:'9:00–11:00 AM',msg:'No nuts please'},
+  {id:'KO-2025-1037',customer:'Amali Wickrama',phone:'072-789-0123',items:'Birthday Cake × 2',date:'2 days ago',total:7000,status:'pending',method:'Card',delivery:'Home Delivery',address:'34 Sea View, Moratuwa',slot:'2:00–4:00 PM',msg:'Two separate cakes'},
+  {id:'KO-2025-1036',customer:'Dinesh Gunawardena',phone:'074-890-1234',items:'Cupcake Box × 1',date:'3 days ago',total:2200,status:'done',method:'Card',delivery:'Home Delivery',address:'7 Hill St, Maharagama',slot:'5:00–7:00 PM',msg:''},
+  {id:'KO-2025-1035',customer:'Chamari Dissanayake',phone:'069-901-2345',items:'Wedding Cake × 1 (3 Tier)',date:'4 days ago',total:28000,status:'confirmed',method:'Bank Transfer',delivery:'Home Delivery',address:'55 Royal Rd, Colombo 07',slot:'8:00–10:00 AM',msg:'Rose gold theme'},
+  {id:'KO-2025-1034',customer:'Tharaka Rathnayake',phone:'077-012-3456',items:'Brownie Box × 2',date:'4 days ago',total:3000,status:'pending',method:'Cash on Delivery',delivery:'Self Pickup',address:'',slot:'1:00–3:00 PM',msg:''},
+  {id:'KO-2025-1033',customer:'Sanduni Kosgoda',phone:'071-123-4567',items:'Theme Cake × 1',date:'5 days ago',total:5500,status:'baking',method:'Card',delivery:'Home Delivery',address:'18 Lake Rd, Battaramulla',slot:'3:00–5:00 PM',msg:'Peppa Pig design'},
+  {id:'KO-2025-1032',customer:'Lasith Mendis',phone:'075-234-5678',items:'Birthday Cake × 1',date:'6 days ago',total:3500,status:'pending',method:'WhatsApp',delivery:'Home Delivery',address:'29 Garden St, Nugegoda',slot:'2:00–4:00 PM',msg:'Chocolate please'},
+];
+
+var PRODUCTS_DATA = [
+  {id:1,cat:'Birthday Cakes',name:'Classic Birthday Cake',price:3500,icon:'fa-cake-candles',bg:'pg-bday',badge:'Best Seller',sales:108,rating:4.9,active:true},
+  {id:2,cat:'Birthday Cakes',name:'Chocolate Fudge Cake',price:3800,icon:'fa-cake-candles',bg:'pg-bday',badge:'Popular',sales:72,rating:4.8,active:true},
+  {id:3,cat:'Birthday Cakes',name:'Rainbow Layer Cake',price:4200,icon:'fa-cake-candles',bg:'pg-bday',badge:'New',sales:31,rating:4.9,active:true},
+  {id:4,cat:'Wedding Cakes',name:'Wedding Tier Cake',price:18000,icon:'fa-gem',bg:'pg-wedd',badge:'Premium',sales:18,rating:5.0,active:true},
+  {id:5,cat:'Wedding Cakes',name:'Floral Elegance Cake',price:6500,icon:'fa-gem',bg:'pg-wedd',badge:'Trending',sales:12,rating:4.9,active:true},
+  {id:6,cat:'Cupcakes',name:'Cupcake Box (12)',price:2200,icon:'fa-mug-hot',bg:'pg-cupc',badge:'New',sales:82,rating:4.7,active:true},
+  {id:7,cat:'Cupcakes',name:'Mini Cupcake Gift Box',price:1600,icon:'fa-mug-hot',bg:'pg-cupc',badge:'Gift',sales:44,rating:4.8,active:true},
+  {id:8,cat:'Custom Cakes',name:'Photo Print Cake',price:4500,icon:'fa-palette',bg:'pg-cust',badge:'Custom',sales:57,rating:4.9,active:true},
+  {id:9,cat:'Custom Cakes',name:'Character Theme Cake',price:5500,icon:'fa-palette',bg:'pg-cust',badge:'Popular',sales:49,rating:5.0,active:true},
+  {id:10,cat:'Brownies & Desserts',name:'Chocolate Brownie Box',price:1500,icon:'fa-box-open',bg:'pg-brow',badge:'Popular',sales:64,rating:4.8,active:true},
+  {id:11,cat:'Brownies & Desserts',name:'Dessert Platter',price:2000,icon:'fa-box-open',bg:'pg-brow',badge:'New',sales:12,rating:4.6,active:false},
+  {id:12,cat:'Eggless Cakes',name:'Eggless Delight Cake',price:3800,icon:'fa-seedling',bg:'pg-egg',badge:'Eggless',sales:38,rating:4.9,active:true},
+];
+
+var CUSTOMERS_DATA = [
+  {name:'Priya Navaratnam',phone:'077-123-4567',city:'Colombo',orders:8,spent:42000},
+  {name:'Roshani Perera',phone:'071-234-5678',city:'Kandy',orders:3,spent:28500},
+  {name:'Saman Fernando',phone:'075-345-6789',city:'Colombo',orders:12,spent:58400},
+  {name:'Nimal Jayawardena',phone:'076-456-7890',city:'Gampaha',orders:5,spent:21500},
+  {name:'Kumari Silva',phone:'078-567-8901',city:'Negombo',orders:7,spent:35200},
+  {name:'Kasun Bandara',phone:'070-678-9012',city:'Colombo',orders:2,spent:9400},
+  {name:'Amali Wickrama',phone:'072-789-0123',city:'Moratuwa',orders:9,spent:46800},
+  {name:'Dinesh Gunawardena',phone:'074-890-1234',city:'Maharagama',orders:4,spent:16200},
+];
+
+/* ═══════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════ */
+function showPanel(id, linkEl) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('panel-'+id).classList.add('active');
+
+  document.querySelectorAll('.sb-link').forEach(function(l){ l.classList.remove('active'); });
+  if (linkEl) linkEl.classList.add('active');
+
+  var titles = {dashboard:'Dashboard',orders:'Orders',products:'Products',customers:'Customers',reports:'Reports',notifications:'Notifications',settings:'Settings'};
+  document.getElementById('pageTitle').textContent = titles[id] || id;
+  closeSidebar();
+}
+
+/* ═══════════════════════════════════
+   SIDEBAR TOGGLE
+═══════════════════════════════════ */
+function toggleSidebar(){
+  var sb = document.getElementById('sidebar');
+  var ov = document.getElementById('sbOverlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sbOverlay').classList.remove('show');
+}
+
+/* ═══════════════════════════════════
+   STATUS HELPERS
+═══════════════════════════════════ */
+function statusBadge(s){
+  var map = {
+    pending:  ['st-pending',  'fa-clock',      'Pending'],
+    confirmed:['st-confirmed','fa-circle-check','Confirmed'],
+    baking:   ['st-baking',   'fa-fire',        'Baking'],
+    delivery: ['st-delivery', 'fa-truck',       'Out for Delivery'],
+    done:     ['st-done',     'fa-check-double','Completed'],
+    cancelled:['st-cancelled','fa-xmark',       'Cancelled'],
+  };
+  var m = map[s] || map['pending'];
+  return '<span class="status '+m[0]+'"><i class="fa-solid '+m[1]+'"></i> '+m[2]+'</span>';
+}
+
+/* ═══════════════════════════════════
+   RENDER ORDERS
+═══════════════════════════════════ */
+function renderOrders(list, bodyId) {
+  document.getElementById(bodyId).innerHTML = list.map(function(o){
+    return '<tr>'
+    + '<td><div class="order-id">'+o.id+'</div></td>'
+    + '<td><div class="order-customer">'+o.customer+'</div><div class="order-item">'+o.phone+'</div></td>'
+    + '<td><div class="order-item">'+o.items+'</div></td>'
+    + (bodyId === 'allOrdersBody' ? '<td style="font-size:12px;color:var(--tw3);">'+o.date+'</td>' : '')
+    + '<td class="order-price">LKR '+o.total.toLocaleString()+'</td>'
+    + '<td>'+statusBadge(o.status)+'</td>'
+    + '<td><div class="tbl-actions">'
+    + '<button class="tbl-btn tbl-btn-v" onclick="viewOrder(\''+o.id+'\')"><i class="fa-solid fa-eye"></i></button>'
+    + '<button class="tbl-btn tbl-btn-e" onclick="showToast(\'Editing order '+o.id+'\')"><i class="fa-solid fa-pen"></i></button>'
+    + '<button class="tbl-btn tbl-btn-d" onclick="showToast(\'Order '+o.id+' deleted\')"><i class="fa-solid fa-trash-can"></i></button>'
+    + '</div></td>'
+    + '</tr>';
+  }).join('');
+}
+
+function viewOrder(id) {
+  var o = ORDERS.find(function(x){ return x.id===id; });
+  if(!o) return;
+  document.getElementById('orderModalTitle').textContent = 'Order — '+o.id;
+  document.getElementById('orderModalBody').innerHTML =
+    '<div class="mb-3">'+statusBadge(o.status)+'</div>'
+    + od('Customer',o.customer) + od('Phone',o.phone)
+    + od('Items',o.items) + od('Total','LKR '+o.total.toLocaleString())
+    + od('Payment',o.method) + od('Delivery',o.delivery)
+    + (o.address ? od('Address',o.address) : '')
+    + od('Time Slot',o.slot) + od('Date',o.date)
+    + (o.msg ? od('Message','"'+o.msg+'"') : '')
+    + '<div class="mt-4">'
+    + '<label class="m-label mb-2 d-block">Update Status</label>'
+    + '<div class="d-flex gap-2 flex-wrap">'
+    + ['pending','confirmed','baking','delivery','done','cancelled'].map(function(s){
+        return '<button onclick="updateStatus(\''+o.id+'\',\''+s+'\')" style="background:var(--sd3);border:1px solid rgba(255,255,255,.08);color:var(--tw2);font-family:\'Lato\',sans-serif;font-size:12px;font-weight:700;padding:7px 14px;border-radius:var(--rp);cursor:pointer;">'+s+'</button>';
+      }).join('')
+    + '</div></div>';
+  document.getElementById('orderModal').classList.add('show');
+}
+
+function od(label,val){
+  return '<div class="od-row"><div class="od-label">'+label+'</div><div class="od-val">'+val+'</div></div>';
+}
+
+function updateStatus(id, status) {
+  var o = ORDERS.find(function(x){ return x.id===id; });
+  if(o){ o.status=status; renderOrders(ORDERS.slice(0,5),'recentOrdersBody'); renderOrders(ORDERS,'allOrdersBody'); }
+  closeModal('orderModal');
+  showToast('Order '+id+' updated to: '+status);
+}
+
+function filterOrders(q) {
+  var list = q ? ORDERS.filter(function(o){ return o.customer.toLowerCase().includes(q.toLowerCase()) || o.id.includes(q); }) : ORDERS;
+  renderOrders(list,'allOrdersBody');
+}
+
+function filterTab(btn) {
+  document.querySelectorAll('.ftab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  var s = btn.dataset.status;
+  var list = s==='all' ? ORDERS : ORDERS.filter(function(o){ return o.status===s; });
+  renderOrders(list,'allOrdersBody');
+}
+
+/* ═══════════════════════════════════
+   RENDER PRODUCTS
+═══════════════════════════════════ */
+function renderProducts(){
+  document.getElementById('productGrid').innerHTML = PRODUCTS_DATA.map(function(p){
+    return '<div class="prod-admin-card">'
+    +'<div class="pac-img '+p.bg+'">'
+    +'  <div class="pac-icon"><i class="fa-solid '+p.icon+'"></i></div>'
+    +'  <button class="pac-toggle'+(p.active?'':' off')+'" onclick="toggleProduct('+p.id+',this)"><div class="pac-toggle-knob"></div></button>'
+    +'</div>'
+    +'<div class="pac-body">'
+    +'  <div class="pac-cat">'+p.cat+'</div>'
+    +'  <div class="pac-name">'+p.name+'</div>'
+    +'  <div class="pac-price">LKR '+p.price.toLocaleString()+'<small> / base</small></div>'
+    +'  <div class="pac-stats">'
+    +'    <div class="pac-stat"><i class="fa-solid fa-bag-shopping"></i> '+p.sales+' sold</div>'
+    +'    <div class="pac-stat"><i class="fa-solid fa-star"></i> '+p.rating+'</div>'
+    +'    <div class="pac-stat"><i class="fa-solid fa-circle" style="font-size:8px;color:'+(p.active?'var(--acc)':'var(--pk2)')+'"></i> '+(p.active?'Active':'Inactive')+'</div>'
+    +'  </div>'
+    +'  <div class="pac-actions">'
+    +'    <button class="btn-pac-edit" onclick="editProduct('+p.id+')"><i class="fa-solid fa-pen"></i> Edit</button>'
+    +'    <button class="btn-pac-del" onclick="showToast(\''+p.name+' deleted\')"><i class="fa-solid fa-trash-can"></i></button>'
+    +'  </div>'
+    +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+function toggleProduct(id, btn) {
+  var p = PRODUCTS_DATA.find(function(x){ return x.id===id; });
+  if(p){ p.active=!p.active; showToast(p.name+' is now '+(p.active?'Active':'Inactive')); renderProducts(); }
+}
+
+function editProduct(id) {
+  var p = PRODUCTS_DATA.find(function(x){ return x.id===id; });
+  if(!p) return;
+  document.getElementById('productModalTitle').textContent = 'Edit Product';
+  document.getElementById('pm-name').value    = p.name;
+  document.getElementById('pm-price').value   = p.price;
+  document.getElementById('pm-badge').value   = p.badge;
+  document.getElementById('productModal').classList.add('show');
+}
+
+function openAddProduct() {
+  document.getElementById('productModalTitle').textContent = 'Add New Product';
+  ['pm-name','pm-price','pm-desc','pm-sizes','pm-flavours','pm-badge'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('productModal').classList.add('show');
+}
+
+function saveProduct() {
+  var name = document.getElementById('pm-name').value.trim();
+  if(!name){ showToast('Please enter a product name'); return; }
+  closeModal('productModal');
+  showToast(name+' saved successfully!');
+}
+
+/* ═══════════════════════════════════
+   RENDER CUSTOMERS
+═══════════════════════════════════ */
+function renderCustomers(){
+  document.getElementById('customersList').innerHTML = CUSTOMERS_DATA.map(function(c){
+    return '<div class="cust-card">'
+    +'<div class="cust-avatar">'+c.name[0]+'</div>'
+    +'<div><div class="cust-name">'+c.name+'</div><div class="cust-phone"><i class="fa-solid fa-phone" style="font-size:11px;color:var(--acc);margin-right:4px;"></i>'+c.phone+' · '+c.city+'</div></div>'
+    +'<div class="cust-stats">'
+    +'  <div class="cust-stat"><div class="cust-stat-n">'+c.orders+'</div><div class="cust-stat-l">Orders</div></div>'
+    +'  <div class="cust-stat"><div class="cust-stat-n">'+Math.round(c.spent/1000)+'k</div><div class="cust-stat-l">Spent</div></div>'
+    +'</div>'
+    +'<div class="cust-actions">'
+    +'  <button class="tbl-btn tbl-btn-v" onclick="showToast(\'Viewing '+c.name+'\')"><i class="fa-solid fa-eye"></i></button>'
+    +'  <a href="https://wa.me/94'+c.phone.replace(/[^0-9]/g,'').substring(1)+'" target="_blank" class="tbl-btn tbl-btn-e" style="text-decoration:none;"><i class="fa-brands fa-whatsapp"></i></a>'
+    +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+/* ═══════════════════════════════════
+   CHARTS
+═══════════════════════════════════ */
+var weekData = [
+  {l:'Mon',v:38000},{l:'Tue',v:52000},{l:'Wed',v:44000},
+  {l:'Thu',v:61000},{l:'Fri',v:78000},{l:'Sat',v:95000},{l:'Sun',v:58400}
+];
+var monthData = [
+  {l:'Jan',v:420000},{l:'Feb',v:380000},{l:'Mar',v:510000},{l:'Apr',v:490000},
+  {l:'May',v:620000},{l:'Jun',v:580000},{l:'Jul',v:740000},{l:'Aug',v:690000},
+  {l:'Sep',v:820000},{l:'Oct',v:780000},{l:'Nov',v:950000},{l:'Dec',v:1200000}
+];
+
+function renderBarChart(data, containerId, highlightLast) {
+  var max = Math.max.apply(null, data.map(function(d){ return d.v; }));
+  document.getElementById(containerId).innerHTML = data.map(function(d, i){
+    var pct = Math.round(d.v / max * 100);
+    var isLast = i === data.length - 1;
+    return '<div class="bar-col">'
+    +'<div class="bar-val" style="font-size:9px;">'+Math.round(d.v/1000)+'k</div>'
+    +'<div class="bar-fill'+(highlightLast&&!isLast?' dim':'')+'" style="height:'+(pct*1.4)+'px;"></div>'
+    +'<div class="bar-label">'+d.l+'</div>'
+    +'</div>';
+  }).join('');
+}
+
+function setChartTab(btn, period) {
+  document.querySelectorAll('.ctab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  var data = period==='month' ? monthData.slice(0,6) : period==='year' ? monthData : weekData;
+  renderBarChart(data,'revenueChart',period==='week');
+}
+
+/* ═══════════════════════════════════
+   MODAL
+═══════════════════════════════════ */
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+
+/* ═══════════════════════════════════
+   SETTINGS TOGGLES
+═══════════════════════════════════ */
+function toggleSwitch(btn){ btn.classList.toggle('off'); }
+
+/* ═══════════════════════════════════
+   TOAST
+═══════════════════════════════════ */
+function showToast(msg){
+  document.getElementById('koMsg').textContent=msg;
+  var t=document.getElementById('koToast');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); },3000);
+}
+
+/* ═══════════════════════════════════
+   DATE
+═══════════════════════════════════ */
+(function(){
+  var d = new Date();
+  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('topDate').textContent = days[d.getDay()]+', '+d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
+})();
+
+/* ═══════════════════════════════════
+   INIT
+═══════════════════════════════════ */
+renderOrders(ORDERS.slice(0,5),'recentOrdersBody');
+renderOrders(ORDERS,'allOrdersBody');
+renderProducts();
+renderCustomers();
+renderBarChart(weekData,'revenueChart',true);
+renderBarChart(monthData,'monthlyChart',false);
+</script>
+</body>
+</html>

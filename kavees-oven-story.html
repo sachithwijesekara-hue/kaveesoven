@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Kavee's Kitchen – Our Story</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Lato:wght@300;400;700;900&family=Great+Vibes&display=swap" rel="stylesheet"/>
+
+  <style>
+  :root{
+    --gd:#0f3d1c; --gr:#1a5c2e; --gm:#2a7a42; --gl:#4caf6e;
+    --gp:#b8dfc4; --gg:#e8f5ec;
+    --cr:#fdf8f0; --cr2:#f4e8d0; --cr3:#e8d5b0;
+    --br:#2c1a0e; --br2:#5c3320; --br3:#8b5e3c;
+    --gold:#c8960e; --glt:#f5e098;
+    --pk:#f0b8b8; --pk2:#d45050;
+    --sh1:0 2px 12px rgba(15,61,28,.08);
+    --sh2:0 6px 30px rgba(15,61,28,.12);
+    --sh3:0 16px 60px rgba(15,61,28,.18);
+    --r:16px; --rl:22px; --rp:100px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Lato','Calibri',sans-serif;background:var(--cr);color:var(--br);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Merriweather',Georgia,serif;}
+
+  /* ── NAV ── */
+  .main-nav{position:sticky;top:0;z-index:200;background:rgba(253,248,240,.97);backdrop-filter:blur(16px);border-bottom:1.5px solid var(--cr2);box-shadow:var(--sh1);}
+  .nav-shell{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;}
+  .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .nav-logo{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gm),var(--gd));display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(42,122,66,.38);flex-shrink:0;}
+  .nav-logo i{font-size:19px;color:#fff;}
+  .nav-brand-name{font-family:'Great Vibes',cursive;font-size:22px;color:var(--gd);display:block;line-height:1.1;}
+  .nav-brand-sub{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--br3);display:block;}
+  .desk-links{display:flex;align-items:center;gap:2px;}
+  .desk-links a{font-size:13.5px;font-weight:700;color:var(--br2);padding:8px 14px;border-radius:var(--rp);text-decoration:none;transition:background .2s,color .2s;}
+  .desk-links a:hover,.desk-links a.active{background:var(--gg);color:var(--gd);}
+  .desk-links a.active{font-weight:900;}
+  .btn-nav{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gm),var(--gd));color:#fff;font-family:'Lato',sans-serif;font-size:13.5px;font-weight:700;padding:10px 22px;border-radius:var(--rp);text-decoration:none;box-shadow:0 4px 16px rgba(42,122,66,.38);transition:transform .2s;}
+  .btn-nav:hover{transform:translateY(-2px);color:#fff;}
+  .nav-toggle{background:none;border:none;width:42px;height:42px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .nav-toggle:focus{outline:none;}
+  .nav-toggle i{font-size:22px;color:var(--gd);}
+  .mobile-drawer{background:var(--cr);border-top:1.5px solid var(--cr2);padding:8px 0 16px;}
+  .drawer-link{display:flex;align-items:center;gap:14px;padding:14px 20px;font-size:15px;font-weight:700;color:var(--br2);text-decoration:none;transition:background .15s;}
+  .drawer-link:active,.drawer-link:hover{background:var(--gg);color:var(--gd);}
+  .drawer-link .di{width:36px;height:36px;border-radius:10px;background:var(--gg);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .drawer-link .di i{font-size:15px;color:var(--gm);}
+  .drawer-btn{margin:12px 16px 0;display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--gm),var(--gd));color:#fff;font-size:15px;font-weight:700;padding:15px;border-radius:var(--rp);text-decoration:none;box-shadow:0 5px 20px rgba(42,122,66,.38);}
+
+  /* ── HERO ── */
+  .story-hero{
+    background:linear-gradient(150deg,var(--gd) 0%,#0a2810 100%);
+    padding:60px 0 80px;
+    position:relative;overflow:hidden;
+    text-align:center;
+  }
+  .story-hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(76,175,110,.12),transparent 65%);pointer-events:none;}
+  .story-hero::after{content:'';position:absolute;bottom:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(240,184,184,.08),transparent 70%);}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.8);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:6px 16px;border-radius:var(--rp);margin-bottom:20px;}
+  .hero-eyebrow i{font-size:11px;color:var(--gl);}
+  .story-hero h1{font-size:clamp(36px,8vw,72px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:12px;}
+  .story-hero h1 em{font-style:italic;color:var(--gl);font-weight:300;}
+  .hero-script{font-family:'Great Vibes',cursive;font-size:clamp(26px,5vw,44px);color:rgba(255,255,255,.65);display:block;margin-bottom:22px;}
+  .hero-p{font-size:15px;color:rgba(255,255,255,.6);line-height:1.8;max-width:540px;margin:0 auto 36px;}
+
+  /* Hero stats strip */
+  .hero-stats-strip{
+    display:flex;justify-content:center;gap:0;flex-wrap:wrap;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:var(--rl);
+    overflow:hidden;
+    max-width:540px;margin:0 auto;
+  }
+  .hss-item{flex:1;min-width:120px;text-align:center;padding:18px 12px;border-right:1px solid rgba(255,255,255,.08);}
+  .hss-item:last-child{border-right:none;}
+  .hss-n{font-family:'Merriweather',serif;font-size:28px;font-weight:700;color:#fff;}
+  .hss-l{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:4px;}
+
+  /* Scroll indicator */
+  .scroll-hint{margin-top:40px;display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,.35);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+  .scroll-hint i{font-size:18px;animation:bounce 1.8s ease-in-out infinite;}
+  @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+
+  /* ── SHARED SECTION ── */
+  .section{padding:64px 0;}
+  .section-alt{background:#fff;}
+  .section-green{background:linear-gradient(160deg,#e4f5e9 0%,var(--cr) 100%);}
+  .section-dark{background:linear-gradient(140deg,var(--gd),#071a0a);}
+  .sec-ey{display:inline-flex;align-items:center;gap:7px;background:var(--gg);border:1.5px solid var(--gp);color:var(--gd);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:var(--rp);margin-bottom:12px;}
+  .sec-ey i{font-size:11px;color:var(--gl);}
+  .sec-title{font-size:clamp(26px,5vw,44px);font-weight:700;color:var(--gd);line-height:1.2;margin-bottom:12px;}
+  .sec-title em{font-style:italic;color:var(--br2);font-weight:300;}
+  .sec-sub{font-size:15px;color:var(--br3);line-height:1.75;}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.vis{opacity:1;transform:translateY(0);}
+
+  /* ── INTRO SPLIT ── */
+  .intro-icon-box{
+    width:100%;max-width:380px;
+    background:linear-gradient(135deg,#d4edda,#b8dfc4);
+    border-radius:28px;
+    display:flex;align-items:center;justify-content:center;
+    padding:48px 32px;
+    position:relative;overflow:hidden;
+    box-shadow:var(--sh3);
+  }
+  .intro-icon-box::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(42,122,66,.15),transparent);}
+  .intro-inner{text-align:center;position:relative;z-index:1;}
+  .intro-chef-icon{width:120px;height:120px;border-radius:30px;background:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:var(--sh2);}
+  .intro-chef-icon i{font-size:56px;color:var(--gm);}
+  .intro-script{font-family:'Great Vibes',cursive;font-size:32px;color:var(--gd);}
+  .intro-tagline{font-size:13px;color:var(--br3);margin-top:6px;font-style:italic;}
+
+  /* Floating badges on intro box */
+  .ib-badge{position:absolute;background:#fff;border:1.5px solid var(--cr2);border-radius:14px;padding:9px 14px;box-shadow:var(--sh2);display:flex;align-items:center;gap:9px;animation:flt 5s ease-in-out infinite;}
+  .ib-1{top:16px;left:-60px;animation-delay:.5s;}
+  .ib-2{bottom:24px;right:-56px;animation-delay:2s;}
+  @media(max-width:576px){.ib-1,.ib-2{display:none;}}
+  @keyframes flt{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  .ib-ico{width:34px;height:34px;border-radius:9px;background:var(--gg);display:flex;align-items:center;justify-content:center;}
+  .ib-ico i{font-size:16px;color:var(--gm);}
+  .ib-t{font-size:12px;font-weight:700;color:var(--gd);}
+  .ib-s{font-size:10px;color:var(--br3);}
+
+  /* Intro text */
+  .intro-text p{font-size:15px;color:var(--br3);line-height:1.85;margin-bottom:14px;}
+  .intro-text p strong{color:var(--br);font-weight:700;}
+  .intro-quote{
+    background:var(--gg);border-left:4px solid var(--gm);
+    border-radius:0 var(--r) var(--r) 0;
+    padding:18px 20px;margin:20px 0;
+    font-family:'Merriweather',serif;font-size:17px;font-style:italic;
+    color:var(--gd);line-height:1.65;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline{position:relative;padding-left:0;}
+  .timeline::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--gm),var(--gp));border-radius:2px;}
+  @media(min-width:576px){.timeline::before{left:50%;transform:translateX(-50%);}}
+
+  .tl-item{
+    display:flex;gap:20px;margin-bottom:44px;
+    position:relative;padding-left:52px;
+  }
+  @media(min-width:576px){
+    .tl-item{padding-left:0;align-items:flex-start;}
+    .tl-item:nth-child(even){flex-direction:row-reverse;}
+    .tl-item:nth-child(even) .tl-content{text-align:right;}
+    .tl-item:nth-child(even) .tl-tag{justify-content:flex-end;}
+  }
+
+  .tl-dot{
+    position:absolute;left:9px;top:6px;
+    width:24px;height:24px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gm),var(--gd));
+    border:3px solid var(--cr);
+    box-shadow:0 0 0 3px var(--gp);
+    flex-shrink:0;z-index:2;
+  }
+  @media(min-width:576px){
+    .tl-dot{position:relative;left:auto;top:auto;width:28px;height:28px;flex-shrink:0;}
+  }
+
+  .tl-content{flex:1;}
+  .tl-year{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gm);margin-bottom:6px;}
+  .tl-h{font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:var(--br);margin-bottom:8px;}
+  .tl-p{font-size:14px;color:var(--br3);line-height:1.7;}
+  .tl-tag{display:flex;align-items:center;gap:6px;margin-top:10px;}
+  .tl-pill{display:inline-flex;align-items:center;gap:5px;background:var(--gg);border:1.5px solid var(--gp);color:var(--gd);font-size:11px;font-weight:700;padding:4px 12px;border-radius:var(--rp);}
+  .tl-pill i{font-size:11px;}
+
+  /* ── PROCESS STEPS ── */
+  .process-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(min-width:768px){.process-grid{grid-template-columns:repeat(4,1fr);}}
+  .proc-card{
+    background:#fff;border:1.5px solid var(--cr2);border-radius:var(--rl);
+    padding:24px 18px;text-align:center;
+    box-shadow:var(--sh1);
+    transition:transform .25s,box-shadow .25s;
+    position:relative;
+  }
+  .proc-card:hover{transform:translateY(-5px);box-shadow:var(--sh2);}
+  .proc-num{
+    position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+    width:28px;height:28px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gm),var(--gd));
+    color:#fff;font-size:12px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 3px 10px rgba(42,122,66,.35);
+  }
+  .proc-icon{width:60px;height:60px;border-radius:16px;background:var(--gg);display:flex;align-items:center;justify-content:center;margin:8px auto 14px;}
+  .proc-icon i{font-size:26px;color:var(--gm);}
+  .proc-title{font-family:'Merriweather',serif;font-size:15px;font-weight:700;color:var(--gd);margin-bottom:8px;}
+  .proc-desc{font-size:12px;color:var(--br3);line-height:1.6;}
+
+  /* ── VALUES ── */
+  .val-card{
+    background:rgba(255,255,255,.07);
+    border:1.5px solid rgba(255,255,255,.12);
+    border-radius:var(--rl);padding:28px 22px;
+    transition:background .25s;
+  }
+  .val-card:hover{background:rgba(255,255,255,.1);}
+  .val-icon{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+  .val-icon i{font-size:26px;color:var(--gl);}
+  .val-title{font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:10px;}
+  .val-desc{font-size:14px;color:rgba(255,255,255,.6);line-height:1.75;}
+
+  /* ── GALLERY MOSAIC ── */
+  .mosaic{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:160px 160px;gap:12px;}
+  @media(min-width:576px){.mosaic{grid-template-columns:2fr 1fr 1fr;grid-template-rows:180px 180px;}}
+  .mos-item{border-radius:var(--r);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;transition:transform .3s;}
+  .mos-item:hover{transform:scale(1.03);}
+  .mos-span{grid-column:span 2;}
+  @media(min-width:576px){.mos-span{grid-column:1;grid-row:1/3;}}
+  .m1{background:linear-gradient(135deg,#c8e6c9,#a5d6a7);}
+  .m2{background:linear-gradient(135deg,#f8d7e3,#f3b8cc);}
+  .m3{background:linear-gradient(135deg,#fff3e0,#ffe0b2);}
+  .m4{background:linear-gradient(135deg,#ede7f6,#d1c4e9);}
+  .m5{background:linear-gradient(135deg,#e1f5fe,#b3e5fc);}
+  .mos-box{border-radius:18px;background:rgba(255,255,255,.55);display:flex;align-items:center;justify-content:center;}
+  .mos-box i{font-size:36px;}
+  .mos-span .mos-box{width:100px;height:100px;border-radius:24px;}
+  .mos-span .mos-box i{font-size:50px;}
+  .m1 i{color:var(--gm);} .m2 i{color:#b0306a;} .m3 i{color:#c8780a;} .m4 i{color:#6a3aab;} .m5 i{color:#0277bd;}
+  .mos-ov{position:absolute;inset:0;background:rgba(15,61,28,0);display:flex;align-items:center;justify-content:center;transition:background .3s;}
+  .mos-item:hover .mos-ov{background:rgba(15,61,28,.2);}
+  .mos-ov i{font-size:24px;color:#fff;opacity:0;transition:opacity .3s;}
+  .mos-item:hover .mos-ov i{opacity:1;}
+
+  /* ── TESTIMONIALS (story-style) ── */
+  .testimonial-card{
+    background:#fff;border:1.5px solid var(--cr2);
+    border-radius:var(--rl);padding:28px 24px;
+    box-shadow:var(--sh1);height:100%;
+    transition:transform .25s;
+  }
+  .testimonial-card:hover{transform:translateY(-4px);}
+  .tc-stars{display:flex;gap:3px;margin-bottom:12px;}
+  .tc-stars i{font-size:14px;color:var(--gold);}
+  .tc-quote{font-family:'Merriweather',serif;font-size:17px;font-style:italic;color:var(--br);line-height:1.75;margin-bottom:18px;font-weight:300;}
+  .tc-author{display:flex;align-items:center;gap:12px;}
+  .tc-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gm),var(--gd));display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Merriweather',serif;font-size:17px;font-weight:700;flex-shrink:0;}
+  .tc-name{font-size:14px;font-weight:700;color:var(--gd);}
+  .tc-loc{font-size:12px;color:var(--br3);display:flex;align-items:center;gap:4px;}
+  .tc-loc i{font-size:11px;color:var(--gl);}
+
+  /* ── CTA ── */
+  .cta-box{
+    background:linear-gradient(135deg,var(--gd),#071a0a);
+    border-radius:var(--rl);padding:44px 28px;
+    text-align:center;position:relative;overflow:hidden;
+  }
+  .cta-box::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(76,175,110,.15),transparent);}
+  .cta-box>*{position:relative;z-index:1;}
+  .cta-h{font-family:'Merriweather',serif;font-size:clamp(22px,4vw,36px);font-weight:700;color:#fff;margin-bottom:10px;}
+  .cta-h em{font-style:italic;color:var(--gl);font-weight:300;}
+  .cta-p{font-size:14px;color:rgba(255,255,255,.6);line-height:1.7;max-width:440px;margin:0 auto 28px;}
+  .cta-btns{display:flex;flex-direction:column;gap:12px;max-width:360px;margin:0 auto;}
+  @media(min-width:480px){.cta-btns{flex-direction:row;justify-content:center;}}
+  .btn-cta-p{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,var(--gm),var(--gd));color:#fff;font-family:'Lato',sans-serif;font-size:14px;font-weight:700;padding:15px 26px;border-radius:var(--rp);text-decoration:none;box-shadow:0 5px 20px rgba(42,122,66,.4);min-height:50px;}
+  .btn-cta-s{display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(255,255,255,.1);color:#fff;font-family:'Lato',sans-serif;font-size:14px;font-weight:700;padding:14px 26px;border-radius:var(--rp);text-decoration:none;border:1.5px solid rgba(255,255,255,.2);min-height:50px;transition:background .2s;}
+  .btn-cta-s:hover{background:rgba(255,255,255,.18);color:#fff;}
+
+  /* ── FOOTER ── */
+  footer{background:var(--gd);color:rgba(255,255,255,.6);padding:52px 0 28px;}
+  .fbrand{font-family:'Great Vibes',cursive;font-size:30px;color:#fff;margin-bottom:8px;}
+  .fdesc{font-size:13px;line-height:1.75;max-width:260px;color:rgba(255,255,255,.5);}
+  .fct{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin-bottom:16px;}
+  .flinks{list-style:none;padding:0;display:flex;flex-direction:column;gap:9px;}
+  .flinks a{font-size:13.5px;color:rgba(255,255,255,.5);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s;}
+  .flinks a i{font-size:13px;color:var(--gl);}
+  .flinks a:hover{color:var(--gl);}
+  .fhr{border-color:rgba(255,255,255,.1);margin:40px 0 22px;}
+  .fbot{font-size:12px;}
+  .fhrt{color:var(--pk);}
+  .fsoc{display:flex;gap:10px;margin-top:18px;}
+  .fsoc a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.65);font-size:14px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .2s;}
+  .fsoc a:hover{background:rgba(255,255,255,.18);color:#fff;}
+
+  /* ── WhatsApp FAB ── */
+  .wa-fab{position:fixed;bottom:24px;right:20px;z-index:400;width:54px;height:54px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;text-decoration:none;box-shadow:0 4px 20px rgba(37,211,102,.5);animation:waPulse 2.5s ease-in-out infinite;}
+  .wa-fab:hover,.wa-fab:active{color:#fff;animation:none;}
+  @keyframes waPulse{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.5),0 0 0 0 rgba(37,211,102,.3);}50%{box-shadow:0 4px 20px rgba(37,211,102,.5),0 0 0 12px rgba(37,211,102,0);}}
+  .toast-ko{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--gd);color:#fff;font-family:'Lato',sans-serif;font-size:14px;font-weight:700;padding:13px 22px;border-radius:var(--rp);box-shadow:var(--sh3);z-index:9999;transition:transform .4s cubic-bezier(.22,.68,0,1.2);pointer-events:none;display:flex;align-items:center;gap:9px;white-space:nowrap;max-width:calc(100vw - 32px);}
+  .toast-ko i{font-size:15px;color:var(--gl);}
+  .toast-ko.show{transform:translateX(-50%) translateY(0);}
+
+  /* Counter animation */
+  .count-up{display:inline-block;}
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="main-nav">
+  <div class="nav-shell">
+    <a href="kavees-oven-landing.html" class="nav-brand">
+      <div class="nav-logo"><i class="fa-solid fa-cake-candles"></i></div>
+      <div>
+        <span class="nav-brand-name">Kavee's Oven</span>
+        <span class="nav-brand-sub">Baked With Love</span>
+      </div>
+    </a>
+    <div class="desk-links d-none d-lg-flex">
+      <a href="kavees-oven-landing.html"><i class="fa-solid fa-house me-1"></i>Home</a>
+      <a href="kavees-oven-menu.html"><i class="fa-solid fa-utensils me-1"></i>Menu</a>
+      <a href="#" class="active"><i class="fa-solid fa-person-rays me-1"></i>Our Story</a>
+      <a href="kavees-oven-landing.html#reviews"><i class="fa-solid fa-star me-1"></i>Reviews</a>
+      <a href="kavees-oven-contact.html"><i class="fa-solid fa-envelope me-1"></i>Contact</a>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <a href="kavees-oven-menu.html" class="btn-nav d-none d-md-inline-flex">
+        <i class="fa-solid fa-bag-shopping"></i> Order Now
+      </a>
+      <button class="nav-toggle d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileDrawer">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+  <div class="collapse mobile-drawer" id="mobileDrawer">
+    <a href="kavees-oven-landing.html" class="drawer-link"><div class="di"><i class="fa-solid fa-house"></i></div> Home</a>
+    <a href="kavees-oven-menu.html" class="drawer-link"><div class="di"><i class="fa-solid fa-utensils"></i></div> Menu</a>
+    <a href="#" class="drawer-link"><div class="di"><i class="fa-solid fa-person-rays"></i></div> Our Story</a>
+    <a href="kavees-oven-landing.html#reviews" class="drawer-link"><div class="di"><i class="fa-solid fa-star"></i></div> Reviews</a>
+    <a href="kavees-oven-contact.html" class="drawer-link"><div class="di"><i class="fa-solid fa-envelope"></i></div> Contact</a>
+    <a href="kavees-oven-menu.html" class="drawer-btn"><i class="fa-solid fa-bag-shopping"></i> Order Now</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div class="story-hero">
+  <div class="container" style="position:relative;z-index:2;">
+    <div class="hero-eyebrow"><i class="fa-solid fa-heart"></i> Our Story</div>
+    <h1>Kavee's <em>Kitchen</em></h1>
+    <span class="hero-script">Baked With Love, Just For You</span>
+    <p class="hero-p">Every cake has a story. Ours started with a girl, a passion for baking, and a dream to make every celebration unforgettable through the magic of handcrafted sweets.</p>
+    <div class="hero-stats-strip">
+      <div class="hss-item">
+        <div class="hss-n"><span class="count-up" data-target="500">0</span>+</div>
+        <div class="hss-l">Happy Families</div>
+      </div>
+      <div class="hss-item">
+        <div class="hss-n"><span class="count-up" data-target="1200">0</span>+</div>
+        <div class="hss-l">Cakes Baked</div>
+      </div>
+      <div class="hss-item">
+        <div class="hss-n">5 <i class="fa-solid fa-star" style="font-size:18px;color:var(--glt);vertical-align:middle;"></i></div>
+        <div class="hss-l">Avg. Rating</div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <i class="fa-solid fa-chevron-down"></i>
+      Scroll to read our story
+    </div>
+  </div>
+</div>
+
+<!-- ══ INTRO ══ -->
+<section class="section">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-12 col-lg-5 d-flex justify-content-center reveal">
+        <div class="intro-icon-box" style="position:relative;">
+          <div class="intro-inner">
+            <div class="intro-chef-icon"><i class="fa-solid fa-person-rays"></i></div>
+            <div class="intro-script">Kavee</div>
+            <div class="intro-tagline">Baker · Creator · Dream Maker</div>
+          </div>
+          <div class="ib-badge ib-1">
+            <div class="ib-ico"><i class="fa-solid fa-heart"></i></div>
+            <div><div class="ib-t">Made with Love</div><div class="ib-s">Every single time</div></div>
+          </div>
+          <div class="ib-badge ib-2">
+            <div class="ib-ico"><i class="fa-solid fa-seedling"></i></div>
+            <div><div class="ib-t">100% Fresh</div><div class="ib-s">No preservatives</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-7 reveal">
+        <div class="sec-ey"><i class="fa-solid fa-book-open"></i> The Beginning</div>
+        <h2 class="sec-title">How It All <em>Started</em></h2>
+        <div class="intro-text">
+          <p>It started with a simple birthday cake — baked for a cousin's surprise party with <strong>no professional training, no fancy equipment</strong>, just heart, flour, and an old family recipe. The look on the birthday girl's face when she saw it was all the motivation Kavee needed.</p>
+          <p>Word spread through family and friends. One cake became ten, ten became a hundred. What started as a weekend hobby slowly became <strong>Sri Lanka's most trusted home bakery</strong>.</p>
+          <div class="intro-quote">
+            "I never planned to start a business. I just loved making people smile. The cakes came after."
+            <div style="font-size:13px;color:var(--br3);margin-top:8px;font-style:normal;font-weight:700;">— Kavee, Founder</div>
+          </div>
+          <p>Today, Kavee's Oven serves hundreds of families across Sri Lanka — from intimate birthday celebrations to grand wedding receptions — always with the same warmth and care as that very first cake.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TIMELINE ══ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <div class="sec-ey"><i class="fa-solid fa-timeline"></i> Our Journey</div>
+      <h2 class="sec-title">From <em>Humble Beginnings</em></h2>
+      <p class="sec-sub">Every milestone baked with love — a story of passion growing one cake at a time.</p>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-year">2018 · The First Cake</div>
+          <div class="tl-h">A Cousin's Birthday Changed Everything</div>
+          <p class="tl-p">Kavee baked her very first custom cake for a family celebration. The vanilla sponge with handmade cream roses was an instant hit — and the seed of something magical was planted.</p>
+          <div class="tl-tag"><span class="tl-pill"><i class="fa-solid fa-cake-candles"></i> First Custom Cake</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-year">2019 · Growing by Word of Mouth</div>
+          <div class="tl-h">The First 50 Orders</div>
+          <p class="tl-p">With no advertising, just word of mouth, Kavee received her first 50 orders within a year. Neighbours, colleagues, and strangers were discovering that home-baked really does taste different.</p>
+          <div class="tl-tag"><span class="tl-pill"><i class="fa-solid fa-users"></i> 50+ Customers</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-year">2020 · Going Digital</div>
+          <div class="tl-h">Instagram & WhatsApp Orders Begin</div>
+          <p class="tl-p">During the pandemic, Kavee launched her Instagram page showcasing her creations. Overnight the response was overwhelming — orders poured in from across Colombo and beyond.</p>
+          <div class="tl-tag"><span class="tl-pill"><i class="fa-brands fa-instagram"></i> 2,000 Followers</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-year">2021 · First Wedding Cake</div>
+          <div class="tl-h">A Three-Tier Dream Come True</div>
+          <p class="tl-p">Kavee baked her first wedding cake — a three-tier rose gold fondant masterpiece. The photo went viral on Instagram and marked the beginning of Kavee's Oven's reputation for premium occasion cakes.</p>
+          <div class="tl-tag"><span class="tl-pill"><i class="fa-solid fa-gem"></i> Wedding Specialist</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-year">2023 · Island-Wide Delivery</div>
+          <div class="tl-h">Taking Kavee's Oven Across Sri Lanka</div>
+          <p class="tl-p">Expanded delivery island-wide. Customers from Kandy, Galle, Negombo and beyond could now receive fresh cakes at their doorstep — still packed with the same love as always.</p>
+          <div class="tl-tag"><span class="tl-pill"><i class="fa-solid fa-truck"></i> Island-Wide Delivery</span></div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-year">2025 · Today</div>
+          <div class="tl-h">500+ Families & Still Growing</div>
+          <p class="tl-p">Today Kavee's Oven serves over 500 happy families, has baked over 1,200 cakes, and holds a perfect 5-star rating. The journey continues — one cake, one smile, one memory at a time.</p>
+          <div class="tl-tag">
+            <span class="tl-pill"><i class="fa-solid fa-star"></i> 5.0 Rating</span>
+            <span class="tl-pill" style="margin-left:6px;"><i class="fa-solid fa-cake-candles"></i> 1,200+ Cakes</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ BAKING PROCESS ══ -->
+<section class="section section-green">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <div class="sec-ey"><i class="fa-solid fa-list-check"></i> How We Bake</div>
+      <h2 class="sec-title">The Kavee's Oven <em>Process</em></h2>
+      <p class="sec-sub">Every cake follows the same loving process — from first conversation to your doorstep.</p>
+    </div>
+    <div class="process-grid">
+      <div class="proc-card reveal">
+        <div class="proc-num">1</div>
+        <div class="proc-icon"><i class="fa-solid fa-message"></i></div>
+        <div class="proc-title">You Share Your Vision</div>
+        <p class="proc-desc">Tell us your occasion, size, flavour, design ideas — the more detail the better!</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-num">2</div>
+        <div class="proc-icon"><i class="fa-solid fa-seedling"></i></div>
+        <div class="proc-title">Fresh Ingredients Sourced</div>
+        <p class="proc-desc">We source the finest local ingredients the day before baking — always fresh, never frozen.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-num">3</div>
+        <div class="proc-icon"><i class="fa-solid fa-fire"></i></div>
+        <div class="proc-title">Baked With Love</div>
+        <p class="proc-desc">Each cake is handcrafted and baked fresh. Every layer is made from scratch with care.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-num">4</div>
+        <div class="proc-icon"><i class="fa-solid fa-palette"></i></div>
+        <div class="proc-title">Decorated By Hand</div>
+        <p class="proc-desc">Flowers, fondant, prints — every decoration is handcrafted and unique to your order.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-num">5</div>
+        <div class="proc-icon"><i class="fa-solid fa-box-open"></i></div>
+        <div class="proc-title">Carefully Packaged</div>
+        <p class="proc-desc">Packed in branded boxes designed to keep your cake safe, fresh, and beautiful in transit.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-num">6</div>
+        <div class="proc-icon"><i class="fa-solid fa-truck"></i></div>
+        <div class="proc-title">Delivered to You</div>
+        <p class="proc-desc">Delivered on time to your door — or ready for pickup — with care every step of the way.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-num">7</div>
+        <div class="proc-icon"><i class="fa-solid fa-face-smile-beam"></i></div>
+        <div class="proc-title">Your Moment of Joy</div>
+        <p class="proc-desc">You open the box and see the magic. That look on your face — that's why we bake.</p>
+      </div>
+      <div class="proc-card reveal">
+        <div class="proc-num">8</div>
+        <div class="proc-icon"><i class="fa-solid fa-star"></i></div>
+        <div class="proc-title">You Share the Love</div>
+        <p class="proc-desc">Your friends ask "where did you get this cake?" — and the story starts all over again.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VALUES (DARK) ══ -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <div class="sec-ey" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:var(--gl);"><i class="fa-solid fa-heart"></i> Our Values</div>
+      <h2 class="sec-title" style="color:#fff;">What We <em>Stand For</em></h2>
+      <p class="sec-sub" style="color:rgba(255,255,255,.55);">The beliefs that guide every single cake we bake — from the first ingredient to the final delivery.</p>
+    </div>
+    <div class="row g-3">
+      <div class="col-12 col-sm-6 col-lg-3 reveal">
+        <div class="val-card">
+          <div class="val-icon"><i class="fa-solid fa-heart"></i></div>
+          <div class="val-title">Made With Love</div>
+          <p class="val-desc">We believe food made with genuine care tastes different. Every cake carries a piece of our heart in every layer.</p>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3 reveal">
+        <div class="val-card">
+          <div class="val-icon"><i class="fa-solid fa-seedling"></i></div>
+          <div class="val-title">No Compromise</div>
+          <p class="val-desc">Fresh ingredients, no shortcuts, no artificial preservatives. Quality is not negotiable — ever.</p>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3 reveal">
+        <div class="val-card">
+          <div class="val-icon"><i class="fa-solid fa-handshake"></i></div>
+          <div class="val-title">Your Trust First</div>
+          <p class="val-desc">You're trusting us with your most precious moments. We take that seriously and pour everything into every order.</p>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3 reveal">
+        <div class="val-card">
+          <div class="val-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <div class="val-title">Limitless Creativity</div>
+          <p class="val-desc">No design request is too ambitious. If you can dream it, we will find a way to bake it into reality.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALLERY ══ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="text-center mb-4 reveal">
+      <div class="sec-ey"><i class="fa-solid fa-images"></i> Our Creations</div>
+      <h2 class="sec-title">A Glimpse of the <em>Magic</em></h2>
+      <p class="sec-sub">Every cake in our gallery is a real creation — baked for a real moment that mattered.</p>
+    </div>
+    <div class="mosaic reveal">
+      <div class="mos-item m1 mos-span">
+        <div class="mos-box" style="width:100px;height:100px;"><i class="fa-solid fa-cake-candles"></i></div>
+        <div class="mos-ov"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="mos-item m2">
+        <div class="mos-box" style="width:76px;height:76px;"><i class="fa-solid fa-gem"></i></div>
+        <div class="mos-ov"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="mos-item m3">
+        <div class="mos-box" style="width:76px;height:76px;"><i class="fa-solid fa-mug-hot"></i></div>
+        <div class="mos-ov"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="mos-item m4">
+        <div class="mos-box" style="width:76px;height:76px;"><i class="fa-solid fa-palette"></i></div>
+        <div class="mos-ov"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+      <div class="mos-item m5">
+        <div class="mos-box" style="width:76px;height:76px;"><i class="fa-solid fa-box-open"></i></div>
+        <div class="mos-ov"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      </div>
+    </div>
+    <div class="text-center mt-4 reveal">
+      <a href="#" class="btn-cta-s d-inline-flex" style="border-color:var(--gp);color:var(--gd);background:var(--gg);" onclick="showToast('Opening Instagram...');return false;">
+        <i class="fa-brands fa-instagram"></i> Follow @kaveesoven on Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="section section-green">
+  <div class="container">
+    <div class="text-center mb-4 reveal">
+      <div class="sec-ey"><i class="fa-solid fa-star"></i> Customer Love</div>
+      <h2 class="sec-title">Words That <em>Warm Our Hearts</em></h2>
+      <p class="sec-sub">The best reward isn't the rating — it's knowing we made your moment a little more magical.</p>
+    </div>
+    <div class="row g-3">
+      <div class="col-12 col-md-4 reveal">
+        <div class="testimonial-card">
+          <div class="tc-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p class="tc-quote">"I've ordered from Kavee three times now and every single cake has been more beautiful than the last. My daughter says she won't accept any other baker for her birthdays!"</p>
+          <div class="tc-author">
+            <div class="tc-avatar">P</div>
+            <div><div class="tc-name">Priya Navaratnam</div><div class="tc-loc"><i class="fa-solid fa-location-dot"></i> Colombo · 8 orders</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 reveal">
+        <div class="testimonial-card">
+          <div class="tc-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p class="tc-quote">"Our wedding cake was the centrepiece of our reception. Guests kept asking who made it. Kavee understood our vision perfectly and delivered something we couldn't have imagined."</p>
+          <div class="tc-author">
+            <div class="tc-avatar">R</div>
+            <div><div class="tc-name">Roshani &amp; Dinesh</div><div class="tc-loc"><i class="fa-solid fa-location-dot"></i> Kandy · Wedding 2024</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 reveal">
+        <div class="testimonial-card">
+          <div class="tc-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <p class="tc-quote">"I sent a cupcake box to my mum for her birthday — she lives in Kandy. They arrived perfectly and she cried when she saw them. Thank you Kavee for making her day so special."</p>
+          <div class="tc-author">
+            <div class="tc-avatar">S</div>
+            <div><div class="tc-name">Saman Perera</div><div class="tc-loc"><i class="fa-solid fa-location-dot"></i> Gampaha · 12 orders</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section class="section">
+  <div class="container reveal">
+    <div class="cta-box">
+      <h2 class="cta-h">Be Part of Our <em>Story</em></h2>
+      <p class="cta-p">Every cake we bake adds a new chapter. Let us bake something magical for your next celebration — we'd be honoured to be part of your story too.</p>
+      <div class="cta-btns">
+        <a href="kavees-oven-menu.html" class="btn-cta-p">
+          <i class="fa-solid fa-bag-shopping"></i> Order Your Cake
+        </a>
+        <a href="kavees-oven-contact.html" class="btn-cta-s">
+          <i class="fa-solid fa-envelope"></i> Get In Touch
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="fbrand">Kavee's Oven</div>
+        <p class="fdesc">Baking happiness into every cake since day one. Trusted by hundreds of families across Sri Lanka.</p>
+        <div class="fsoc">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-sm-3 col-lg-2">
+        <div class="fct">Pages</div>
+        <ul class="flinks">
+          <li><a href="kavees-oven-landing.html"><i class="fa-solid fa-house"></i> Home</a></li>
+          <li><a href="kavees-oven-menu.html"><i class="fa-solid fa-utensils"></i> Menu</a></li>
+          <li><a href="#"><i class="fa-solid fa-person-rays"></i> Our Story</a></li>
+          <li><a href="kavees-oven-contact.html"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-sm-3 col-lg-3">
+        <div class="fct">Categories</div>
+        <ul class="flinks">
+          <li><a href="kavees-oven-menu.html"><i class="fa-solid fa-cake-candles"></i> Birthday Cakes</a></li>
+          <li><a href="kavees-oven-menu.html"><i class="fa-solid fa-gem"></i> Wedding Cakes</a></li>
+          <li><a href="kavees-oven-menu.html"><i class="fa-solid fa-mug-hot"></i> Cupcakes</a></li>
+          <li><a href="kavees-oven-menu.html"><i class="fa-solid fa-palette"></i> Custom Cakes</a></li>
+        </ul>
+      </div>
+      <div class="col-12 col-lg-3">
+        <div class="fct">Contact</div>
+        <ul class="flinks">
+          <li><a href="tel:+94XXXXXXXXX"><i class="fa-solid fa-phone"></i> 076-XXX-XXXX</a></li>
+          <li><a href="https://wa.me/94XXXXXXXXX" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp Us</a></li>
+          <li><a href="mailto:hello@kaveesoven.lk"><i class="fa-solid fa-envelope"></i> hello@kaveesoven.lk</a></li>
+          <li><a href="kavees-oven-contact.html"><i class="fa-solid fa-location-dot"></i> Colombo, Sri Lanka</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="fhr"/>
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 fbot">
+      <div>&copy; 2025 Kavee's Oven. Made with <i class="fa-solid fa-heart fhrt"></i> in Sri Lanka.</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.28);">All rights reserved</div>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/94XXXXXXXXX" class="wa-fab" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+<div class="toast-ko" id="koToast"><i class="fa-solid fa-circle-check"></i><span id="koMsg"></span></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  /* Scroll reveal */
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('vis'); obs.unobserve(e.target); } });
+  },{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el,i){ el.style.transitionDelay=(i%4)*.08+'s'; obs.observe(el); });
+
+  /* Count-up animation */
+  function countUp(el){
+    var target = parseInt(el.dataset.target);
+    var duration = 1800;
+    var start = 0;
+    var step = target / (duration / 16);
+    var timer = setInterval(function(){
+      start += step;
+      if(start >= target){ el.textContent = target.toLocaleString(); clearInterval(timer); }
+      else { el.textContent = Math.floor(start).toLocaleString(); }
+    }, 16);
+  }
+  var countObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ countUp(e.target); countObs.unobserve(e.target); } });
+  },{threshold:0.5});
+  document.querySelectorAll('.count-up').forEach(function(el){ countObs.observe(el); });
+
+  /* Toast */
+  function showToast(msg){
+    document.getElementById('koMsg').textContent=msg;
+    var t=document.getElementById('koToast');
+    t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); },3000);
+  }
+
+  /* Close drawer */
+  document.querySelectorAll('#mobileDrawer a').forEach(function(a){
+    a.addEventListener('click',function(){
+      var c=bootstrap.Collapse.getInstance(document.getElementById('mobileDrawer'));
+      if(c) c.hide();
+    });
+  });
+</script>
+</body>
+</html>
